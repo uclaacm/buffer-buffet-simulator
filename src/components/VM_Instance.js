@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react";
 import {parseCode} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
@@ -20,11 +20,15 @@ const VM_Instance = () => {
         return map
     }, {})
 
+    console.log(registerMap)
+    memoryDV.setUint32(getRegisterID('eax'), 255, true)
+    console.log(getRegisterID('eax'))
 
     useEffect(() => {
         console.log(registerMap)
         memoryDV.setUint32(getRegisterID('eax'), 255, true)
         console.log(getRegisterID('eax'))
+
     }, [])
 
 
@@ -37,20 +41,20 @@ const VM_Instance = () => {
     }
 
     //get the 32 bit content inside a register
-    const getRegister = (name) =>
-    {
-        if(!(name in registerMap)){
-            throw new Error(`getRegister: No such register ${name}`)
-        }
-        return memoryDV.getUint32(registerMap[name])
-    }
+    // const getRegister = (name) =>
+    // {
+    //     if(!(name in registerMap)){
+    //         throw new Error(`getRegister: No such register ${name}`)
+    //     }
+    //     return memoryDV.getUint32(registerMap[name])
+    // }
     
-    const setRegister = (name, value) => {
-        if(!(name in registerMap)){
-            throw new Error(`setRegister: No such register ${name}`)
-        }
+    // const setRegister = (name, value) => {
+    //     if(!(name in registerMap)){
+    //         throw new Error(`setRegister: No such register ${name}`)
+    //     }
 
-    }
+    // }
 
     const getRax = () => {
         console.log(memoryDV.getUint32(getRegisterID('eax'),true))
@@ -79,19 +83,19 @@ const VM_Instance = () => {
             </ul> 
             <h4>Argument Registers (in order)</h4>
             <ul>
-                <li>edi</li>
-                <li>esi</li>
-                <li>edx</li>
-                <li>ecx</li>
-                <li>r8D</li>
-                <li>r9D</li>
+                <li>edi: </li>
+                <li>esi: </li>
+                <li>edx: </li>
+                <li>ecx: </li>
+                <li>r8D: </li>
+                <li>r9D: </li>
             </ul>
             <h4> General Purposes</h4>
             <ul>
-                <li>r10D</li>
-                <li>r11D:</li>
-                <li>r12D:</li>
-                <li>r13D:</li>
+                <li>r10D: </li>
+                <li>r11D: </li>
+                <li>r12D: </li>
+                <li>r13D: </li>
             </ul>
             <button onClick={getRax}> GET RAX</button>
         </div>
