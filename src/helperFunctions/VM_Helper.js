@@ -17,6 +17,7 @@ const checkArgType = (param) => {
         return "unknown param";   
 }
 
+// takes in parsed param array 
 const interpretParam = (param) => {
     let resString = "";
     switch (param.length) {
@@ -55,6 +56,7 @@ const interpretCommand = (argList) => {
     // argList[1] = 1st Parameter, with separate arguments in order from left to right
     // argList[2] = 2nd Parameter, same as above
     switch(argList[0]) {
+        // mov Source, Dest
         case "mov" :
             if (!check2Param(argList)) {
                 console.log("Needs two parameters");
@@ -62,13 +64,18 @@ const interpretCommand = (argList) => {
             }
             console.log("move " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]));
             break;
+            
+        // leaq Source, Dest
         case "leaq":
             if (!check2Param(argList)) {
                 console.log("Needs two parameters");
                 return;
             }
             console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]));
-            break;
+            break;    
+        
+        // compares S1 - S2
+        // cmp S2, S1
         case "cmp" :
             if (!check2Param(argList)) {
                 console.log("Needs two parameters");
@@ -76,6 +83,9 @@ const interpretCommand = (argList) => {
             }
             console.log("compare " + interpretParam(argList[1]) + " with " + interpretParam(argList[2]));
             break;
+
+        // add source to dest
+        // add Source, Dest
         case "add" :
             if (!check2Param(argList)) {
                 console.log("Needs two parameters");
@@ -83,6 +93,9 @@ const interpretCommand = (argList) => {
             }
             console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]));
             break;
+
+        // subtrac source from dest
+        // sub Source, Dest
         case "sub" :
             if (!check2Param(argList)) {
                 console.log("Needs two parameters");
@@ -90,6 +103,9 @@ const interpretCommand = (argList) => {
             }
             console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]));
             break;
+        
+        // jump to dest
+        // jmp Dest
         case "jmp" :
             if (check2Param(argList)) {
                 console.log("Needs only one parameters");
@@ -97,6 +113,9 @@ const interpretCommand = (argList) => {
             }
             console.log("jump to " + interpretParam(argList[1]));
             break;
+
+        // pop top of stack into destination
+        // pop Dest
         case "pop" :
             if (check2Param(argList)) {
                 console.log("Needs only one parameters");
@@ -104,6 +123,9 @@ const interpretCommand = (argList) => {
             }
             console.log("pop top of stack to " + interpretParam(argList[1]));
             break;
+
+        // push source onto top of stack
+        // push Source
         case "push" :
             if (check2Param(argList)) {
                 console.log("Needs only one parameters");
@@ -161,6 +183,7 @@ const parseParentheses = (argString) => {
     return arg;
 }
 
+// currently takes command from an input element and parses it
 export const parseCode = (event) => {
     event.preventDefault();
     let codeString = document.getElementById("codeInput").value;
