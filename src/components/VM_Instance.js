@@ -7,11 +7,7 @@ const VM_Instance = () => {
     const currMemory = new ArrayBuffer(256)
     const memoryDV = new DataView(currMemory)
 
-
-    const [counter, setCounter] = useState(1)
-    const [regRax, setRegRax ] = useState(0)
-    const [currentDV, setCurrentDV] = useState(memoryDV)
-    const [isUpdated, setUpdate] = useState(true)
+  
 
     //14 Registers
     const registerList = [
@@ -29,7 +25,7 @@ const VM_Instance = () => {
 
     useEffect(() => {
         console.log(registerMap)
-        currentDV.setUint32(getRegisterID('eax'), 255, true)
+        memoryDV.setUint32(getRegisterID('eax'), 255, true)
         console.log(getRegisterID('eax'))
     }, [])
 
@@ -59,8 +55,8 @@ const VM_Instance = () => {
     }
 
     const getRax = () => {
-        console.log(currentDV.getUint32(getRegisterID('eax'),true))
-        console.log(currentDV.getUint32(11, true))
+        console.log(memoryDV.getUint32(getRegisterID('eax'),true))
+        console.log(memoryDV.getUint32(11, true))
     }
 
     return(
@@ -79,19 +75,19 @@ const VM_Instance = () => {
             </ul> 
             <h4>Argument Registers (in order)</h4>
             <ul>
-                <li>edi</li>
-                <li>esi</li>
-                <li>edx</li>
-                <li>ecx</li>
-                <li>r8D</li>
-                <li>r9D</li>
+                <li>edi: </li>
+                <li>esi: </li>
+                <li>edx: </li>
+                <li>ecx: </li>
+                <li>r8D: </li>
+                <li>r9D: </li>
             </ul>
             <h4> General Purposes</h4>
             <ul>
-                <li>r10D</li>
-                <li>r11D:</li>
-                <li>r12D:</li>
-                <li>r13D:</li>
+                <li>r10D: </li>
+                <li>r11D: </li>
+                <li>r12D: </li>
+                <li>r13D: </li>
             </ul>
             <button onClick={getRax}> GET RAX</button>
         </div>
