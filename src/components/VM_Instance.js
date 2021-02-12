@@ -20,10 +20,6 @@ const VM_Instance = () => {
         return map
     }, {})
 
-    console.log(registerMap)
-    memoryDV.setUint32(getRegisterID('eax'), 255, true)
-    console.log(getRegisterID('eax'))
-
     useEffect(() => {
         console.log(registerMap)
         memoryDV.setUint32(getRegisterID('eax'), 255, true)
