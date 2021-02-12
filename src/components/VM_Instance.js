@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from "react"
+import {parseCode} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 
     //specify the initial memory array buffer (size in bytes)
     const currMemory = new ArrayBuffer(256)
     const memoryDV = new DataView(currMemory)
-
-
-    const [counter, setCounter] = useState(1)
-    const [regRax, setRegRax ] = useState(0)
-    const [currentDV, setCurrentDV] = useState(memoryDV)
-    const [isUpdated, setUpdate] = useState(true)
 
     //14 Registers
     const registerList = [
@@ -29,7 +23,7 @@ const VM_Instance = () => {
 
     useEffect(() => {
         console.log(registerMap)
-        currentDV.setUint32(getRegisterID('eax'), 255, true)
+        memoryDV.setUint32(getRegisterID('eax'), 255, true)
         console.log(getRegisterID('eax'))
     }, [])
 
@@ -59,12 +53,18 @@ const VM_Instance = () => {
     }
 
     const getRax = () => {
-        console.log(currentDV.getUint32(getRegisterID('eax'),true))
-        console.log(currentDV.getUint32(11, true))
+        console.log(memoryDV.getUint32(getRegisterID('eax'),true))
+        console.log(memoryDV.getUint32(11, true))
     }
 
     return(
         <div className="page-view">
+            <div>
+                <form id="insertCode" onSubmit={parseCode}>
+                    <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
             <h3>Note: The registers are 32 bits and little endian.</h3>
             <h3>Register Values:</h3>
             <h4>Pointer registers</h4>
