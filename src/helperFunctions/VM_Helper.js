@@ -1,21 +1,21 @@
 const check2Param = (argList) => argList[2].length !== 0;
 
-const checkArgType = (param) => {
-    const registerList = ["%eax", "%ebx", "%rsp", "%r1", "%r2", "%r3", "%r4", "%r5", "%r6", "%r7", "%r8"];
+// const checkArgType = (param) => {
+//     const registerList = ["%eax", "%ebx", "%rsp", "%r1", "%r2", "%r3", "%r4", "%r5", "%r6", "%r7", "%r8"];
 
-    // is register
-    if (registerList.includes(param))
-        return "register";
-    // is hex #
-    else if (/^\$0x/.test(param))
-        return "hex";
-    else if (/^\$/.test(param))
-        return "decimal";
-    else if (param === 0)
-        return "zero";
-    else
-        return "unknown param";   
-}
+//     // is register
+//     if (registerList.includes(param))
+//         return "register";
+//     // is hex #
+//     else if (/^\$0x/.test(param))
+//         return "hex";
+//     else if (/^\$/.test(param))
+//         return "decimal";
+//     else if (param === 0)
+//         return "zero";
+//     else
+//         return "unknown param";   
+// }
 
 // takes in parsed param array 
 const interpretParam = (param) => {
@@ -27,9 +27,18 @@ const interpretParam = (param) => {
 
         // parentheses case
         case 4 :
-            resString += "*" + param[3];
+            resString += "*" + param[3]
+            resString = " + " + param[2] + resString
+            resString = param[1] + resString
+            if (param[0] !== "0")
+                resString = param[0] + " + " + resString;
+            break;
         case 3:     
             resString = " + " + param[2] + resString;
+            resString = param[1] + resString
+            if (param[0] !== "0")
+                resString = param[0] + " + " + resString;
+            break;
         case 2:
             resString = param[1] + resString
             if (param[0] !== "0")

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {parseCode} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
@@ -20,14 +20,6 @@ const VM_Instance = () => {
         return map
     }, {})
 
-    useEffect(() => {
-        console.log(registerMap)
-        memoryDV.setUint32(getRegisterID('eax'), 255, true)
-        console.log(getRegisterID('eax'))
-
-    }, [])
-
-
     const getRegisterID = (name) => {
         if(!(name in registerMap)){
             throw new Error(`getRegisterID: No such register ${name}`)
@@ -35,6 +27,10 @@ const VM_Instance = () => {
 
         return registerMap[name]
     }
+
+    console.log(registerMap)
+    memoryDV.setUint32(getRegisterID('eax'), 255, true)
+    console.log(getRegisterID('eax'))
 
     //get the 32 bit content inside a register
     // const getRegister = (name) =>
