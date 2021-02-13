@@ -1,4 +1,4 @@
-const check2Param = (argList) => argList[2].length !== 0;
+export const check2Param = (argList) => argList[2].length !== 0;
 
 // const checkArgType = (param) => {
 //     const registerList = ["%eax", "%ebx", "%rsp", "%r1", "%r2", "%r3", "%r4", "%r5", "%r6", "%r7", "%r8"];
@@ -16,137 +16,6 @@ const check2Param = (argList) => argList[2].length !== 0;
 //     else
 //         return "unknown param";   
 // }
-
-// takes in parsed param array 
-const interpretParam = (param) => {
-    let resString = "";
-    switch (param.length) {
-        // no parentheses
-        case 1 :
-            return param[0];
-
-        // parentheses case
-        case 4 :
-            resString += "*" + param[3]
-            resString = " + " + param[2] + resString
-            resString = param[1] + resString
-            if (param[0] !== "0")
-                resString = param[0] + " + " + resString;
-            break;
-        case 3:     
-            resString = " + " + param[2] + resString;
-            resString = param[1] + resString
-            if (param[0] !== "0")
-                resString = param[0] + " + " + resString;
-            break;
-        case 2:
-            resString = param[1] + resString
-            if (param[0] !== "0")
-                resString = param[0] + " + " + resString;
-            break;
-        default : 
-            return "error";
-    }
-    resString = "contents of (" + resString + ")";
-    return resString;
-} 
-
-const interpretCommand = (argList) => {
-    // for (let i = 1; i < argList.length; i++) {
-    //     for (let j = 0; j < argList[i].length; j++) {
-    //         if (checkArgType(argList[i][j]) === "unknown param") {
-    //             console.log(argList[i][j], "unknown param");
-    //             return;
-    //         }
-    //     }
-    // }
-    
-    // argList[0] = command e.g "mov"
-    // argList[1] = 1st Parameter, with separate arguments in order from left to right
-    // argList[2] = 2nd Parameter, same as above
-    switch(argList[0]) {
-        // mov Source, Dest
-        case "mov" :
-            if (!check2Param(argList)) {
-                console.log("Needs two parameters");
-                return;
-            }
-            console.log("move " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]));
-            break;
-            
-        // leaq Source, Dest
-        case "leaq":
-            if (!check2Param(argList)) {
-                console.log("Needs two parameters");
-                return;
-            }
-            console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]));
-            break;    
-        
-        // compares S1 - S2
-        // cmp S2, S1
-        case "cmp" :
-            if (!check2Param(argList)) {
-                console.log("Needs two parameters");
-                return;
-            }
-            console.log("compare " + interpretParam(argList[1]) + " with " + interpretParam(argList[2]));
-            break;
-
-        // add source to dest
-        // add Source, Dest
-        case "add" :
-            if (!check2Param(argList)) {
-                console.log("Needs two parameters");
-                return;
-            }
-            console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]));
-            break;
-
-        // subtrac source from dest
-        // sub Source, Dest
-        case "sub" :
-            if (!check2Param(argList)) {
-                console.log("Needs two parameters");
-                return;
-            }
-            console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]));
-            break;
-        
-        // jump to dest
-        // jmp Dest
-        case "jmp" :
-            if (check2Param(argList)) {
-                console.log("Needs only one parameters");
-                return;
-            }
-            console.log("jump to " + interpretParam(argList[1]));
-            break;
-
-        // pop top of stack into destination
-        // pop Dest
-        case "pop" :
-            if (check2Param(argList)) {
-                console.log("Needs only one parameters");
-                return;
-            }
-            console.log("pop top of stack to " + interpretParam(argList[1]));
-            break;
-
-        // push source onto top of stack
-        // push Source
-        case "push" :
-            if (check2Param(argList)) {
-                console.log("Needs only one parameters");
-                return;
-            }
-            console.log("push top of stack to " + interpretParam(argList[1]));
-            break;
-        default : 
-            console.log("Unsupported command");
-            break;
-    }
-}
 
 const parseNoParentheses = (argString) => {
     let arg = [];
@@ -194,7 +63,6 @@ const parseParentheses = (argString) => {
 
 // currently takes command from an input element and parses it
 export const parseCode = (event) => {
-    event.preventDefault();
     let codeString = document.getElementById("codeInput").value;
     
     let command = "";
@@ -253,5 +121,5 @@ export const parseCode = (event) => {
         else
             arg2 = parseNoParentheses(arg2String);
     }
-    interpretCommand([command, arg1, arg2]);
+    return([command, arg1, arg2]);
 }

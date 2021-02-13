@@ -1,5 +1,5 @@
 import React from "react";
-import {parseCode} from "../helperFunctions/VM_Helper"
+import {parseCode, check2Param} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 
@@ -9,10 +9,10 @@ const VM_Instance = () => {
 
     //14 Registers
     const registerList = [
-        'ebp', 'esp', 'eip',
-        'eax',
-        'edi', 'esi', 'edx', 'ecx', 'r8D', 'r9D',
-        'r10D', 'r11D', 'r12D', 'r13D'
+        '%ebp', '%esp', '%eip',
+        '%eax',
+        '%edi', '%esi', '%edx', '%ecx', '%r8D', '%r9D',
+        '%r10D', '%r11D', '%r12D', '%r13D'
     ]
 
     const registerMap = registerList.reduce((map, name, i) => {
@@ -52,30 +52,191 @@ const VM_Instance = () => {
         }
 
         else if(typeof value === "string"){
-            console.log("commecnting operation for string")
+            console.log("commencing operation for string")
         }
         else{
             console.log(`Unrecognized type: ${typeof value}`)
         }
-
-        
     }
 
+    const paramToDeci = (param) => {
+        for (let i = 0; i < param.length; i++) {
+            // is register
+            if (registerList.includes(param[i]))
+                param[i] = getRegister(param[i])
+            // is hex #
+            else if (/^\$0x/.test(param[i])) {
+                const hexNum = param[i].match(/(?<=\$).*/)[0]
+                param[i] = parseInt(hexNum, 16);
+            }
+            // is decimal #
+            else if (/^\$/.test(param[i])) {
+                const deciNum = param[i].match(/(?<=\$).*/)[0]
+                param[i] = parseInt(deciNum)
+            }
+            // else if (param[i] === 0)
+            //     ;
+            else
+                return "unknown param";
+        }
+        return param
+    }
+
+    // takes in parsed param array 
+    // does math from given param array
+    const interpretParam = (param) => {
+        let resString = ""
+        let resSum
+        switch (param.length) {
+            // no parentheses
+            case 1 :
+                return param[0]
+
+            // parentheses case
+            case 4 :
+                resString += "*" + param[3]
+                resString = " + " + param[2] + resString
+                resString = param[1] + resString
+                if (param[0] !== "0")
+                    resString = param[0] + " + " + resString
+
+                resSum = param[0] + param[1] + (param[2]*param[3])
+                break;
+            case 3:     
+                resString = " + " + param[2] + resString
+                resString = param[1] + resString
+                if (param[0] !== "0")
+                    resString = param[0] + " + " + resString
+
+                resSum = param[0] + param[1] + param[2]
+                break;
+            case 2:
+                resString = param[1] + resString
+                if (param[0] !== "0")
+                    resString = param[0] + " + " + resString
+                
+                resSum = param[0] + param[1]
+                break;
+            default : 
+                return "error"
+        }
+        resString = "contents of (" + resString + ")"
+        
+        console.log(resSum)
+        return resString;
+    } 
+
+    const interpretCommand = (event) => {
+        event.preventDefault()
+        let argList = parseCode()
+
+        // argList[0] = command e.g "mov"
+        // argList[1] = 1st Parameter, with separate arguments in order from left to right
+        // argList[2] = 2nd Parameter, same as above
+        switch(argList[0]) {
+            // mov Source, Dest
+            case "mov" :
+                if (!check2Param(argList)) {
+                    console.log("Needs two parameters")
+                    return
+                }
+                console.log("move " + interpretParam(paramToDeci(argList[1])) + " into " + interpretParam(argList[2]))
+                break;
+                
+            // leaq Source, Dest
+            case "leaq":
+                if (!check2Param(argList)) {
+                    console.log("Needs two parameters")
+                    return
+                }
+                console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]))
+                break
+            
+            // compares S1 - S2
+            // cmp S2, S1
+            case "cmp" :
+                if (!check2Param(argList)) {
+                    console.log("Needs two parameters")
+                    return
+                }
+                console.log("compare " + interpretParam(argList[1]) + " with " + interpretParam(argList[2]))
+                console.log("=> compare " + interpretParam(paramToDeci(argList[1])) + " with " + interpretParam(paramToDeci(argList[2])))
+                break
+    
+            // add source to dest
+            // add Source, Dest
+            case "add" :
+                if (!check2Param(argList)) {
+                    console.log("Needs two parameters")
+                    return
+                }
+                console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]))
+                console.log("=> add " + interpretParam(paramToDeci(argList[1])) + " to " + interpretParam(paramToDeci(argList[2])))
+                break
+    
+            // subtrac source from dest
+            // sub Source, Dest
+            case "sub" :
+                if (!check2Param(argList)) {
+                    console.log("Needs two parameters")
+                    return
+                }
+                console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]))
+                console.log("=> subtract " + interpretParam(paramToDeci(argList[1])) + " from " + interpretParam(paramToDeci(argList[2])))
+                break;
+            
+            // jump to dest
+            // jmp Dest
+            case "jmp" :
+                if (check2Param(argList)) {
+                    console.log("Needs only one parameters")
+                    return
+                }
+                console.log("jump to " + interpretParam(argList[1]))
+                console.log("=> jump to " + interpretParam(paramToDeci(argList[1])))
+                break
+    
+            // pop top of stack into destination
+            // pop Dest
+            case "pop" :
+                if (check2Param(argList)) {
+                    console.log("Needs only one parameters")
+                    return
+                }
+                console.log("pop top of stack to " + interpretParam(argList[1]))
+                console.log("=> pop top of stack to " + interpretParam(paramToDeci(argList[1])))
+                break;
+    
+            // push source onto top of stack
+            // push Source
+            case "push" :
+                if (check2Param(argList)) {
+                    console.log("Needs only one parameters")
+                    return
+                }
+                console.log("push " + interpretParam(argList[1]) + " to top of stack")
+                console.log("push " + interpretParam(paramToDeci(argList[1])) + " to top of stack")
+                break;
+            default :
+                console.log("Unsupported command")
+                break
+        }
+    }
 
     console.log(registerMap)
-    memoryDV.setUint32(getRegisterID('eax'), 255, true)
-    console.log(getRegisterID('eax'))
-    setRegister('eax', 905)
-    setRegister('eax', "hello")
-    setRegister('eax', 'c')
-    setRegister('eax', 10.111)
-    memoryDV.setUint32(getRegisterID('eax'),4294967395 )
-    console.log(getRegister('eax'))
+    memoryDV.setUint32(getRegisterID('%eax'), 255, true)
+    console.log(getRegisterID('%eax'))
+    setRegister('%eax', 905)
+    setRegister('%eax', "hello")
+    setRegister('%eax', 'c')
+    setRegister('%eax', 10.111)
+    memoryDV.setUint32(getRegisterID('%eax'),4294967395 )
+    console.log(getRegister('%eax'))
 
     return(
         <div className="page-view">
             <div>
-                <form id="insertCode" onSubmit={parseCode}>
+                <form id="insertCode" onSubmit={interpretCommand}>
                     <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
                     <button type="submit">Submit</button>
                 </form>
