@@ -20,6 +20,7 @@ const VM_Instance = () => {
         return map
     }, {})
 
+    //for internal use only
     const getRegisterID = (name) => {
         if(!(name in registerMap)){
             throw new Error(`getRegisterID: No such register ${name}`)
@@ -27,36 +28,49 @@ const VM_Instance = () => {
 
         return registerMap[name]
     }
-
-    const getRax = () => {
-        console.log(memoryDV.getUint32(getRegisterID('eax'),true))
-        console.log(memoryDV.getUint32(11, true))
+    
+    //get the value inside a register
+    const getRegister = (name) =>
+    {   
+        return memoryDV.getUint32(getRegisterID(name))
     }
+    
+    const setRegister = (name, value) => {
+        //check that it is a valid register
+        if(!(name in registerMap)){
+            throw new Error(`setRegister: No such register ${name}`)
+        }
+        
+        //type check the value input
+        if(typeof value === 'number'){
+            if (Math.round(value) === value ){
+                console.log("Commencing operation for integers")
+            }
+            else{
+                console.log("commencing operation for float values")
+            }
+        }
+
+        else if(typeof value === "string"){
+            console.log("commecnting operation for string")
+        }
+        else{
+            console.log(`Unrecognized type: ${typeof value}`)
+        }
+
+        
+    }
+
 
     console.log(registerMap)
     memoryDV.setUint32(getRegisterID('eax'), 255, true)
     console.log(getRegisterID('eax'))
-    console.log(memoryDV.getUint32(11,true))
-
-    
-
-    //get the 32 bit content inside a register
-    // const getRegister = (name) =>
-    // {
-    //     if(!(name in registerMap)){
-    //         throw new Error(`getRegister: No such register ${name}`)
-    //     }
-    //     return memoryDV.getUint32(registerMap[name])
-    // }
-    
-    // const setRegister = (name, value) => {
-    //     if(!(name in registerMap)){
-    //         throw new Error(`setRegister: No such register ${name}`)
-    //     }
-
-    // }
-
-    
+    setRegister('eax', 905)
+    setRegister('eax', "hello")
+    setRegister('eax', 'c')
+    setRegister('eax', 10.111)
+    memoryDV.setUint32(getRegisterID('eax'),4294967395 )
+    console.log(getRegister('eax'))
 
     return(
         <div className="page-view">
@@ -94,7 +108,6 @@ const VM_Instance = () => {
                 <li>r12D: </li>
                 <li>r13D: </li>
             </ul>
-            <button onClick={getRax}> GET RAX</button>
         </div>
     )
 }

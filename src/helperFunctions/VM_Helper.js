@@ -27,9 +27,18 @@ const interpretParam = (param) => {
 
         // parentheses case
         case 4 :
-            resString += "*" + param[3];
+            resString += "*" + param[3]
+            resString = " + " + param[2] + resString
+            resString = param[1] + resString
+            if (param[0] !== "0")
+                resString = param[0] + " + " + resString;
+            break;
         case 3:     
             resString = " + " + param[2] + resString;
+            resString = param[1] + resString
+            if (param[0] !== "0")
+                resString = param[0] + " + " + resString;
+            break;
         case 2:
             resString = param[1] + resString
             if (param[0] !== "0")
