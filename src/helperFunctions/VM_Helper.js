@@ -121,5 +121,6 @@ export const parseCode = (event) => {
         else
             arg2 = parseNoParentheses(arg2String);
     }
+    console.log([command, arg1, arg2])
     return([command, arg1, arg2]);
 }

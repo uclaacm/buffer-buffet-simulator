@@ -121,9 +121,9 @@ const VM_Instance = () => {
                 return "error"
         }
         resString = "contents of (" + resString + ")"
+        console.log(resString)
         
-        console.log(resSum)
-        return resString;
+        return resSum
     } 
 
     const interpretCommand = (event) => {
@@ -140,7 +140,15 @@ const VM_Instance = () => {
                     console.log("Needs two parameters")
                     return
                 }
-                console.log("move " + interpretParam(paramToDeci(argList[1])) + " into " + interpretParam(argList[2]))
+
+                // move into register
+                if (argList[2].length === 1 && registerList.includes(argList[2][0]))
+                    memoryDV.setUint32(getRegisterID(argList[2][0]),interpretParam(paramToDeci(argList[1])))
+                    // setRegister(argList[2][0], interpretParam(paramToDeci(argList[1])))
+
+                //TODO move into address
+
+                // console.log("move " + interpretParam(paramToDeci(argList[1])) + " into " + interpretParam(argList[2]))
                 break;
                 
             // leaq Source, Dest
@@ -170,6 +178,11 @@ const VM_Instance = () => {
                     console.log("Needs two parameters")
                     return
                 }
+                // Dest is register
+                if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
+                    let sum = parseInt(getRegister(argList[2][0]), 10) + parseInt(interpretParam(paramToDeci(argList[1])), 10)
+                    memoryDV.setUint32(getRegisterID(argList[2][0]), sum)
+                }
                 console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]))
                 console.log("=> add " + interpretParam(paramToDeci(argList[1])) + " to " + interpretParam(paramToDeci(argList[2])))
                 break
@@ -181,12 +194,18 @@ const VM_Instance = () => {
                     console.log("Needs two parameters")
                     return
                 }
+                // Dest is register
+                if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
+                    let diff = parseInt(getRegister(argList[2][0]), 10) - parseInt(interpretParam(paramToDeci(argList[1])), 10)
+                    memoryDV.setUint32(getRegisterID(argList[2][0]), diff)
+                }
                 console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]))
                 console.log("=> subtract " + interpretParam(paramToDeci(argList[1])) + " from " + interpretParam(paramToDeci(argList[2])))
                 break;
             
             // jump to dest
             // jmp Dest
+            // TODO - implement conditional jmp commands (jle)
             case "jmp" :
                 if (check2Param(argList)) {
                     console.log("Needs only one parameters")
@@ -221,6 +240,7 @@ const VM_Instance = () => {
                 console.log("Unsupported command")
                 break
         }
+        console.log(getRegister('%eax'))
     }
 
     console.log(registerMap)
