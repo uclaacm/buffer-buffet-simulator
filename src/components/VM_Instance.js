@@ -1,5 +1,5 @@
 import React from "react";
-import {parseCode} from "../helperFunctions/VM_Helper"
+import {getRegisterID, getRegister, setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 
@@ -7,65 +7,17 @@ const VM_Instance = () => {
     const currMemory = new ArrayBuffer(256)
     const memoryDV = new DataView(currMemory)
 
-    //14 Registers
-    const registerList = [
-        'ebp', 'esp', 'eip',
-        'eax',
-        'edi', 'esi', 'edx', 'ecx', 'r8D', 'r9D',
-        'r10D', 'r11D', 'r12D', 'r13D'
-    ]
-
-    const registerMap = registerList.reduce((map, name, i) => {
-        map[name] = i * 4
-        return map
-    }, {})
-
-    //for internal use only
-    const getRegisterID = (name) => {
-        if(!(name in registerMap)){
-            throw new Error(`getRegisterID: No such register ${name}`)
-        }
-
-        return registerMap[name]
-    }
-    
-    //get the value inside a register
-    const getRegister = (name) =>
-    {   
-        return memoryDV.getUint32(getRegisterID(name))
-    }
-    
-    const setRegister = (name, value) => {
-        //type check the value input
-        if(typeof value === 'number'){
-            if (Math.round(value) === value ){
-                if(value <0){
-                    memoryDV.setInt32(getRegisterID(name), value)
-                }
-                memoryDV.setUint32(getRegisterID(name), value)
-            }
-            else{
-                memoryDV.setFloat32(getRegisterID(name), value)
-            }
-        }
-        else{
-            throw new Error(`setRegister: Only input int and floats`)
-        }
-    }
-
-    console.log(registerMap)
-    setRegister('eax', 905)
-    console.log(getRegister('eax'))
-    setRegister('eax', 10.111)
-    console.log(getRegister('eax'))
-
-
-
+    memoryDV.setUint32(getRegisterID('%eax', memoryDV), 255, true)
+    console.log(getRegisterID('%eax'))
+    setRegister('%eax', 905, memoryDV)
+    setRegister('%eax', 10.111, memoryDV)
+    memoryDV.setUint32(getRegisterID('%eax'),4294967395)
+    console.log(getRegister('%eax', memoryDV))
 
     return(
         <div className="page-view">
             <div>
-                <form id="insertCode" onSubmit={parseCode}>
+                <form id="insertCode" onSubmit={(e) => interpretCommand(e, memoryDV)}>
                     <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
                     <button type="submit">Submit</button>
                 </form>
