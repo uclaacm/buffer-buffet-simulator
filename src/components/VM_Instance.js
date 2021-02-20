@@ -161,6 +161,7 @@ const VM_Instance = () => {
                 break
             
             // compares S1 - S2
+            // sets compare flag for jumps
             // cmp S2, S1
             case "cmp" :
                 if (!check2Param(argList)) {
@@ -168,7 +169,7 @@ const VM_Instance = () => {
                     return
                 }
                 console.log("compare " + interpretParam(argList[1]) + " with " + interpretParam(argList[2]))
-                console.log("=> compare " + interpretParam(paramToDeci(argList[1])) + " with " + interpretParam(paramToDeci(argList[2])))
+                // console.log("=> compare " + interpretParam(paramToDeci(argList[1])) + " with " + interpretParam(paramToDeci(argList[2])))
                 break
     
             // add source to dest
@@ -184,7 +185,7 @@ const VM_Instance = () => {
                     memoryDV.setUint32(getRegisterID(argList[2][0]), sum)
                 }
                 console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]))
-                console.log("=> add " + interpretParam(paramToDeci(argList[1])) + " to " + interpretParam(paramToDeci(argList[2])))
+                // console.log("=> add " + interpretParam(paramToDeci(argList[1])) + " to " + interpretParam(paramToDeci(argList[2])))
                 break
     
             // subtrac source from dest
@@ -200,7 +201,7 @@ const VM_Instance = () => {
                     memoryDV.setUint32(getRegisterID(argList[2][0]), diff)
                 }
                 console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]))
-                console.log("=> subtract " + interpretParam(paramToDeci(argList[1])) + " from " + interpretParam(paramToDeci(argList[2])))
+                // console.log("=> subtract " + interpretParam(paramToDeci(argList[1])) + " from " + interpretParam(paramToDeci(argList[2])))
                 break;
             
             // jump to dest
@@ -212,7 +213,7 @@ const VM_Instance = () => {
                     return
                 }
                 console.log("jump to " + interpretParam(argList[1]))
-                console.log("=> jump to " + interpretParam(paramToDeci(argList[1])))
+                // console.log("=> jump to " + interpretParam(paramToDeci(argList[1])))
                 break
     
             // pop top of stack into destination
