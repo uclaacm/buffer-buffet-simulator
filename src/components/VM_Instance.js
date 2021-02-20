@@ -36,41 +36,31 @@ const VM_Instance = () => {
     }
     
     const setRegister = (name, value) => {
-        //check that it is a valid register
-        if(!(name in registerMap)){
-            throw new Error(`setRegister: No such register ${name}`)
-        }
-        
         //type check the value input
         if(typeof value === 'number'){
             if (Math.round(value) === value ){
-                console.log("Commencing operation for integers")
+                if(value <0){
+                    memoryDV.setInt32(getRegisterID(name), value)
+                }
+                memoryDV.setUint32(getRegisterID(name), value)
             }
             else{
-                console.log("commencing operation for float values")
+                memoryDV.setFloat32(getRegisterID(name), value)
             }
         }
-
-        else if(typeof value === "string"){
-            console.log("commecnting operation for string")
-        }
         else{
-            console.log(`Unrecognized type: ${typeof value}`)
+            throw new Error(`setRegister: Only input int and floats`)
         }
-
-        
     }
 
-
     console.log(registerMap)
-    memoryDV.setUint32(getRegisterID('eax'), 255, true)
-    console.log(getRegisterID('eax'))
     setRegister('eax', 905)
-    setRegister('eax', "hello")
-    setRegister('eax', 'c')
-    setRegister('eax', 10.111)
-    memoryDV.setUint32(getRegisterID('eax'),4294967395 )
     console.log(getRegister('eax'))
+    setRegister('eax', 10.111)
+    console.log(getRegister('eax'))
+
+
+
 
     return(
         <div className="page-view">
