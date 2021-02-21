@@ -1,19 +1,30 @@
 import React from "react";
-import {getRegisterID, getRegister, setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
+import {getRegisterID, getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 
     //specify the initial memory array buffer (size in bytes)
     const currMemory = new ArrayBuffer(256)
     const memoryDV = new DataView(currMemory)
+    setRegister('flagRegister', 53, memoryDV)
+    console.log(getRegister('flagRegister', memoryDV))
+    console.log(flagMap)
 
-    memoryDV.setUint32(getRegisterID('%eax', memoryDV), 255, true)
-    console.log(getRegisterID('%eax'))
-    setRegister('%eax', 905, memoryDV)
-    setRegister('%eax', 10.111, memoryDV)
-    memoryDV.setUint32(getRegisterID('%eax'),4294967395)
-    console.log(getRegister('%eax', memoryDV))
+    const flagList = [
+        'CF', 'PF', 'ZF','SF', 'OF', 'AF'
+    ]
 
+    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+    flagList.map(flag => setFlag(flag, 0, memoryDV))
+    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+    flagList.map(flag => setFlag(flag, 0, memoryDV))
+    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+    flagList.map(flag => setFlag(flag, 1, memoryDV))
+    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+    setFlag('CF', 0, memoryDV)
+    setFlag('AF', 0, memoryDV)
+    setFlag('ZF', 0, memoryDV)
+    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
     return(
         <div className="page-view">
             <div>

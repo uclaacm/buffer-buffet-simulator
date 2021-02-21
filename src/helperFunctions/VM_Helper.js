@@ -1,5 +1,6 @@
 //14 Registers
 const registerList = [
+    'flagRegister',
     '%ebp', '%esp', '%eip',
     '%eax',
     '%edi', '%esi', '%edx', '%ecx', '%r8D', '%r9D',
@@ -44,6 +45,69 @@ export const setRegister = (name, value, memoryDV) => {
     }
 }
 
+export const dec2bin = (dec) => {
+    return (dec >>> 0).toString(2)
+}
+
+  /////////////////////////
+ //// FLAG REG OPS ///////
+/////////////////////////
+//src - https://en.wikipedia.org/wiki/FLAGS_register
+//CF - Carry Flag - mask 0x0001
+//PF - Parity flag - mask 0x0002
+//ZF - Zero flag - mask 0x0004
+//SF - Sign flag - mask 0x0008
+//OF - Overflow Flag - 0x0010
+//AF - Adjust flag - 0x0020
+
+const flagList = [
+    'CF', 'PF', 'ZF','SF', 'OF', 'AF'
+]
+
+// stores the position and the mask
+export const flagMap = flagList.reduce((map, name, i) => {
+    map[name] = i
+    return map
+}, {})
+
+export const getFlag = (flagName, memoryDV) => {
+
+    if(!(flagName in flagMap)) {
+        throw new Error(`getFlag: No such flag ${flagName}`)
+    }
+
+    const flagRegID = 'flagRegister'
+    const flagRegister = getRegister(flagRegID,memoryDV)
+
+    const flagID = flagMap[flagName]
+    const flagMask = 2 ** flagID
+
+    return (flagRegister & flagMask) >>> flagID
+
+}
+
+export const setFlag = (flagName, value, memoryDV) => {
+    if(!(flagName in flagMap)) {
+        throw new Error(`getFlag: No such flag ${flagName}`)
+    }
+
+    const flagRegID = 'flagRegister'
+    const flagRegister = getRegister(flagRegID,memoryDV)
+
+    const flagID = flagMap[flagName]
+    const flagMask = 2 ** flagID
+
+    //setting the flag to 1
+    if(value){
+        setRegister(flagRegID, (flagRegister | flagMask), memoryDV)
+    }
+    //else set it to 0
+    else{
+        setRegister(flagRegID, ~(~flagRegister | flagMask), memoryDV)
+    }
+    
+    return 
+}
 const check2Param = (argList) => argList[2].length !== 0;
 
 // const checkArgType = (param) => {
