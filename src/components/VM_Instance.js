@@ -1,5 +1,5 @@
 import React from "react";
-import {getRegisterID, getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
+import {getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 

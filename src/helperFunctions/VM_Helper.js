@@ -186,8 +186,6 @@ const paramToDeci = (param, memoryDV) => {
             const deciNum = param[i].match(/(?<=\$).*/)[0]
             param[i] = parseInt(deciNum)
         }
-        // else if (param[i] === 0)
-        //     ;
         else
             return "unknown param";
     }
@@ -254,14 +252,16 @@ export const interpretCommand = (event, memoryDV) => {
             }
 
             // move into register
-            if (argList[2].length === 1 && registerList.includes(argList[2][0]))
+            if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
                 setRegister(argList[2][0], interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            }
 
             //TODO move into address
 
             break;
             
         // leaq Source, Dest
+        // NOT IMPLEMENTED YET
         case "leaq":
             if (!check2Param(argList)) {
                 console.log("Needs two parameters")
@@ -278,6 +278,17 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log("Needs two parameters")
                 return
             }
+            let s1 = parseInt(interpretParam(paramToDeci(argList[2], memoryDV)), 10)
+            let s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+            let diff = s1 - s2
+
+            setFlag('ZF', diff === 0, memoryDV)
+            setFlag('SF', diff < 0, memoryDV)
+            setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV)                                               // need to convert to 32 bit?
+            console.log('ZF',getFlag('ZF', memoryDV))
+            console.log('SF', getFlag('SF', memoryDV))
+            console.log(diff)
+
             console.log("compare " + interpretParam(argList[1]) + " with " + interpretParam(argList[2]))
             break
 
@@ -290,13 +301,21 @@ export const interpretCommand = (event, memoryDV) => {
             }
             // Dest is register
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                let sum = parseInt(getRegister(argList[2][0], memoryDV), 10) + parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                s1 = parseInt(getRegister(argList[2][0], memoryDV), 10)
+                s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                let sum =  s1 + s2
                 memoryDV.setUint32(getRegisterID(argList[2][0]), sum)
+
+                setFlag('ZF', sum === 0, memoryDV)
+                setFlag('SF', sum < 0, memoryDV)
+                setFlag('OF', (s1 > 0 && s2 > 0 && sum < 0) || (s1 < 0 && s2 < 0 && sum > 0), memoryDV)
+                console.log('ZF',getFlag('ZF', memoryDV))
+                console.log('SF', getFlag('SF', memoryDV))
             }
             console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]))
             break
 
-        // subtrac source from dest
+        // subtract source from dest
         // sub Source, Dest
         case "sub" :
             if (!check2Param(argList)) {
@@ -305,21 +324,90 @@ export const interpretCommand = (event, memoryDV) => {
             }
             // Dest is register
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                let diff = parseInt(getRegister(argList[2][0], memoryDV), 10) - parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                let s1 = parseInt(interpretParam(paramToDeci(argList[2], memoryDV)), 10)
+                let s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                let diff =  s1 - s2
                 memoryDV.setUint32(getRegisterID(argList[2][0]), diff)
+
+                setFlag('ZF', diff === 0, memoryDV)
+                setFlag('SF', diff < 0, memoryDV)
+                setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV)
+
+                console.log('ZF',getFlag('ZF', memoryDV))
+                console.log('SF', getFlag('SF', memoryDV))
             }
             console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]))
             break;
         
         // jump to dest
         // jmp Dest
-        // TODO - implement conditional jmp commands (jle)
         case "jmp" :
             if (check2Param(argList)) {
                 console.log("Needs only one parameter")
                 return
             }
+            setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
             console.log("jump to " + interpretParam(argList[1]))
+            break
+
+        // jump if equal/zero
+        case "je" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if (getFlag("ZF", memoryDV))
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            break
+        
+        // jump if not equal
+        case "jne" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if (!getFlag("ZF", memoryDV)) 
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            break
+
+        // jump if greater
+        case "jg" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if (!(getFlag("SF", memoryDV) ^ (getFlag("OF", memoryDV))) && !getFlag("ZF", memoryDV))    // ~(SF^OF) & ~ZF
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            break
+
+        // jump if greater or equal
+        case "jge" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if (!(getFlag("SF", memoryDV) ^ getFlag("OF", memoryDV)))                                  // ~(SF^OF) 
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)                     
+            break
+
+        // jump if less
+        case "jl" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if ((getFlag("SF", memoryDV) ^ (getFlag("OF", memoryDV))))                                 // (SF^OF)
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            break
+
+        // jump if greater or equal
+        case "jle" :
+            if (check2Param(argList)) {
+                console.log("Needs only one parameter")
+                return
+            }
+            if ((getFlag("SF", memoryDV) ^ getFlag("OF", memoryDV)) || getFlag("ZF", memoryDV))                                  //(SF^OF) | ZF 
+                setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)                     
             break
 
         // pop top of stack into destination
@@ -345,7 +433,7 @@ export const interpretCommand = (event, memoryDV) => {
             console.log("Unsupported command")
             break
     }
-    console.log(getRegister('%eax', memoryDV))
+    console.log(getRegister('%eip', memoryDV))
 }
 
 // currently takes command from an input element and parses it
