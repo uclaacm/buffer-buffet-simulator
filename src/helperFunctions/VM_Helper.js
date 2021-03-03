@@ -176,7 +176,6 @@ const paramToDeci = (param, memoryDV) => {
         // is register
         if (registerList.includes(param[i]))
             param[i] = getRegister(param[i], memoryDV)
-        // is hex #
         else if (/^\$0x/.test(param[i])) {
             const hexNum = param[i].match(/(?<=\$).*/)[0]
             param[i] = parseInt(hexNum, 16);
@@ -184,6 +183,16 @@ const paramToDeci = (param, memoryDV) => {
         // is decimal #
         else if (/^\$/.test(param[i])) {
             const deciNum = param[i].match(/(?<=\$).*/)[0]
+            param[i] = parseInt(deciNum)
+        }
+        // is hex # (in parentheses no $ in front)
+        else if (/^0x/.test(param[i])) {
+            const hexNum = param[i]
+            param[i] = parseInt(hexNum, 16);
+        }
+        // is decimal # (in parentheses no $ in front)
+        else if (!isNaN(param[i])) {
+            const deciNum = param[i]
             param[i] = parseInt(deciNum)
         }
         else
@@ -246,6 +255,7 @@ export const interpretCommand = (event, memoryDV) => {
     switch(argList[0]) {
         // mov Source, Dest
         case "mov" :
+
             if (!check2Param(argList)) {
                 console.log("Needs two parameters")
                 return
@@ -433,7 +443,6 @@ export const interpretCommand = (event, memoryDV) => {
             console.log("Unsupported command")
             break
     }
-    console.log(getRegister('%eip', memoryDV))
 }
 
 // currently takes command from an input element and parses it
