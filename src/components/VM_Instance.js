@@ -24,7 +24,10 @@ const VM_Instance = () => {
     setFlag('CF', 0, memoryDV)
     setFlag('AF', 0, memoryDV)
     setFlag('ZF', 0, memoryDV)
+
     flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+
+    
     return(
         <div className="page-view">
             <div>
