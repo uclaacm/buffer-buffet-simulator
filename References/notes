@@ -1,0 +1,6 @@
+D(Rb,Ri,S)   # Mem[Reg[Rb]+S*Reg[Ri]+ D] 
+For addressing mode
+
+Refer to CS 33 slides on 
+
+http://vast.cs.ucla.edu/~atefehSZ/teaching/cs33_docs/week2/Week2-discussion.pdf

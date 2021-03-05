@@ -7,6 +7,7 @@ const registerList = [
     '%r10D', '%r11D', '%r12D', '%r13D'
 ]
 
+const STACK_SIZE = 256
 export const registerMap = registerList.reduce((map, name, i) => {
     map[name] = i * 4
     return map
@@ -27,6 +28,10 @@ export const getRegister = (name, memoryDV) =>
     return memoryDV.getUint32(getRegisterID(name))
 }
 
+//move the value into the name register
+//stores signed value if the value is negative
+//stores float value if the value is float
+//otherwise store the unsigned value
 export const setRegister = (name, value, memoryDV) => {
     //type check the value input
     if(typeof value === 'number'){
@@ -201,6 +206,22 @@ const paramToDeci = (param, memoryDV) => {
     return param
 }
 
+//makes sure the reference address is within range or else return -1
+const verifyAddress = (refAddress, memoryDV) => {
+    if(1 <= refAddress  && refAddress <= STACK_SIZE){
+
+        const tempAddress = memoryDV.getUint32(refAddress)
+        
+        if( 1 <= tempAddress && tempAddress <= STACK_SIZE){
+            console.log(tempAddress)
+            return tempAddress
+        }
+    }
+    else{
+        return -1
+    }
+}
+
 // takes in parsed param array 
 // does math from given param array
 const interpretParam = (param) => {
@@ -248,7 +269,11 @@ const interpretParam = (param) => {
 export const interpretCommand = (event, memoryDV) => {
     event.preventDefault()
     let argList = parseCode()
-
+    let payload = 0;
+    let dstAddress = 0;
+    console.log("Command name: ", argList[0])
+    console.log("First argument: ", argList[1])
+    console.log("Second argument: ",argList[2])
     // argList[0] = command e.g "mov"
     // argList[1] = 1st Parameter, with separate arguments in order from left to right
     // argList[2] = 2nd Parameter, same as above
@@ -260,22 +285,64 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log("Needs two parameters")
                 return
             }
-
-            // move into register
-            if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                setRegister(argList[2][0], interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
-            }
-
-            //TODO move into address
-
-            break;
             
+            //initialize place holder value
+            
+            payload = 0;
+            dstAddress = 0;
+            //check if the payload needs to be dereferenced
+            if(argList[1].length === 1){
+                //evalulate the value in deci or grab the value inside the register
+                payload = interpretParam(paramToDeci(argList[1], memoryDV))
+            }
+            else{
+                const refAddress = interpretParam(paramToDeci(argList[1], memoryDV))
+                payload = verifyAddress(refAddress, memoryDV)
+            }   
+            
+            //need to check that it's a valid address
+            if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
+                dstAddress = argList[2][0]
+            }
+            else{
+                const refAddress = interpretParam(paramToDeci(argList[2], memoryDV))
+                dstAddress = verifyAddress(refAddress, memoryDV)
+            }
+            
+            if(payload === -1 || dstAddress === -1){
+                console.error("Unable to execute mov command due to invalid src or dst")
+            }
+            else{
+                memoryDV.setUint32(dstAddress,payload)
+            }
+            break
         // leaq Source, Dest
         // NOT IMPLEMENTED YET
         case "leaq":
             if (!check2Param(argList)) {
                 console.log("Needs two parameters")
                 return
+            }
+            payload = 0;
+            dstAddress = 0;
+            payload = interpretParam(paramToDeci(argList[1], memoryDV))
+
+            if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
+                dstAddress = argList[2][0]
+            }
+            else if (registerList.includes(argList[2][1])){
+                const refAddress = interpretParam(paramToDeci(argList[2], memoryDV))
+                dstAddress = verifyAddress(refAddress, memoryDV)
+            }
+            else{
+                dstAddress = -1
+            }
+
+            if(dstAddress === -1){
+                console.error("Unable to execute leaq command due to invalid dst")
+            }
+            else{
+                memoryDV.setUint32(dstAddress, payload)
             }
             console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]))
             break
