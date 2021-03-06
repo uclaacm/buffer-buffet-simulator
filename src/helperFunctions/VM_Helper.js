@@ -7,6 +7,7 @@ const registerList = [
     '%r10D', '%r11D', '%r12D', '%r13D'
 ]
 
+
 const STACK_SIZE = 256
 export const registerMap = registerList.reduce((map, name, i) => {
     map[name] = i * 4
@@ -266,7 +267,7 @@ const interpretParam = (param) => {
     return resSum
 } 
 
-export const interpretCommand = (event, memoryDV) => {
+export const interpretCommand = (event, memoryDV, stackValues) => {
     event.preventDefault()
     let argList = parseCode()
     let payload = 0;
@@ -302,11 +303,16 @@ export const interpretCommand = (event, memoryDV) => {
             
             //need to check that it's a valid address
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                dstAddress = argList[2][0]
+                dstAddress = getRegisterID(argList[2][0])
             }
             else{
                 const refAddress = interpretParam(paramToDeci(argList[2], memoryDV))
-                dstAddress = verifyAddress(refAddress, memoryDV)
+                if(1 <= refAddress && refAddress <= STACK_SIZE){
+                    dstAddress = refAddress
+                }
+                else{
+                    dstAddress = -1
+                }
             }
             
             if(payload === -1 || dstAddress === -1){
@@ -328,14 +334,16 @@ export const interpretCommand = (event, memoryDV) => {
             payload = interpretParam(paramToDeci(argList[1], memoryDV))
 
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                dstAddress = argList[2][0]
-            }
-            else if (registerList.includes(argList[2][1])){
-                const refAddress = interpretParam(paramToDeci(argList[2], memoryDV))
-                dstAddress = verifyAddress(refAddress, memoryDV)
+                dstAddress = getRegisterID(argList[2][0])
             }
             else{
-                dstAddress = -1
+                const refAddress = interpretParam(paramToDeci(argList[2], memoryDV))
+                if(1 <= refAddress && refAddress <= STACK_SIZE){
+                    dstAddress = refAddress
+                }
+                else{
+                    dstAddress = -1
+                }
             }
 
             if(dstAddress === -1){
@@ -494,7 +502,30 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log("Needs only one parameter")
                 return
             }
-            console.log("pop top of stack to " + interpretParam(argList[1]))
+            
+            if (argList[1].length === 1 && registerList.includes(argList[1][0])) {
+                dstAddress = getRegisterID(argList[1][0])
+            }
+            else{
+                const refAddress = interpretParam(paramToDeci(argList[1], memoryDV))
+                if(1 <= refAddress && refAddress <= STACK_SIZE){
+                    dstAddress = refAddress
+                }
+                else{
+                    dstAddress = -1
+                }
+            }
+
+            if(dstAddress !== -1){
+                payload = stackValues.pop()
+               
+                memoryDV.setUint32(dstAddress, payload)
+                console.log(stackValues)
+            }
+
+            
+            
+            //console.log("pop top of stack to " + interpretParam(argList[1]))
             break;
 
         // push source onto top of stack
@@ -504,7 +535,21 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log("Needs only one parameter")
                 return
             }
-            console.log("push " + interpretParam(argList[1]) + " to top of stack")
+
+            payload = interpretParam(paramToDeci(argList[1], memoryDV))
+            if(argList[1].length === 1){
+                stackValues.push(payload)
+            }
+            else{
+                payload = verifyAddress(payload, memoryDV)
+                if(payload !== -1){
+                    stackValues.push(payload)
+                }
+                else{
+                    console.error("Memory Address out of bounds")
+                }
+            }
+            console.log(stackValues)
             break;
         default :
             console.log("Unsupported command")

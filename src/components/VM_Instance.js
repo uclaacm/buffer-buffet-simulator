@@ -1,18 +1,20 @@
 import React from "react";
 import {getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
-
+import Debug from './Debug'
 const VM_Instance = () => {
 
     //specify the initial memory array buffer (size in bytes)
     const STACK_SIZE = 256
     const currMemory = new ArrayBuffer(STACK_SIZE)
     const memoryDV = new DataView(currMemory)
+    let stackValues = []
     setRegister('%edi', 40, memoryDV)
     memoryDV.setUint32(40, 134)
     return(
         <div className="page-view">
+            <Debug message="hello"/>
             <div>
-                <form id="insertCode" onSubmit={(e) => interpretCommand(e, memoryDV)}>
+                <form id="insertCode" onSubmit={(e) => interpretCommand(e, memoryDV, stackValues)}>
                     <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
                     <button type="submit">Submit</button>
                 </form>
