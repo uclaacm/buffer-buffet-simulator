@@ -1,30 +1,14 @@
 import React from "react";
-import {getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
+import {setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
 
 const VM_Instance = () => {
 
     //specify the initial memory array buffer (size in bytes)
-    const currMemory = new ArrayBuffer(256)
+    const STACK_SIZE = 256
+    const currMemory = new ArrayBuffer(STACK_SIZE)
     const memoryDV = new DataView(currMemory)
-    setRegister('flagRegister', 53, memoryDV)
-    console.log(getRegister('flagRegister', memoryDV))
-    console.log(flagMap)
-
-    const flagList = [
-        'CF', 'PF', 'ZF','SF', 'OF', 'AF'
-    ]
-
-    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
-    flagList.map(flag => setFlag(flag, 0, memoryDV))
-    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
-    flagList.map(flag => setFlag(flag, 0, memoryDV))
-    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
-    flagList.map(flag => setFlag(flag, 1, memoryDV))
-    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
-    setFlag('CF', 0, memoryDV)
-    setFlag('AF', 0, memoryDV)
-    setFlag('ZF', 0, memoryDV)
-    flagList.map(flag => console.log(flag, getFlag(flag, memoryDV)))
+    setRegister('%edi', 40, memoryDV)
+    memoryDV.setUint32(40, 134)
     return(
         <div className="page-view">
             <div>
@@ -33,7 +17,15 @@ const VM_Instance = () => {
                     <button type="submit">Submit</button>
                 </form>
             </div>
-            <h3>Note: The registers are 32 bits and little endian.</h3>
+
+            <h3>Basic format for commands: cmd arg1, arg2</h3>
+            <h3>For example: mov %eax, %esp </h3>
+            <h3> Available commands</h3>
+            <ul>
+                <li>mov src, </li>
+            </ul>
+            <h3>Note: The registers are 32 bits and BIG endian.
+            </h3>
             <h3>Register Values:</h3>
             <h4>Pointer registers</h4>
             <ul>
