@@ -1,3 +1,5 @@
+import { memo } from "react"
+
 //14 Registers
 const registerList = [
     'flagRegister',
@@ -270,14 +272,16 @@ export const interpretCommand = (event, memoryDV) => {
 
             break;
             
-        // leaq Source, Dest
-        // NOT IMPLEMENTED YET
-        case "leaq":
+        // lea Source, Dest
+        // Loads address into register, does not go into address
+        case "lea":
             if (!check2Param(argList)) {
                 console.log("Needs two parameters")
                 return
             }
-            console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]))
+            if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
+                setRegister(argList[2][0], interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
+            }
             break
         
         // compares S1 - S2
@@ -311,10 +315,11 @@ export const interpretCommand = (event, memoryDV) => {
             }
             // Dest is register
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                s1 = parseInt(getRegister(argList[2][0], memoryDV), 10)
-                s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                let register = argList[2][0]
+                let s1 = parseInt(getRegister(argList[2][0], memoryDV), 10)
+                let s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
                 let sum =  s1 + s2
-                memoryDV.setUint32(getRegisterID(argList[2][0]), sum)
+                memoryDV.setInt32(getRegisterID(register), sum)
 
                 setFlag('ZF', sum === 0, memoryDV)
                 setFlag('SF', sum < 0, memoryDV)
@@ -322,7 +327,6 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log('ZF',getFlag('ZF', memoryDV))
                 console.log('SF', getFlag('SF', memoryDV))
             }
-            console.log("add " + interpretParam(argList[1]) + " to " + interpretParam(argList[2]))
             break
 
         // subtract source from dest
@@ -334,10 +338,11 @@ export const interpretCommand = (event, memoryDV) => {
             }
             // Dest is register
             if (argList[2].length === 1 && registerList.includes(argList[2][0])) {
-                let s1 = parseInt(interpretParam(paramToDeci(argList[2], memoryDV)), 10)
-                let s2 = parseInt(interpretParam(paramToDeci(argList[1], memoryDV)), 10)
+                let register = argList[2][0]
+                let s1 = parseInt(interpretParam(paramToDeci([...argList][2], memoryDV)), 10)
+                let s2 = parseInt(interpretParam(paramToDeci([...argList][1], memoryDV)), 10)
                 let diff =  s1 - s2
-                memoryDV.setUint32(getRegisterID(argList[2][0]), diff)
+                memoryDV.setInt32(getRegisterID(register), diff)
 
                 setFlag('ZF', diff === 0, memoryDV)
                 setFlag('SF', diff < 0, memoryDV)
@@ -346,7 +351,6 @@ export const interpretCommand = (event, memoryDV) => {
                 console.log('ZF',getFlag('ZF', memoryDV))
                 console.log('SF', getFlag('SF', memoryDV))
             }
-            console.log("subtract " + interpretParam(argList[1]) + " from " + interpretParam(argList[2]))
             break;
         
         // jump to dest
@@ -357,7 +361,6 @@ export const interpretCommand = (event, memoryDV) => {
                 return
             }
             setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV)
-            console.log("jump to " + interpretParam(argList[1]))
             break
 
         // jump if equal/zero
@@ -439,10 +442,20 @@ export const interpretCommand = (event, memoryDV) => {
             }
             console.log("push " + interpretParam(argList[1]) + " to top of stack")
             break;
+
+        // call LABEL, or call Address
+        // push return address and jump to specified lcoation
+        case "call" :
+            break;
+        
+        // Pop return address and jump there
+        case "ret" :
+            break;
         default :
             console.log("Unsupported command")
             break
     }
+    console.log(getRegister('%eax', memoryDV))
 }
 
 // currently takes command from an input element and parses it
