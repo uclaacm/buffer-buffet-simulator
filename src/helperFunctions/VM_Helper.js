@@ -117,23 +117,6 @@ export const setFlag = (flagName, value, memoryDV) => {
 }
 const check2Param = (argList) => argList[2].length !== 0;
 
-// const checkArgType = (param) => {
-//     const registerList = ["%eax", "%ebx", "%rsp", "%r1", "%r2", "%r3", "%r4", "%r5", "%r6", "%r7", "%r8"];
-
-//     // is register
-//     if (registerList.includes(param))
-//         return "register";
-//     // is hex #
-//     else if (/^\$0x/.test(param))
-//         return "hex";
-//     else if (/^\$/.test(param))
-//         return "decimal";
-//     else if (param === 0)
-//         return "zero";
-//     else
-//         return "unknown param";   
-// }
-
 const parseNoParentheses = (argString) => {
     let arg = [];
     arg[0] = "";
@@ -268,9 +251,8 @@ const interpretParam = (param) => {
     return resSum
 } 
 
-export const interpretCommand = (event, memoryDV) => {
-    event.preventDefault()
-    let argList = parseCode()
+export const interpretCommand = (codeString, memoryDV) => {
+    let argList = parseCode(codeString)
     let payload = 0;
     let dstAddress = 0;
     console.log("Command name: ", argList[0])
@@ -316,6 +298,7 @@ export const interpretCommand = (event, memoryDV) => {
             }
             else{
                 memoryDV.setUint32(dstAddress,payload)
+                // setRegister(dstAddress, payload, memoryDV)
             }
             break
 
@@ -524,9 +507,7 @@ export const interpretCommand = (event, memoryDV) => {
 }
 
 // currently takes command from an input element and parses it
-export const parseCode = (event) => {
-    let codeString = document.getElementById("codeInput").value;
-    
+export const parseCode = (codeString) => {    
     let command = "";
     let arg1 = [];
     let arg2 = [];
