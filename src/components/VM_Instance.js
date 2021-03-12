@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
 import Debug from './Debug'
 const VM_Instance = () => {
@@ -7,19 +7,42 @@ const VM_Instance = () => {
     const STACK_SIZE = 256
     const currMemory = new ArrayBuffer(STACK_SIZE)
     const memoryDV = new DataView(currMemory)
-    let stackValues = []
+
+    const [stack, setStack] = useState([])
+
+    const [currInstr, setInstr] = useState("")
+    // const [stack, setStack] = useState([])
+
+    const [eip, setEip] = useState(0)
+
+    const handleInput = (event) => {
+        setInstr(event.target.value)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        console.log("Current Instruction: ", currInstr)
+        interpretCommand(currInstr, memoryDV, stack)
+    }
+
+    const refresh = () => {
+        setStack(stack)
+    }
     setRegister('%edi', 40, memoryDV)
     memoryDV.setUint32(40, 134)
     return(
         <div className="page-view">
-            <Debug message="hello"/>
+            
             <div>
-                <form id="insertCode" onSubmit={(e) => interpretCommand(e, memoryDV, stackValues)}>
-                    <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
+                <form id="insertCode" onSubmit={handleSubmit}>
+                    <input type="text" value={currInstr} placeholder="Enter Assembly Code" onChange={handleInput} id="codeInput"/>
                     <button type="submit">Submit</button>
                 </form>
             </div>
 
+            {/* <Debug memoryDV={memoryDV} stackValues={stackValues} /> */}
+            <p>{stack}</p>
+            <button onClick={refresh}>REFRESH</button>
             <h3>Basic format for commands: cmd arg1, arg2</h3>
             <h3>For example: mov %eax, %esp </h3>
             <h3> Available commands</h3>

@@ -267,14 +267,15 @@ const interpretParam = (param) => {
     return resSum
 } 
 
-export const interpretCommand = (event, memoryDV, stackValues) => {
-    event.preventDefault()
-    let argList = parseCode()
+export const interpretCommand = (codeString, memoryDV, stackValues, setStack) => {
+    let argList = parseCode(codeString)
     let payload = 0;
     let dstAddress = 0;
     console.log("Command name: ", argList[0])
     console.log("First argument: ", argList[1])
     console.log("Second argument: ",argList[2])
+
+    console.log(stackValues)
     // argList[0] = command e.g "mov"
     // argList[1] = 1st Parameter, with separate arguments in order from left to right
     // argList[2] = 2nd Parameter, same as above
@@ -523,8 +524,6 @@ export const interpretCommand = (event, memoryDV, stackValues) => {
                 console.log(stackValues)
             }
 
-            
-            
             //console.log("pop top of stack to " + interpretParam(argList[1]))
             break;
 
@@ -555,11 +554,12 @@ export const interpretCommand = (event, memoryDV, stackValues) => {
             console.log("Unsupported command")
             break
     }
+
 }
 
 // currently takes command from an input element and parses it
-export const parseCode = (event) => {
-    let codeString = document.getElementById("codeInput").value;
+export const parseCode = (codeString) => {
+    
     
     let command = "";
     let arg1 = [];
