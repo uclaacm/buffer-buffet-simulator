@@ -297,8 +297,8 @@ export const interpretCommand = (codeString, memoryDV) => {
                 console.error("Unable to execute mov command due to invalid src or dst")
             }
             else{
-                memoryDV.setUint32(dstAddress,payload)
-                // setRegister(dstAddress, payload, memoryDV)
+                // memoryDV.setUint32(dstAddress,payload)
+                setRegister(dstAddress, payload, memoryDV)
             }
             break
 
@@ -566,4 +566,17 @@ export const parseCode = (codeString) => {
     }
     console.log([command, arg1, arg2])
     return([command, arg1, arg2]);
+}
+
+export const updateRegisterDict = (memoryDV) => {
+    let tempDict = {}
+    registerList.forEach((register) => {
+        if (register.includes('%')) {
+            tempDict[register] = getRegister(register, memoryDV)
+        }
+    })
+    flagList.forEach((flag) => {
+        tempDict[flag] = getFlag(flag, memoryDV)
+    })
+    return tempDict
 }
