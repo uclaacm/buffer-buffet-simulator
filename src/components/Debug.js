@@ -1,30 +1,37 @@
-import React from "react"
-import {getRegister, setRegister, interpretCommand, flagMap, getFlag, setFlag} from "../helperFunctions/VM_Helper"
-const Debug = (memoryDV, stackValues) => {
-    
-    const code1 = [
-        "mov $1, %eax",
-        "mov $2, %edi",
-        "add %edi, %eax"
-    ]
+import React, {useState} from 'react';
+const Debug = () => {
+  const code1 = [
+    'mov $1, %eax',
+    'mov $2, %edi',
+    'add %edi, %eax',
+  ];
 
-    const instr_list = 
-        code1.map((instruction, i) => <li key={i} >{1000 + i * 100}: {instruction}</li>)
-    
-        //ALL instruction starts with 1000 and increment upward.    
-    const init_debugger = () => {
-        setRegister('%eip', 1000)
-    }
+  const [breakPts] = useState([]);
 
-    const next_step = () => {
-        
-    }
-    return(
-        <div className='debugger'>
-            {instr_list}
-        </div>
-        )
+  const instrList =
+        code1.map((instruction, i) => {
+          const keyID = 1000 + i * 100;
+          return <li key={keyID} > <button> {keyID} </button>{instruction}</li>;
+        },
+        );
 
-}
 
-export default Debug
+  return (
+    <div className='debugger'>
+      <div className="debugger-program">
+        {instrList}
+      </div>
+      <h4>{breakPts}</h4>
+      <div className="debugger-toolbar">
+        <button> Restart </button>
+        <button> Step </button>
+        <button> Continue </button>
+        <button>Test me!</button>
+      </div>
+    </div>
+
+
+  );
+};
+
+export default Debug;
