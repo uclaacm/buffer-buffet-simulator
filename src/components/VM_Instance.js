@@ -10,7 +10,7 @@ import info from "./info.svg"
 
 
 // import { MdPlayArrow } from "react-icons/md";
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+{/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link> */}
 const VM_Instance = () => {
     //specify the initial memory array buffer (size in bytes)
     const STACK_SIZE = 256
