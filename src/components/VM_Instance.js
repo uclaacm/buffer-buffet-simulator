@@ -1,17 +1,117 @@
-import React from "react";
+import React, { useState } from "react"
 import {setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
 
-import info from "./info.svg";
+import info from "./info.svg"
+// import continue from "./continue.svg"
+// import next from "./next.svg"
+// import run from "./run.svg"
+// import stop from "./stop.svg"
+
+
+
 // import { MdPlayArrow } from "react-icons/md";
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 const VM_Instance = () => {
-
     //specify the initial memory array buffer (size in bytes)
     const STACK_SIZE = 256
     const currMemory = new ArrayBuffer(STACK_SIZE)
     const memoryDV = new DataView(currMemory)
     setRegister('%edi', 40, memoryDV)
     memoryDV.setUint32(40, 134)
+
+
+
+    class Dropdown extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {value: ''};
+      
+          this.handleSubmit = this.handleSubmit.bind(this);
+        }
+           
+        handleSubmit(event) {
+            var val = event.target.value;
+            this.setState({value: val});
+            console.log('A program was submitted: ' + val);
+            // event.preventDefault();
+            if (val === 'Hello World') {
+                setSourceCode(
+                    <p>
+                        int main()
+                        <br/>&#x0007B;
+                        <br/>&emsp;&emsp;printf("Hello World");
+                        <br/>&emsp;&emsp;return 0;
+                        <br/>&#x0007D;
+                    </p>
+                )
+            }
+            else if (val === 'For Loop'){
+                setSourceCode(
+                    <p>
+                        for loop
+                    </p>
+                )
+            }
+            else if (val === 'If-Else'){
+                setSourceCode(
+                    <p>
+                        if-else
+                    </p>
+                )
+            }
+        }
+      
+        render() {
+          return (
+            // <form onSubmit={this.handleSubmit}>
+            //   <label>
+            //     Name:
+            //     <input type="text" value={this.state.value} onChange={this.handleChange} />
+            //   </label>
+            //   <input type="submit" value="Submit" />
+            // </form>
+            <select className = "program" onChange={this.handleSubmit}>
+                <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>
+                <option value="Hello World">&nbsp;&nbsp;&nbsp;Hello World</option>
+                <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>
+                <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>
+            </select>
+          );
+        }
+      }
+
+
+
+
+
+    // function changeDropdown (props){
+    //     if(props === "Hello World"){
+    //         return(
+    //             <div> Hello World</div>
+    //         );
+    //     }
+    //     else if (props === "For Loop"){
+    //         return(
+    //             <div>For loop</div>
+    //         );
+    //     }
+    //     else if (props === "If-Else"){
+    //         return(
+    //             <div>If-Else</div>
+    //         );
+    //     }
+    // }
+
+    const [sourceCode, setSourceCode] = useState(
+        <p>
+            int main()
+            <br/>&#x0007B;
+            <br/>&emsp;&emsp;printf("Hello World");
+            <br/>&emsp;&emsp;return 0;
+            <br/>&#x0007D;
+        </p>
+    );
+
     return(
         <div className="page-view">
             {/*
@@ -96,21 +196,25 @@ const VM_Instance = () => {
                     <div className = "section">
                     <div className = "header grid-container">
                             <h2>C</h2>
-                            <select className = "program">
+                            {/* <select className = "program" onChange={
+                                () => setSourceCode(changeDropdown(document.getElementById("program").value))
+                            }>
                                 <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>
                                 <option value="Hello World">&nbsp;&nbsp;&nbsp;Hello World</option>
                                 <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>
                                 <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>
-                            </select>
+                            </select> */}
+                            <Dropdown></Dropdown>
                         </div>
                         <div className="code">
-                            <p>
+                            {/* <p>
                                 int main()
                                 <br/>&#x0007B;
                                 <br/>&emsp;&emsp;printf("Hello World");
                                 <br/>&emsp;&emsp;return 0;
                                 <br/>&#x0007D;
-                            </p>
+                            </p> */}
+                            {sourceCode}
                         </div>
                     </div>
                     <div className = "section">
@@ -126,10 +230,10 @@ const VM_Instance = () => {
                 </div>
                     <div className = "toolbar grid-container">
                         <h2>Toolbar</h2>
-                        <button class="toolButton"> Run</button>
-                        <button class="toolButton"> Stop</button>
-                        <button class="toolButton"> Next</button>
-                        <button class="toolButton"> Continue</button>
+                        <button class="toolButton"><img className = "btn" src = {info}></img> Run</button>
+                        <button class="toolButton"><img className = "btn" src = {info}></img> Stop</button>
+                        <button class="toolButton"><img className = "btn" src = {info}></img> Next</button>
+                        <button class="toolButton"><img className = "btn" src = {info}></img> Continue</button>
                     </div>
                 </div>
                 
