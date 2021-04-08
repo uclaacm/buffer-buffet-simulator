@@ -3,6 +3,7 @@
 
 /* OVERALL */
 .page-view {
+  background: #F3F2F1;
   color: #F3F2F1;
   font-family: "DM Mono", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 14px;
@@ -42,10 +43,14 @@ h2{
   padding-top: 17px;
 }
 
+.info:hover{
+  cursor: pointer;
+}
+
 .program{
   border: none;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #007054;
   height: 50%;
   width: 13vw;
@@ -79,7 +84,7 @@ ul{
 /* MAIN CONTENT */
 .content{
   /* background-color: lightgreen; */
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 37% auto;
   /* grid-template-rows: 0% 20%; */
   padding: 2%;
   height: 70vh;
@@ -98,7 +103,11 @@ ul{
   background-color: #292A2F;
   padding: 5px 15px;
   line-height: 27px;
-  height: 100%;
+  height: 85%;
+}
+
+.source{
+  overflow-y: auto;
 }
 
 .section{
@@ -128,13 +137,130 @@ ul{
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center;
 }
 
-.toolButton:hover {
+.toolButton:disabled{  
+  opacity: 0.3;
+}
+
+.toolButton:hover:enabled {
   background-color: #005843;
 }
 
-.toolButton:active {
-  outline: solid 1px #F3F2F1;;
-  outline-offset: -1px;
+/* .toolButton:active {
+  outline: solid 3px #F3F2F1;
+  outline-offset: -3px;
+} */
+
+/* Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin: 10px;
+  /* box-shadow: inset 0 0 3px grey;  */
+  /* background: #F3F2F1; */
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:  #007054; 
+  border-radius: 10px;
+}
+
+/* Checkboxes */
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  /* padding-left: 35px; */
+  /* padding-top: 12px; */
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 13px;
+  width: 13px;
+  background-color: #292A2F;
+  border-radius: 50px;
+}
+
+/* On mouse-over, add a dark red background color */
+.container:hover input ~ .checkmark {
+  background-color: #583B3B;
+}
+
+/* When the checkbox is checked, add a red background */
+.container input:checked ~ .checkmark {
+  background-color: #DD7B79;
+}
+
+/* modal */
+.modal{
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  position: fixed;
+  /* top: 0;
+  left: 0; */
+  z-index: 1;
+}
+
+.popup{
+  color: #007054;
+  background-color: #F3F2F1;
+  width: 20vw;
+  /* height: 50vh; */
+  position: fixed;
+  /* top: 0;
+  left: 40vw; */
+  z-index: 2;
+  padding: 5%;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  margin-top: 8%;
+}
+
+.popupContainer{
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.instructions{
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* .close{
+  
+} */
+
+.close:hover{
+  cursor: pointer;
 }
