@@ -100,15 +100,13 @@ export const setFlag = (flagName, value, memoryDV) => {
   const flagID = flagMap[flagName];
   const flagMask = 2 ** flagID;
 
-  // setting the flag to 1
   if (value) {
+    // setting the flag to 1
     setRegister(flagRegID, (flagRegister | flagMask), memoryDV);
-  }
-  // else set it to 0
-  else {
+  } else {
+    // else set it to 0
     setRegister(flagRegID, ~(~flagRegister | flagMask), memoryDV);
   }
-
   return;
 };
 
@@ -171,19 +169,16 @@ const paramToDeci = (param, memoryDV) => {
     } else if (/^\$0x/.test(param[i])) {
       const hexNum = param[i].match(/(?<=\$).*/)[0];
       param[i] = parseInt(hexNum, 16);
-    }
-    // is decimal #
-    else if (/^\$/.test(param[i])) {
+    } else if (/^\$/.test(param[i])) {
+      // is decimal #
       const deciNum = param[i].match(/(?<=\$).*/)[0];
       param[i] = parseInt(deciNum);
-    }
-    // is hex # (in parentheses no $ in front)
-    else if (/^0x/.test(param[i])) {
+    } else if (/^0x/.test(param[i])) {
+      // is hex # (in parentheses no $ in front)
       const hexNum = param[i];
       param[i] = parseInt(hexNum, 16);
-    }
-    // is decimal # (in parentheses no $ in front)
-    else if (!isNaN(param[i])) {
+    } else if (!isNaN(param[i])) {
+      // is decimal # (in parentheses no $ in front)
       const deciNum = param[i];
       param[i] = parseInt(deciNum);
     } else {
@@ -258,9 +253,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
   const argList = parseCode(codeString);
   let payload = 0;
   let dstAddress = 0;
-  console.log('Command name: ', argList[0]);
-  console.log('First argument: ', argList[1]);
-  console.log('Second argument: ', argList[2]);
 
   // argList[0] = command e.g "mov"
   // argList[1] = 1st Parameter, with separate arguments in order from left to right
@@ -352,7 +344,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
 
       setFlag('ZF', diff === 0, memoryDV);
       setFlag('SF', diff < 0, memoryDV);
-      setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV); // need to convert to 32 bit?
+      setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV);
       // console.log('ZF',getFlag('ZF', memoryDV))
       // console.log('SF', getFlag('SF', memoryDV))
       // console.log(diff)
@@ -422,8 +414,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if (getFlag('ZF', memoryDV)) {
+      } if (getFlag('ZF', memoryDV)) {
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -433,8 +424,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if (!getFlag('ZF', memoryDV)) {
+      } if (!getFlag('ZF', memoryDV)) {
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -444,9 +434,8 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if (!(getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV))) && !getFlag('ZF', memoryDV)) // ~(SF^OF) & ~ZF
-      {
+      } if (!(getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV))) && !getFlag('ZF', memoryDV)) {
+        // ~(SF^OF) & ~ZF
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -456,9 +445,8 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if (!(getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV))) // ~(SF^OF)
-      {
+      } if (!(getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV))) {
+        // ~(SF^OF)
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -468,9 +456,8 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if ((getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV)))) // (SF^OF)
-      {
+      } if ((getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV)))) {
+        // (SF^OF)
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -480,9 +467,8 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      }
-      if ((getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV)) || getFlag('ZF', memoryDV)) // (SF^OF) | ZF
-      {
+      } if ((getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV)) || getFlag('ZF', memoryDV)) {
+        // (SF^OF) | ZF
         setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
       }
       break;
@@ -494,7 +480,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         console.log('Needs only one parameter');
         return;
       }
-
       if (argList[1].length === 1 && registerList.includes(argList[1][0])) {
         dstAddress = getRegisterID(argList[1][0]);
       } else {
@@ -567,24 +552,19 @@ export const parseCode = (codeString) => {
     // 2 Params
     if (codeString.match(/(\S*\(.*?\))(?=,)/)) {
       arg1String = codeString.match(/(\S*\(.*?\))(?=,)/)[0];
-    }
-
-    // 1 Param
-    else {
+    } else {
+      // 1 Param
       arg1String = codeString.match(/(\S*\(.*?\))(?=$)/)[0];
       isTwoArgs = false;
     }
     arg1 = parseParentheses(arg1String);
-  }
-  // 1st arg has no parentheses
-  else {
-    // 2 Params
+  } else {
+    // 1st arg has no parentheses
     if (codeString.match(/(.*?)(?=,)/)) {
+      // 2 Params
       arg1String = codeString.match(/(.*?)(?=,)/)[0];
-    }
-
-    // 1 Param
-    else {
+    } else {
+      // 1 Param
       isTwoArgs = false;
       arg1String = codeString.match(/(.*?)(?=$)/)[0];
     }
@@ -605,9 +585,8 @@ export const parseCode = (codeString) => {
     // 2nd Param has parentheses
     if (arg2String.match(/(.*)\((.*)\)/)) {
       arg2 = parseParentheses(arg2String);
-    }
-    // 2nd Param doesn't have parentheses
-    else {
+    } else {
+      // 2nd Param doesn't have parentheses
       arg2 = parseNoParentheses(arg2String);
     }
   }

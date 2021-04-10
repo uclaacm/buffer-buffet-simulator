@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useReducer} from 'react';
-import {getRegister, interpretCommand, getFlag} from '../helperFunctions/VM_Helper';
+import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 import Debug from './Debug';
 
 const VMInstance = () => {
@@ -9,6 +9,7 @@ const VMInstance = () => {
   let memoryDV = new DataView(currMemory);
 
   const [varStack] = useState([]);
+  const [instrLength] = useState(3);
   // initialize register/flag states
   const [registerDict, updateDict] = useState(
       {
@@ -34,12 +35,28 @@ const VMInstance = () => {
         'AF': getFlag('AF', memoryDV),
       });
 
-
   const reducer = (memory, action) => {
-    const newMemory = memory.slice();
-    memoryDV = new DataView(newMemory);
-    interpretCommand(action, memoryDV, varStack);
-    return newMemory;
+    switch (action.type) {
+      case 'clear':
+        const clearMemory = new ArrayBuffer(STACK_SIZE);
+        memoryDV = new DataView(clearMemory);
+        return clearMemory;
+      case 'run':
+        const newMemory = memory.slice();
+        memoryDV = new DataView(newMemory);
+
+        // Increment the instruction pointer
+        const currentEip = parseInt(getRegister('%eip', memoryDV));
+
+        if (currentEip < 0 || currentEip >= instrLength) {
+          return newMemory;
+        }
+        setRegister('%eip', currentEip + 1, memoryDV);
+        interpretCommand(action.payload, memoryDV, varStack);
+        return newMemory;
+      default:
+        throw new Error();
+    }
   };
   const [memory, changeMemory] = useReducer(reducer, new ArrayBuffer(STACK_SIZE));
 
@@ -69,21 +86,44 @@ const VMInstance = () => {
     });
   }, [memory]);
 
-  const inputCommand = (e) => {
+  /**
+  * runs the following command and change the eip
+  * @param {event} e event of the click
+  * @param {string} codeInput instruction to execute
+  */
+  const runCommand = (e, codeInput) => {
+    if (e) {
+      e.preventDefault();
+    }
+    const codePayload = {
+      type: 'run',
+      payload: codeInput,
+    };
+    changeMemory(codePayload);
+  };
+
+  /**
+  * Clears the memory
+  * @param {event} e event of the click
+  */
+  const clearMemory = (e) => {
     e.preventDefault();
-    changeMemory(document.getElementById('codeInput').value);
+    const codePayload = {
+      type: 'clear',
+    };
+    changeMemory(codePayload);
   };
 
   return (
     <div className="page-view">
       <div>
-        <form id="insertCode" onSubmit={(e) => inputCommand(e, memoryDV)}>
+        <form id="insertCode" onSubmit={(e) => runCommand(e, 'mov $1, %eax')}>
           <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
           <button type="submit">Submit</button>
         </form>
       </div>
 
-      <Debug />
+      <Debug clearMemory={clearMemory} runCommand={runCommand} currInstr={registerDict['%eip']}/>
 
       <h3>Basic format for commands: cmd arg1, arg2</h3>
       <h3>For example: mov %eax, %esp </h3>
