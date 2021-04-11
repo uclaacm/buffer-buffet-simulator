@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 import {setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
 
 import info from "./info.svg"
@@ -7,9 +7,30 @@ import next from "./next.svg"
 import run from "./run.svg"
 import stop from "./stop.svg"
 import close from "./close.svg"
-import hamburger from "./hamburger.svg"
+// import hamburger from "./hamburger.svg"
 
-// To Do: nav, jump table, stack functionality, color assembly, color stack
+// To Do: nav, jump table, stack functionality, color assembly, color stac
+
+/*className={isExecuting ? "executing" : "normal"}
+isExecuting = myID === executingID
+            
+change assembly to array, check currentProgram
+
+let programs = [
+    {
+        "name": "Sum",
+        "c": [],
+        "assembly": []
+    }
+];
+
+let options = programs.map(program => {
+    return <option >program.name</p>
+})
+<select>
+    {options}
+</select>
+ */
 
 const VM_Instance = () => {
     //specify the initial memory array buffer (size in bytes)
@@ -48,10 +69,10 @@ const VM_Instance = () => {
             return(
                 <div className = "toolbar grid-container">
                     <h2>Toolbar</h2>
-                    <button class="toolButton" disabled={!this.state.run} onClick={this.handleButton} id = "run"><img className = "btn" src = {run}></img> Run</button>
-                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "stop"><img className = "btn" src = {stop}></img> Stop</button>
-                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "next"><img className = "btn" src = {next}></img> Next</button>
-                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "cont"><img className = "btn" src = {cont}></img> Continue</button>
+                    <button class="toolButton" disabled={!this.state.run} onClick={this.handleButton} id = "run"><img className = "btn" alt = "run" src = {run}></img> Run</button>
+                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "stop"><img className = "btn" alt = "stop" src = {stop}></img> Stop</button>
+                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "next"><img className = "btn" alt = "next" src = {next}></img> Next</button>
+                    <button class="toolButton" disabled={!this.state.rest} onClick={this.handleButton} id = "cont"><img className = "btn" alt = "cont" src = {cont}></img> Continue</button>
                 </div>
             );
         }
@@ -225,51 +246,51 @@ const VM_Instance = () => {
     //     }
     //   }
 
-    class Nav extends React.Component{
-        constructor(props){
-             super(props);
-             this.state = {show: false}
-             this.open = this.open.bind(this)
-             this.close = this.open.bind(this)
-         }
+    // class Nav extends React.Component{
+    //     constructor(props){
+    //          super(props);
+    //          this.state = {show: false}
+    //          this.open = this.open.bind(this)
+    //          this.close = this.open.bind(this)
+    //      }
      
-         open(){
-            this.setState({show: true});
-         }
-         close(){
-            this.setState({show: false});
-         }
+    //      open(){
+    //         this.setState({show: true});
+    //      }
+    //      close(){
+    //         this.setState({show: false});
+    //      }
 
-         render(){
-             if(this.state.show){
-                 return(
-                     <div className = "navContainer grid-container">
-                        <div className = "menu" onClick = {console.log("clicking menu")}>
-                            <ul>
-                                <li>Description</li>
-                                <li>
-                                    <ul>
-                                        <li>Welcome</li>
-                                        <li>Intro</li>
-                                        <li>An Analogy</li>
-                                        <li>Make Some Orders: Normal</li>
-                                        <li>Make Some Orders: Overflow</li>
-                                    </ul>
-                                </li>
-                                <li>Simulation: Normal</li>
-                                <li>Simulation: Overflow</li>
-                            </ul>
-                        </div>
-                        <div className = "menuBG" onClick = {console.log("clicking black")}></div>                         
-                     </div>
-                 ); 
-             }
-             else{
-                 return(<img className = "nav" src = {hamburger} onClick={this.open}></img>);
-             }
+    //      render(){
+    //          if(this.state.show){
+    //              return(
+    //                  <div className = "navContainer grid-container">
+    //                     <div className = "menu" onClick = {console.log("clicking menu")}>
+    //                         <ul>
+    //                             <li>Description</li>
+    //                             <li>
+    //                                 <ul>
+    //                                     <li>Welcome</li>
+    //                                     <li>Intro</li>
+    //                                     <li>An Analogy</li>
+    //                                     <li>Make Some Orders: Normal</li>
+    //                                     <li>Make Some Orders: Overflow</li>
+    //                                 </ul>
+    //                             </li>
+    //                             <li>Simulation: Normal</li>
+    //                             <li>Simulation: Overflow</li>
+    //                         </ul>
+    //                     </div>
+    //                     <div className = "menuBG" onClick = {console.log("clicking black")}></div>                         
+    //                  </div>
+    //              ); 
+    //          }
+    //          else{
+    //              return(<img className = "nav" alt = "hamburger" src = {hamburger} onClick={this.open}></img>);
+    //          }
             
-         }
-     }
+    //      }
+    //  }
     
     class Modal extends React.Component{
        constructor(props){
@@ -288,7 +309,7 @@ const VM_Instance = () => {
                         <div className = "popupContainer">
                             <div className = "popup">
                                 <div className = "closeContainer grid-container">
-                                    <img className = "close" src = {close} onClick={this.handleClose}></img>
+                                    <img className = "close" alt = "close" src = {close} onClick={this.handleClose}></img>
                                 </div>
                                 <h2 className = "instructions">Instructions</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet tellus cras adipiscing enim eu. Lacinia quis vel eros donec ac odio tempor orci dapibus. </p>
@@ -466,6 +487,7 @@ const VM_Instance = () => {
                     <br/>&#x0007D;
                 </p>
             )
+            
             setAssemblyCode(
                 <p>
                     0000000000400502 &lt;incrementAdd&gt;:
@@ -575,7 +597,7 @@ const VM_Instance = () => {
                 <div className = "topNav grid-container">
                     <div></div>
                     <h1>Buffer Buffet</h1>
-                    <img className = "info" src = {info} onClick ={() => {
+                    <img className = "info" alt = "info" src = {info} onClick ={() => {
                         console.log("info");
                         setModal(true);
                     }}></img>
