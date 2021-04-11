@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 import Debug from './Debug';
+import {sampleCode1} from '../programs/samplePrograms';
 
 const VMInstance = () => {
   // specify the initial memory array buffer (size in bytes)
@@ -9,7 +10,15 @@ const VMInstance = () => {
   let memoryDV = new DataView(currMemory);
 
   const [varStack] = useState([]);
-  const [instrLength] = useState(3);
+  const instrList = sampleCode1.asm;
+  const [instrLength] = useState(instrList.length);
+
+  useEffect( () => {
+    sampleCode1.setup.map((instr) => {
+      console.log(instr);
+    });
+  }, []);
+
   // initialize register/flag states
   const [registerDict, updateDict] = useState(
       {
@@ -116,14 +125,7 @@ const VMInstance = () => {
 
   return (
     <div className="page-view">
-      <div>
-        <form id="insertCode" onSubmit={(e) => runCommand(e, 'mov $1, %eax')}>
-          <input type="text" placeholder="Enter Assembly Code" id="codeInput"/>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-
-      <Debug clearMemory={clearMemory} runCommand={runCommand} currInstr={registerDict['%eip']}/>
+      <Debug clearMemory={clearMemory} runCommand={runCommand} currInstr={registerDict['%eip']} instrList={instrList}/>
 
       <h3>Basic format for commands: cmd arg1, arg2</h3>
       <h3>For example: mov %eax, %esp </h3>

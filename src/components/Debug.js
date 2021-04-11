@@ -1,21 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-const Debug = ({runCommand, clearMemory, currInstr}) => {
-  const code1 = [
-    'mov $1, %eax',
-    'mov $2, %edi',
-    'add %edi, %eax',
-  ];
-
+const Debug = ({runCommand, clearMemory, currInstr, instrList}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
     clearMemory: PropTypes.func,
     currInstr: PropTypes.number,
+    instrList: PropTypes.arrayOf(PropTypes.string),
   };
 
   // status of each instruction
-  const [breakPts, setBreakPts] = useState(new Array(code1.length).fill(false));
+  // display the instructions and breakpoint toggles
+  const [breakPts, setBreakPts] = useState(new Array(instrList.length).fill(false));
   const [isClear, setIsClear] = useState(false);
   const [isRun, setIsRun] = useState(false);
   /**
@@ -42,7 +38,7 @@ const Debug = ({runCommand, clearMemory, currInstr}) => {
     console.log('Stepping CurrInstr ', currInstr);
 
     // check if the program is runnable
-    await runCommand(e, 'mov $1, %eax');
+    await runCommand(e, instrList[currInstr]);
   };
 
   const clearProgram = async (e) => {
@@ -50,6 +46,7 @@ const Debug = ({runCommand, clearMemory, currInstr}) => {
 
     console.log('Clearing');
     setIsClear(true);
+    setIsRun(false);
     clearMemory(e);
   };
 
@@ -61,21 +58,19 @@ const Debug = ({runCommand, clearMemory, currInstr}) => {
       setIsRun(false);
       return;
     } else {
-      await runCommand(e, 'mov $1, %eax');
+      await runCommand(e, instrList[currInstr]);
     }
   }, [currInstr]);
 
-  // display the instructions and breakpoint toggles
-  const instrList =
-        code1.map((instr, i) => {
-          return <li key={i}> <button instrid={i} onClick={toggleBreakPt}> {i} </button> {instr}</li>;
-        },
-        );
+  const instrDisplay =
+    instrList.map((instr, i) => {
+      return <li key={i}> <button instrid={i} onClick={toggleBreakPt}> {i} </button> {instr}</li>;
+    });
 
   return (
     <div className='debugger'>
       <div className='debugger-program'>
-        {instrList}
+        {instrDisplay}
       </div>
       <h4>{breakPts}</h4>
       <h4>next instr:</h4>
