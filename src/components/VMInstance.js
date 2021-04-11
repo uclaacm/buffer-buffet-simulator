@@ -14,8 +14,12 @@ const VMInstance = () => {
   const [instrLength] = useState(instrList.length);
 
   useEffect( () => {
-    sampleCode1.setup.map((instr) => {
-      console.log(instr);
+    sampleCode1.setup.map((codeInput) => {
+      const codePayload = {
+        type: 'setup',
+        payload: codeInput,
+      };
+      changeMemory(codePayload);
     });
   }, []);
 
@@ -63,6 +67,11 @@ const VMInstance = () => {
         setRegister('%eip', currentEip + 1, memoryDV);
         interpretCommand(action.payload, memoryDV, varStack);
         return newMemory;
+      case 'setup':
+        const setupMemory = memory.slice();
+        memoryDV = new DataView(setupMemory);
+        interpretCommand(action.payload, memoryDV, varStack);
+        return setupMemory;
       default:
         throw new Error();
     }
