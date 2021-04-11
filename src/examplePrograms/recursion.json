@@ -1,0 +1,69 @@
+{
+    "program": [
+      {
+        "address": "0x00",
+        "hex": "00 00 00 00 00",
+        "assembly": "push %edi"
+      },
+      {
+        "address": "0x04",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %esp, %ebp"
+      },
+      {
+        "address": "0x08",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov 4(%ebp), %eax"
+      },
+      {
+        "address": "0x0d",
+        "hex": "00 00 00 00 00",
+        "assembly": "cmp $1, %eax"
+      },
+      {
+        "address": "0x10",
+        "hex": "00 00 00 00 00",
+        "assembly": "je 0x28"
+      },
+      {
+        "address": "0x14",
+        "hex": "00 00 00 00 00",
+        "assembly": "sub $1, %eax"
+      },
+      {
+        "address": "0x18",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %eax, %edi"
+      },
+      {
+        "address": "0x1d",
+        "hex": "00 00 00 00 00",
+        "assembly": "call <incrementAdd>"
+      },
+      {
+        "address": "0x20",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov 4(%ebp), %ebx"
+      },
+      {
+        "address": "0x24",
+        "hex": "00 00 00 00 00",
+        "assembly": "add %ebx, %eax"
+      },
+      {
+        "address": "0x28",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %ebp, %esp"
+      },
+      {
+        "address": "0x2d",
+        "hex": "00 00 00 00 00",
+        "assembly": "pop %ebp"
+      },
+      {
+        "address": "0x30",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      }
+    ]
+  }
