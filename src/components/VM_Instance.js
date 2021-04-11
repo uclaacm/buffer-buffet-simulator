@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {setRegister, interpretCommand} from "../helperFunctions/VM_Helper"
 
 import info from "./info.svg"
@@ -7,6 +7,9 @@ import next from "./next.svg"
 import run from "./run.svg"
 import stop from "./stop.svg"
 import close from "./close.svg"
+import hamburger from "./hamburger.svg"
+
+// To Do: nav, jump table, stack functionality, color assembly, color stack
 
 const VM_Instance = () => {
     //specify the initial memory array buffer (size in bytes)
@@ -15,6 +18,8 @@ const VM_Instance = () => {
     const memoryDV = new DataView(currMemory)
     setRegister('%edi', 40, memoryDV)
     memoryDV.setUint32(40, 134)
+
+    //COMPONENTS
 
     class Toolbar extends React.Component{
         constructor(props){
@@ -52,173 +57,254 @@ const VM_Instance = () => {
         }
     }
 
-    class Dropdown extends React.Component {
-        constructor(props) {
-          super(props);
-          this.handleSubmit = this.handleSubmit.bind(this);
-          this.state = {options: [
-            <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>,
-            <option value="Sum">&nbsp;&nbsp;&nbsp;Sum</option>,
-            <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>,
-            <option value="Switch Statement">&nbsp;&nbsp;&nbsp;Switch Statement</option>,
-            <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>,
-            <option value="Recursion">&nbsp;&nbsp;&nbsp;Recursion</option>,
-          ]}
+    // class Dropdown extends React.Component {
+    //     constructor(props) {
+    //       super(props);
+    //       this.handleSubmit = this.handleSubmit.bind(this);
+    //       this.state = {options: [
+    //         <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>,
+    //         <option value="Sum">&nbsp;&nbsp;&nbsp;Sum</option>,
+    //         <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>,
+    //         <option value="Switch Statement">&nbsp;&nbsp;&nbsp;Switch Statement</option>,
+    //         <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>,
+    //         <option value="Recursion">&nbsp;&nbsp;&nbsp;Recursion</option>,
+    //       ]}
 
-        }
+    //     }
            
-        handleSubmit(event) {
-            var val = event.target.value;
-            console.log('A program was submitted: ' + val);
-            // event.preventDefault();
-            if (val === 'Sum') {
-                setSourceCode(
-                    <p>
-                        int addNum(int a, int b)
-                        <br/>&#x0007B;
-                        <br/>&emsp;&emsp;int sum = a + b;
-                        <br/>&emsp;&emsp;return sum;
-                        <br/>&#x0007D;
-                    </p>                    
-                )
-                this.setState({options: 'gross'});
-                console.log(this.state.options);
-                setAssemblyCode(
-                    <p>
-                        0000000000400502 &lt;addNum&gt;:
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                     </p>
-                )
-            }
-            else if (val === 'For Loop'){
-                setSourceCode(
-                    <p>
-                        int incrementAdd(int a)
-                        <br/>&#x0007B;
-                        <br/>&emsp;&emsp;int sum = 0;
-                        <br/>&emsp;&emsp;for (int i = 0; i &#60; a&#44; i++) &#x0007B;
-                        <br/>&emsp;&emsp;&emsp;&emsp;sum += i;
-                        <br/>&emsp;&emsp;&#x0007D;
-                        <br/>&emsp;&emsp;return sum;
-                        <br/>&#x0007D;
-                    </p>
-                )
-                setAssemblyCode(
-                    <p>
-                        0000000000400502 &lt;incrementAdd&gt;:
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                     </p>
-                )
-            }
-            else if (val === 'If-Else'){
-                setSourceCode(
-                    <p>
-                        int getMax(int a, int b)
-                        <br/>&#x0007B;
-                        <br/>&emsp;&emsp;if (b &#62; a)
-                        <br/>&emsp;&emsp;&emsp;&emsp;return b;
-                        <br/>&emsp;&emsp;else
-                        <br/>&emsp;&emsp;&emsp;&emsp;return a;
-                        <br/>&#x0007D;
-                    </p>
-                )
-                setAssemblyCode(
-                    <p>
-                        0000000000400502 &lt;getMax&gt;:
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                     </p>
-                )
-            }
-            else if (val === 'Switch Statement'){
-                setSourceCode(
-                    <p>
-                        int switchTable(int n)
-                        <br/>&#x0007B;
-                        <br/>&emsp;&emsp;int sum = 3;
-                        <br/>&emsp;&emsp;switch (n) &#x0007B;
-                            <br/>&emsp;&emsp;&emsp;&emsp;case 1: 
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum += n;
-                            <br/>&emsp;&emsp;&emsp;&emsp;case 2: 
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum -= 2;
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-                            <br/>&emsp;&emsp;&emsp;&emsp;case 3:
-                            <br/>&emsp;&emsp;&emsp;&emsp;case 4:
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 34 + n;
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-                            <br/>&emsp;&emsp;&emsp;&emsp;default:
-                            <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 0;
-                            <br/>&emsp;&emsp;&#x0007D;
-                            <br/>&emsp;&emsp;return sum;
-                        <br/>&#x0007D;
-                    </p>
-                )
-                setAssemblyCode(
-                    <p>
-                        0000000000400502 &lt;switchTable&gt;:
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                     </p>
-                )
-            }
-            else if (val === 'Recursion'){
-                setSourceCode(
-                    <p>
-                        int incrementAdd(int a)
-                        <br/>&#x0007B;
-                        <br/>&emsp;&emsp;if (n == 1)
-                        <br/>&emsp;&emsp;&emsp;&emsp;return 1;
-                        <br/>
-                        <br/>&emsp;&emsp;return n * factorial(n-1);
-                        <br/>&#x0007D;
-                    </p>
-                )
-                setAssemblyCode(
-                    <p>
-                        0000000000400502 &lt;incrementAdd&gt;:
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                        <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-                     </p>
-                )
-            }
-        }
+    //     handleSubmit(event) {
+    //         var val = event.target.value;
+    //         console.log('A program was submitted: ' + val);
+    //         // event.preventDefault();
+    //         if (val === 'Sum') {
+    //             setSourceCode(
+    //                 <p>
+    //                     int addNum(int a, int b)
+    //                     <br/>&#x0007B;
+    //                     <br/>&emsp;&emsp;int sum = a + b;
+    //                     <br/>&emsp;&emsp;return sum;
+    //                     <br/>&#x0007D;
+    //                 </p>                    
+    //             )
+    //             this.setState({options: 'gross'});
+    //             console.log(this.state.options);
+    //             setAssemblyCode(
+    //                 <p>
+    //                     0000000000400502 &lt;addNum&gt;:
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                  </p>
+    //             )
+    //         }
+    //         else if (val === 'For Loop'){
+    //             setSourceCode(
+    //                 <p>
+    //                     int incrementAdd(int a)
+    //                     <br/>&#x0007B;
+    //                     <br/>&emsp;&emsp;int sum = 0;
+    //                     <br/>&emsp;&emsp;for (int i = 0; i &#60; a&#44; i++) &#x0007B;
+    //                     <br/>&emsp;&emsp;&emsp;&emsp;sum += i;
+    //                     <br/>&emsp;&emsp;&#x0007D;
+    //                     <br/>&emsp;&emsp;return sum;
+    //                     <br/>&#x0007D;
+    //                 </p>
+    //             )
+    //             setAssemblyCode(
+    //                 <p>
+    //                     0000000000400502 &lt;incrementAdd&gt;:
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                  </p>
+    //             )
+    //         }
+    //         else if (val === 'If-Else'){
+    //             setSourceCode(
+    //                 <p>
+    //                     int getMax(int a, int b)
+    //                     <br/>&#x0007B;
+    //                     <br/>&emsp;&emsp;if (b &#62; a)
+    //                     <br/>&emsp;&emsp;&emsp;&emsp;return b;
+    //                     <br/>&emsp;&emsp;else
+    //                     <br/>&emsp;&emsp;&emsp;&emsp;return a;
+    //                     <br/>&#x0007D;
+    //                 </p>
+    //             )
+    //             setAssemblyCode(
+    //                 <p>
+    //                     0000000000400502 &lt;getMax&gt;:
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                  </p>
+    //             )
+    //         }
+    //         else if (val === 'Switch Statement'){
+    //             setSourceCode(
+    //                 <p>
+    //                     int switchTable(int n)
+    //                     <br/>&#x0007B;
+    //                     <br/>&emsp;&emsp;int sum = 3;
+    //                     <br/>&emsp;&emsp;switch (n) &#x0007B;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;case 1: 
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum += n;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;case 2: 
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum -= 2;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;case 3:
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;case 4:
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 34 + n;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;default:
+    //                         <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 0;
+    //                         <br/>&emsp;&emsp;&#x0007D;
+    //                         <br/>&emsp;&emsp;return sum;
+    //                     <br/>&#x0007D;
+    //                 </p>
+    //             )
+    //             setAssemblyCode(
+    //                 <p>
+    //                     0000000000400502 &lt;switchTable&gt;:
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                  </p>
+    //             )
+    //         }
+    //         else if (val === 'Recursion'){
+    //             setSourceCode(
+    //                 <p>
+    //                     int incrementAdd(int a)
+    //                     <br/>&#x0007B;
+    //                     <br/>&emsp;&emsp;if (n == 1)
+    //                     <br/>&emsp;&emsp;&emsp;&emsp;return 1;
+    //                     <br/>
+    //                     <br/>&emsp;&emsp;return n * factorial(n-1);
+    //                     <br/>&#x0007D;
+    //                 </p>
+    //             )
+    //             setAssemblyCode(
+    //                 <p>
+    //                     0000000000400502 &lt;incrementAdd&gt;:
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                     <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+    //                  </p>
+    //             )
+    //         }
+    //     }
       
-        render() {
-          return (
-            <select className = "program" onChange={this.handleSubmit}>
-                {/* <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>
-                <option value="Sum">&nbsp;&nbsp;&nbsp;Sum</option>
-                <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>
-                <option value="Switch Statement">&nbsp;&nbsp;&nbsp;Switch Statement</option>
-                <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>
-                <option value="Recursion">&nbsp;&nbsp;&nbsp;Recursion</option> */}
-                {this.state.options}
-            </select>
-          );
+    //     render() {
+    //       return (
+    //         <select className = "program" onChange={this.handleSubmit}>
+    //             {/* <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>
+    //             <option value="Sum">&nbsp;&nbsp;&nbsp;Sum</option>
+    //             <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>
+    //             <option value="Switch Statement">&nbsp;&nbsp;&nbsp;Switch Statement</option>
+    //             <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>
+    //             <option value="Recursion">&nbsp;&nbsp;&nbsp;Recursion</option> */}
+    //             {this.state.options}
+    //         </select>
+    //       );
+    //     }
+    //   }
+
+    class Nav extends React.Component{
+        constructor(props){
+             super(props);
+             this.state = {show: false}
+             this.open = this.open.bind(this)
+             this.close = this.open.bind(this)
+         }
+     
+         open(){
+            this.setState({show: true});
+         }
+         close(){
+            this.setState({show: false});
+         }
+
+         render(){
+             if(this.state.show){
+                 return(
+                     <div className = "navContainer grid-container">
+                        <div className = "menu" onClick = {console.log("clicking menu")}>
+                            <ul>
+                                <li>Description</li>
+                                <li>
+                                    <ul>
+                                        <li>Welcome</li>
+                                        <li>Intro</li>
+                                        <li>An Analogy</li>
+                                        <li>Make Some Orders: Normal</li>
+                                        <li>Make Some Orders: Overflow</li>
+                                    </ul>
+                                </li>
+                                <li>Simulation: Normal</li>
+                                <li>Simulation: Overflow</li>
+                            </ul>
+                        </div>
+                        <div className = "menuBG" onClick = {console.log("clicking black")}></div>                         
+                     </div>
+                 ); 
+             }
+             else{
+                 return(<img className = "nav" src = {hamburger} onClick={this.open}></img>);
+             }
+            
+         }
+     }
+    
+    class Modal extends React.Component{
+       constructor(props){
+            super(props);
+            this.handleClose = this.handleClose.bind(this)
         }
-      }
+    
+        handleClose(){
+           setModal(false);
+        }
+        render(){
+            if(showModal){
+                return(
+                    <div>
+                        <div className = "black"></div>
+                        <div className = "popupContainer">
+                            <div className = "popup">
+                                <div className = "closeContainer grid-container">
+                                    <img className = "close" src = {close} onClick={this.handleClose}></img>
+                                </div>
+                                <h2 className = "instructions">Instructions</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet tellus cras adipiscing enim eu. Lacinia quis vel eros donec ac odio tempor orci dapibus. </p>
+                            </div>
+                        </div>
+                    </div>
+                ); 
+            }
+            else{
+                return(<div></div>);
+            }
+           
+        }
+    }
+
+    const [showModal, setModal] = useState(true);
 
     const [sourceCode, setSourceCode] = useState(
         <p>
@@ -230,9 +316,22 @@ const VM_Instance = () => {
         </p>
     );
 
+    //default state is 
+    const [assemblyCode, setAssemblyCode] = useState(
+        <p>
+            <span className = "assemblyHeader">0000000000400502 &lt;addNum&gt;:</span>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+        </p>
+    );
+
     function Row (props) {
         return (
-          <div className = "row">
+          <div className = {props.style || "row"}>
               <label class = "container">
                   <input type="checkbox" id="1"></input>
                   <span class="checkmark"></span>
@@ -242,19 +341,144 @@ const VM_Instance = () => {
             </div>
           </div>
         )
-      }
-
-    const [assemblyCode, setAssemblyCode] = useState(
-        <p>
-            0000000000400502 &lt;main&gt;:
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-            <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
-        </p>
-    );
+    }
+    
+    //this function handles change of program
+    function handleSubmit(event) {
+        var val = event.target.value;
+        console.log('A program was submitted: ' + val);
+        // event.preventDefault();
+        if (val === 'Sum') {
+            setSourceCode(
+                <p>
+                    int addNum(int a, int b)
+                    <br/>&#x0007B;
+                    <br/>&emsp;&emsp;int sum = a + b;
+                    <br/>&emsp;&emsp;return sum;
+                    <br/>&#x0007D;
+                </p>                    
+            )
+            setAssemblyCode(
+                <p>
+                    0000000000400502 &lt;addNum&gt;:
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                 </p>
+            )
+        }
+        else if (val === 'For Loop'){
+            setSourceCode(
+                <p>
+                    int incrementAdd(int a)
+                    <br/>&#x0007B;
+                    <br/>&emsp;&emsp;int sum = 0;
+                    <br/>&emsp;&emsp;for (int i = 0; i &#60; a&#44; i++) &#x0007B;
+                    <br/>&emsp;&emsp;&emsp;&emsp;sum += i;
+                    <br/>&emsp;&emsp;&#x0007D;
+                    <br/>&emsp;&emsp;return sum;
+                    <br/>&#x0007D;
+                </p>
+            )
+            setAssemblyCode(
+                <p>
+                    0000000000400502 &lt;incrementAdd&gt;:
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                 </p>
+            )
+        }
+        else if (val === 'If-Else'){
+            setSourceCode(
+                <p>
+                    int getMax(int a, int b)
+                    <br/>&#x0007B;
+                    <br/>&emsp;&emsp;if (b &#62; a)
+                    <br/>&emsp;&emsp;&emsp;&emsp;return b;
+                    <br/>&emsp;&emsp;else
+                    <br/>&emsp;&emsp;&emsp;&emsp;return a;
+                    <br/>&#x0007D;
+                </p>
+            )
+            setAssemblyCode(
+                <p>
+                    0000000000400502 &lt;getMax&gt;:
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                 </p>
+            )
+        }
+        else if (val === 'Switch Statement'){
+            setSourceCode(
+                <p>
+                    int switchTable(int n)
+                    <br/>&#x0007B;
+                    <br/>&emsp;&emsp;int sum = 3;
+                    <br/>&emsp;&emsp;switch (n) &#x0007B;
+                        <br/>&emsp;&emsp;&emsp;&emsp;case 1: 
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum += n;
+                        <br/>&emsp;&emsp;&emsp;&emsp;case 2: 
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum -= 2;
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
+                        <br/>&emsp;&emsp;&emsp;&emsp;case 3:
+                        <br/>&emsp;&emsp;&emsp;&emsp;case 4:
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 34 + n;
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
+                        <br/>&emsp;&emsp;&emsp;&emsp;default:
+                        <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 0;
+                        <br/>&emsp;&emsp;&#x0007D;
+                        <br/>&emsp;&emsp;return sum;
+                    <br/>&#x0007D;
+                </p>
+            )
+            setAssemblyCode(
+                <p>
+                    0000000000400502 &lt;switchTable&gt;:
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                 </p>
+            )
+        }
+        else if (val === 'Recursion'){
+            setSourceCode(
+                <p>
+                    int incrementAdd(int a)
+                    <br/>&#x0007B;
+                    <br/>&emsp;&emsp;if (n == 1)
+                    <br/>&emsp;&emsp;&emsp;&emsp;return 1;
+                    <br/>
+                    <br/>&emsp;&emsp;return n * factorial(n-1);
+                    <br/>&#x0007D;
+                </p>
+            )
+            setAssemblyCode(
+                <p>
+                    0000000000400502 &lt;incrementAdd&gt;:
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                    <Row address = "400502" content = "b4 a4 05 40 00" command = "mov" parameters = "$0x4005a4, %edi"></Row>
+                 </p>
+            )
+        }
+    }
 
     return(
         <div className="page-view">
@@ -303,15 +527,21 @@ const VM_Instance = () => {
             </ul>
             */}
 
-            {/* modal */}
-            <div className = "modal"></div>
+            {/* modal
+            <div className = "black"></div>
             <div className = "popupContainer">
                 <div className = "popup">
-                    <img className = "close" src = {close}></img>
+                    <div className = "closeContainer grid-container">
+                        <img className = "close" src = {close}></img>
+                    </div>
                     <h2 className = "instructions">Instructions</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet tellus cras adipiscing enim eu. Lacinia quis vel eros donec ac odio tempor orci dapibus. </p>
                 </div>
-            </div>
+            </div> */}
+            
+            
+            <Modal></Modal>
+            {/* <Nav></Nav> */}
 
             <div className = "all grid-container">
                 <div className = "stack">
@@ -343,9 +573,11 @@ const VM_Instance = () => {
 
                 <div>
                 <div className = "topNav grid-container">
+                    <div></div>
                     <h1>Buffer Buffet</h1>
                     <img className = "info" src = {info} onClick ={() => {
                         console.log("info");
+                        setModal(true);
                     }}></img>
                 </div>
 
@@ -353,7 +585,15 @@ const VM_Instance = () => {
                     <div className = "section">
                     <div className = "header grid-container">
                             <h2>C</h2>
-                            <Dropdown></Dropdown>
+                            {/* <Dropdown></Dropdown> */}
+                            <select className = "program" onChange={handleSubmit}>
+                                <option value="" selected disabled hidden>&nbsp;&nbsp;&nbsp;Select Program</option>
+                                <option value="Sum">&nbsp;&nbsp;&nbsp;Sum</option>
+                                <option value="If-Else">&nbsp;&nbsp;&nbsp;If-Else</option>
+                                <option value="Switch Statement">&nbsp;&nbsp;&nbsp;Switch Statement</option>
+                                <option value="For Loop">&nbsp;&nbsp;&nbsp;For Loop</option>
+                                <option value="Recursion">&nbsp;&nbsp;&nbsp;Recursion</option>
+                            </select>
                         </div>
                         <div className="code source">
                             {sourceCode}
@@ -369,13 +609,6 @@ const VM_Instance = () => {
                         </div>
                     </div>
                 </div>
-                    {/* <div className = "toolbar grid-container">
-                        <h2>Toolbar</h2>
-                        <button class="toolButton"><img className = "btn" src = {run}></img> Run</button>
-                        <button class="toolButton"><img className = "btn" src = {stop}></img> Stop</button>
-                        <button class="toolButton"><img className = "btn" src = {next}></img> Next</button>
-                        <button class="toolButton"><img className = "btn" src = {cont}></img> Continue</button>
-                    </div> */}
                     <Toolbar></Toolbar>
                 </div>
                 
