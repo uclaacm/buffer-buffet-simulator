@@ -1,15 +1,15 @@
 .debug-asm-breakpts-active {
-    height: 15px;
-    width: 15px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
+  height: 15px;
+  width: 15px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .debug-asm-breakpts-inactive {
-    height: 15px;
-    width: 15px;
-    background-color: rgb(255, 0, 0);
-    border-radius: 50%;
-    display: inline-block;
+  height: 15px;
+  width: 15px;
+  background-color: rgb(255, 0, 0);
+  border-radius: 50%;
+  display: inline-block;
 }

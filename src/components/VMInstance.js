@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 
-import CCode from './CCode';
 import Debug from './Debug';
 import MemoryDisplay from './MemoryDisplay';
 import Modal from './Modal';
