@@ -4,7 +4,7 @@ import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunc
 import Debug from './Debug';
 import MemoryDisplay from './MemoryDisplay';
 import Modal from './Modal';
-import {sampleCode1} from '../programs/samplePrograms';
+import {sampleCode1} from '../examplePrograms/samplePrograms';
 
 // import Debug from './Debug';
 // import info from '../assets/info.svg';
