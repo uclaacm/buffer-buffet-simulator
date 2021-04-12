@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import CCode from './CCode';
 import AsmCode from './AsmCode';
 import Toolbar from './Toolbar';
-const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => {
+const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName, codeName}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
     clearMemory: PropTypes.func,
     setCodeName: PropTypes.func,
+    codeName: PropTypes.string,
     currInstr: PropTypes.number,
     instrList: PropTypes.arrayOf(PropTypes.string),
   };
@@ -61,7 +62,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => 
 
   return (
     <div className='debug-container'>
-      <CCode setCodeName={setCodeName}/>
+      <CCode setCodeName={setCodeName} codeName={codeName}/>
       <AsmCode toggleBreakPt={toggleBreakPt} instrList={instrList}/>
       <Toolbar clearProgram={clearProgram} stepProgram={stepProgram} runProgram={runProgram}/>
     </div>
