@@ -1,0 +1,81 @@
+{
+    "program": [
+      {
+        "address": "0x00",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov $3, %eax"
+      },
+      {
+        "address": "0x04",
+        "hex": "00 00 00 00 00",
+        "assembly": "cmp $1, %edi"
+      },
+      {
+        "address": "0x08",
+        "hex": "00 00 00 00 00",
+        "assembly": "jl ADDRESS1"
+      },
+      {
+        "address": "0x0d",
+        "hex": "00 00 00 00 00",
+        "assembly": "cmp $4, %edi"
+      },
+      {
+        "address": "0x10",
+        "hex": "00 00 00 00 00",
+        "assembly": "jg ADDRESS1"
+      },
+      {
+        "address": "0x14",
+        "hex": "00 00 00 00 00",
+        "assembly": "jmp ADDRESS1(, %edi, 4)"
+      },
+      {
+        "address": "0x18",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov $34, %eax"
+      },
+      {
+        "address": "0x1d",
+        "hex": "00 00 00 00 00",
+        "assembly": "add %edi, %eax"
+      },
+      {
+        "address": "0x20",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      },
+      {
+        "address": "0x24",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov $0, %eax"
+      },
+      {
+        "address": "0x28",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      },
+      {
+        "address": "0x2d",
+        "hex": "00 00 00 00 00",
+        "assembly": "add %edi, %eax"
+      },
+      {
+        "address": "0x30",
+        "hex": "00 00 00 00 00",
+        "assembly": "sub $2, %eax"
+      },
+      {
+        "address": "0x34",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      }
+    ],
+    "jumpTable": [
+        "0x24",
+        "0x2d",
+        "0x30",
+        "0x18",
+        "0x18"
+    ]
+  }

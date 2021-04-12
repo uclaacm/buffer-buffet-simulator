@@ -1,0 +1,34 @@
+{
+    "program": [
+      {
+        "address": "0x00",
+        "hex": "00 00 00 00 00",
+        "assembly": "cmp %edi, %esi "
+      },
+      {
+        "address": "0x04",
+        "hex": "00 00 00 00 00",
+        "assembly": "jg ADDRESS1"
+      },
+      {
+        "address": "0x08",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %edi, %eax"
+      },
+      {
+        "address": "0x0d",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      },
+      {
+        "address": "0x10",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %esi, %eax"
+      },
+      {
+        "address": "0x14",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      }
+    ]
+  }

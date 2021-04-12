@@ -2,15 +2,15 @@
 
 /* OVERALL */
 .page-view {
-  background: #F3F2F1;
-  color: #F3F2F1;
+  background: #f3f2f1;
+  color: #f3f2f1;
   font-family: "DM Mono", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 200;
   transition-duration: 0.2s;
 }
 
-.all{
+.all {
   grid-template-columns: 71.1% auto;
 }
 
@@ -19,35 +19,35 @@
 }
 
 /* TOP NAV */
-.topNav{
+.topNav {
   background-color: #007054;
   padding: 0% 4%;
   grid-template-columns: 4% auto 2%;
 }
 
-h1{
+h1 {
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 24px;
   font-weight: 600;
 }
 
-h2{
+h2 {
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 20px;
   font-weight: 400;
 }
 
-.info{
+.info {
   height: 25px;
   width: 25px;
   padding-top: 17px;
 }
 
-.info:hover{
+.info:hover {
   cursor: pointer;
 }
 
-.program{
+.program {
   border: none;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 14px;
@@ -59,8 +59,8 @@ h2{
 }
 
 /* STACK */
-.stack{
-  background-color: #292A2F;
+.stack {
+  background-color: #292a2f;
   height: 100%;
   position: fixed;
   top: 0;
@@ -70,67 +70,71 @@ h2{
   margin-top: -10px;
 }
 
-
-ul{
+ul {
   list-style: none;
   text-indent: -40px;
   line-height: 22px;
 }
 
-.stackHeader{
+.stackHeader {
   font-weight: 500;
 }
 
 /* MAIN CONTENT */
-.content{
-  /* background-color: lightgreen; */
+.content {
   grid-template-columns: 37% auto;
-  /* grid-template-rows: 0% 20%; */
   padding: 2%;
   height: 70vh;
+
+  /* grid-template-rows: 0% 20%; */
+
+  /* background-color: lightgreen; */
 }
 
-.header{
+.header {
   background-color: #007054;
-  /* padding: .1% 3%; */
-  padding: .1px 15px;
+  padding: 0.1px 15px;
   margin: -4px 0;
   grid-template-columns: auto auto;
+
+  /* padding: .1% 3%; */
+
   /* margin-bottom: -4px; */
 }
 
-.code{
-  background-color: #292A2F;
-  padding: 5px 0px;
+.code {
+  background-color: #292a2f;
+  padding: 5px 0;
   line-height: 27px;
   height: 85%;
 }
 
-
-.source{
+.source {
   overflow-y: auto;
   padding: 5px 15px;
 }
 
-.section{
+.section {
   padding-inline: 7px;
-  /* background-color: red;
-  border: 2px solid black; */
   overflow: hidden;
+
+  /* background-color: red;
+
+  border: 2px solid black; */
 }
 
 /* TOOLBAR */
-.toolbar{
+.toolbar {
   background-color: #007054;
   padding: 0% 3%;
   grid-template-columns: 40% auto auto auto auto;
   margin: 0 2.7%;
 }
 
-.toolButton{
+.toolButton {
   background-color: #007054;
   border: none;
-  color: #F3F2F1;
+  color: #f3f2f1;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 200;
@@ -142,7 +146,7 @@ ul{
   justify-content: center;
 }
 
-.toolButton:disabled{  
+.toolButton:disabled {
   opacity: 0.3;
 }
 
@@ -165,14 +169,15 @@ ul{
 /* Track */
 ::-webkit-scrollbar-track {
   margin: 10px;
-  /* box-shadow: inset 0 0 3px grey;  */
-  /* background: #F3F2F1; */
   border-radius: 10px;
+
+  /* box-shadow: inset 0 0 3px grey;
+  background: #F3F2F1; */
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background:  #007054; 
+  background: #007054;
   border-radius: 10px;
 }
 
@@ -182,13 +187,14 @@ ul{
 .container {
   display: block;
   position: relative;
-  /* padding-left: 35px; */
-  /* padding-top: 12px; */
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  /* padding-left: 35px;
+  padding-top: 12px; */
 }
 
 /* Hide the browser's default checkbox */
@@ -207,127 +213,130 @@ ul{
   left: 0;
   height: 13px;
   width: 13px;
-  background-color:none;
+  background-color: none;
   border-radius: 50px;
 }
 
 /* On mouse-over, add a see-through background color */
 .container:hover input ~ .checkmark {
-  /* background-color: #583B3B; */
   background-color: rgba(221, 123, 121, 0.4);
+
+  /* background-color: #583B3B; */
 }
 
 /* When the checkbox is checked, add a red background */
 .container input:checked ~ .checkmark {
-  background-color: #DD7B79;
+  background-color: #dd7b79;
 }
 
 /* modal */
-.black{
+.black {
   width: 100vw;
   height: 100vh;
   background-color: black;
   opacity: 0.5;
   position: fixed;
+  z-index: 1;
+
   /* top: 0;
   left: 0; */
-  z-index: 1;
 }
 
-.popup{
+.popup {
   color: #007054;
-  background-color: #F3F2F1;
+  background-color: #f3f2f1;
   width: 20vw;
-  /* height: 50vh; */
   position: fixed;
-  /* top: 0;
-  left: 40vw; */
   z-index: 2;
   padding: 5%;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   margin-top: 8%;
+
+  /* height: 50vh;
+  top: 0;
+  left: 40vw; */
 }
 
-.popupContainer{
+.popupContainer {
   display: flex;
   justify-content: center;
+
   /* align-items: center; */
 }
 
-.instructions{
+.instructions {
   font-size: 24px;
   font-weight: 600;
   text-align: center;
 }
 
-.closeContainer{
+.closeContainer {
   grid-template-columns: 90% auto;
   margin-top: -10%;
   margin-right: -15%;
 }
 
-.close{
+.close {
   grid-column-start: 2;
   padding: 4px;
 }
 
-.close:hover{
+.close:hover {
   cursor: pointer;
+
   /* background: rgba(221, 123, 121, 0.4);
   border-radius: 10px; */
 }
 
 /* inverse row */
-.inverse{
-  background-color: #F3F2F1;
-  color: #292A2F;
+.inverse {
+  background-color: #f3f2f1;
+  color: #292a2f;
 }
 
-.row{
-  padding-left: 10px; 
+.row {
+  padding-left: 10px;
   margin-right: -15px;
 }
 
-.assemblyHeader{
-  padding-left: 15px; 
+.assemblyHeader {
+  padding-left: 15px;
 }
 
 /* nav menu */
-.nav{
+.nav {
   position: absolute;
   top: 25px;
   left: 25px;
 }
 
-.nav:hover{
+.nav:hover {
   cursor: pointer;
 }
 
-.navContainer{
+.navContainer {
   grid-template-columns: 30% auto;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100vw;
   z-index: 2;
 }
 
-.menuBG{
+.menuBG {
   height: 100vh;
-  z-index:1;
+  z-index: 1;
   background-color: black;
   opacity: 0.5;
-  right: 0;  
+  right: 0;
   width: 70%;
 }
 
-.menu{
-  background-color: #F3F2F1;
-  color: #292A2F;
+.menu {
+  background-color: #f3f2f1;
+  color: #292a2f;
   padding: 10%;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 20px;
   font-weight: 400;
 }
-
-

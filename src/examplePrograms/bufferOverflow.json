@@ -1,0 +1,39 @@
+{
+    "program": [
+      {
+        "address": "0x00",
+        "hex": "00 00 00 00 00",
+        "assembly": "push %ebp"
+      },
+      {
+        "address": "0x04",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov %esp, %ebp"
+      },
+      {
+        "address": "0x08",
+        "hex": "00 00 00 00 00",
+        "assembly": "sub $0x14, %esp"
+      },
+      {
+        "address": "0x0d",
+        "hex": "00 00 00 00 00",
+        "assembly": "lea -0x14, %edi"
+      },
+      {
+        "address": "0x10",
+        "hex": "00 00 00 00 00",
+        "assembly": "call <gets>"
+      },
+      {
+        "address": "0x14",
+        "hex": "00 00 00 00 00",
+        "assembly": "mov $1, %eax"
+      },
+      {
+        "address": "0x18",
+        "hex": "00 00 00 00 00",
+        "assembly": "ret"
+      }
+    ]
+  }
