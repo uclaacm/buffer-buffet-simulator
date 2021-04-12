@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 import Debug from './Debug';
+import MemoryDisplay from './MemoryDisplay';
+import Modal from './Modal';
 import {sampleCode1} from '../programs/samplePrograms';
 
 const VMInstance = () => {
@@ -9,21 +11,16 @@ const VMInstance = () => {
   const currMemory = new ArrayBuffer(STACK_SIZE);
   let memoryDV = new DataView(currMemory);
 
-  const [varStack] = useState([]);
+  // toggle the model
+  const [showModal, setModal] = useState(false);
+  const [codeName, setCodeName] = useState('sum');
+
+  // used for debugger
   const instrList = sampleCode1.asm;
   const [instrLength] = useState(instrList.length);
 
-  useEffect( () => {
-    sampleCode1.setup.map((codeInput) => {
-      const codePayload = {
-        type: 'setup',
-        payload: codeInput,
-      };
-      changeMemory(codePayload);
-    });
-  }, []);
-
-  // initialize register/flag states
+  // initialize register/flag states and the stack
+  const [varStack] = useState([]);
   const [registerDict, updateDict] = useState(
       {
         '%ebp': getRegister('%ebp', memoryDV),
@@ -48,6 +45,7 @@ const VMInstance = () => {
         'AF': getFlag('AF', memoryDV),
       });
 
+  // used to update all register
   const reducer = (memory, action) => {
     switch (action.type) {
       case 'clear':
@@ -76,6 +74,7 @@ const VMInstance = () => {
         throw new Error();
     }
   };
+
   const [memory, changeMemory] = useReducer(reducer, new ArrayBuffer(STACK_SIZE));
 
   useEffect(() => {
@@ -105,6 +104,22 @@ const VMInstance = () => {
   }, [memory]);
 
   /**
+    run the setup code for the current selected project
+  */
+  const setupSample = () => {
+    sampleCode1.setup.map((codeInput) => {
+      const codePayload = {
+        type: 'setup',
+        payload: codeInput,
+      };
+      changeMemory(codePayload);
+    });
+  };
+
+  useEffect( () => {
+    setupSample();
+  }, []);
+  /**
   * runs the following command and change the eip
   * @param {event} e event of the click
   * @param {string} codeInput instruction to execute
@@ -130,64 +145,18 @@ const VMInstance = () => {
       type: 'clear',
     };
     changeMemory(codePayload);
+    setupSample();
   };
 
   return (
     <div className="page-view">
-      <Debug clearMemory={clearMemory} runCommand={runCommand} currInstr={registerDict['%eip']} instrList={instrList}/>
+      {showModal && <Modal setModal={setModal}/>}
+      <h2> Current Program : {codeName}</h2>
+      <Debug clearMemory={clearMemory} runCommand={runCommand}
+        currInstr={registerDict['%eip']} instrList={instrList}
+        setCodeName={setCodeName}/>
+      <MemoryDisplay registerDict={registerDict}/>
 
-      <h3>Basic format for commands: cmd arg1, arg2</h3>
-      <h3>For example: mov %eax, %esp </h3>
-      <h3> Available commands</h3>
-      <ul>
-        <li>mov SRC, DEST</li>
-        <li>lea SRC, DEST</li>
-        <li>cmp S1, S2</li>
-        <li>add SRC, DEST</li>
-        <li>sub SRC, DEST</li>
-      </ul>
-      <h3>Note: The registers are 32 bits and BIG endian.
-      </h3>
-      <h3>Stack</h3>
-      <ul>
-        <li>{varStack}</li>
-      </ul>
-      <h3>Register Values:</h3>
-      <h4>Pointer registers</h4>
-      <ul>
-        <li>ebp (base pointer): {registerDict['%ebp']}</li>
-        <li>esp (stack pointer): {registerDict['%esp']}</li>
-        <li>eip (instruction pointer): {registerDict['%eip']}</li>
-      </ul>
-      <h4> Return Register </h4>
-      <ul>
-        <li>eax (result register): {registerDict['%eax']}</li>
-      </ul>
-      <h4>Argument Registers (in order)</h4>
-      <ul>
-        <li>edi: {registerDict['%edi']}</li>
-        <li>esi: {registerDict['%esi']}</li>
-        <li>edx: {registerDict['%edx']}</li>
-        <li>ecx: {registerDict['%ecx']}</li>
-        <li>r8D: {registerDict['%r8D']}</li>
-        <li>r9D: {registerDict['%r9D']}</li>
-      </ul>
-      <h4> General Purposes</h4>
-      <ul>
-        <li>r10D: {registerDict['%r10D']}</li>
-        <li>r11D: {registerDict['%r11D']}</li>
-        <li>r12D: {registerDict['%r12D']}</li>
-        <li>r13D: {registerDict['%r13D']}</li>
-      </ul>
-      <h4> Flags</h4>
-      <ul>
-        <li>CF: {registerDict['CF']}</li>
-        <li>PF: {registerDict['PF']}</li>
-        <li>ZF: {registerDict['ZF']}</li>
-        <li>SF: {registerDict['SF']}</li>
-        <li>OF: {registerDict['OF']}</li>
-        <li>AF: {registerDict['AF']}</li>
-      </ul>
     </div>
   );
 };

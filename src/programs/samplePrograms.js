@@ -4,7 +4,7 @@
 // sampleCode1
 // features a basic variable assignment/addition
 export const sampleCode1= {
-  id: 1,
+  id: 'sum',
   asm: [
     'add %edi, %esi',
     'mov %esi, %eax',
