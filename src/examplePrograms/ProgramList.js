@@ -4,8 +4,8 @@ import {Sum} from '../examplePrograms/SumSample';
 import {IfElse} from '../examplePrograms/IfSleseSample';
 
 export const ProgramList = {
-    'sum': Sum,
-    'for-loop': ForLoop,
-    'if-else': IfElse,
-    'switch': Switch,
+  'sum': Sum,
+  'for-loop': ForLoop,
+  'if-else': IfElse,
+  'switch': Switch,
 };

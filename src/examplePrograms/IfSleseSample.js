@@ -8,32 +8,32 @@ export const IfElse = {
     {
       address: 0,
       hex: '00 00 00 00 00',
-      command: 'cmp %edi, %esi'
+      command: 'cmp %edi, %esi',
     },
     {
       address: 1,
       hex: '00 00 00 00 00',
-      command: 'jg $4'
+      command: 'jg $4',
     },
     {
       address: 2,
       hex: '00 00 00 00 00',
-      command: 'mov %edi, %eax'
+      command: 'mov %edi, %eax',
     },
     {
       address: 3,
       hex: '00 00 00 00 00',
-      command: 'ret'
+      command: 'ret',
     },
     {
       address: 4,
       hex: '00 00 00 00 00',
-      command: 'mov %esi, %eax'
+      command: 'mov %esi, %eax',
     },
     {
       address: 5,
       hex: '00 00 00 00 00',
-      command: 'ret'
-    }
+      command: 'ret',
+    },
   ],
 };

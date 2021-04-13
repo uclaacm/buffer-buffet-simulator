@@ -27,7 +27,7 @@ const VMInstance = () => {
   // used for debugger
   const currentProgram = ProgramList[codeName];
   const asmList= currentProgram.asm;
-  const [asmLength] = useState(asmList.length);
+  const asmLength = asmList.length;
 
   // initialize register/flag states and the stack
   const [varStack] = useState([]);

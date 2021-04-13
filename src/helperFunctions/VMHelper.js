@@ -399,12 +399,12 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (argList[1].length === 1) {
         dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
       } else {
-        //has parehtnese and has to be memory dereferenced
+        // has parehtnese and has to be memory dereferenced
         const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
-        console.log("Reference Address:", refAddress);
+        console.log('Reference Address:', refAddress);
         dstAddress = verifyAddress(refAddress, memoryDV);
       }
-      
+
       if (dstAddress !== -1) {
         setRegister('%eip', dstAddress, memoryDV);
       }
@@ -419,7 +419,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
@@ -438,7 +438,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
@@ -458,7 +458,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
@@ -478,7 +478,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
@@ -499,7 +499,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
@@ -519,7 +519,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         if (argList[1].length === 1) {
           dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
         } else {
-          //has parehtnese and has to be memory dereferenced
+          // has parehtnese and has to be memory dereferenced
           const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
           dstAddress = verifyAddress(refAddress, memoryDV);
         }
