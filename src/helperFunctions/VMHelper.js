@@ -594,3 +594,38 @@ export const parseCode = (codeString) => {
   return ([command, arg1, arg2]);
 };
 
+export const checkInput = (input, codeName) => {
+  if (input === '') {
+    return 'reset';
+  }
+  const inputTokens = input.split(/(, *|,)/);
+  const paramList = [];
+  // 2 params
+  if (codeName === 'sum' || codeName === 'if-else') {
+    if (inputTokens.length !== 3) {
+      return false;
+    }
+    const param1 = parseInt(inputTokens[0]);
+    const param2 = parseInt(inputTokens[2]);
+    if (param1 === NaN || param2 === NaN || !checkRange(param1) || !checkRange(param2)) {
+      return false;
+    }
+    paramList.push(param1);
+    paramList.push(param2);
+  } else { // 1 param
+    if (inputTokens.length !== 1) {
+      return false;
+    }
+    const param1 = parseInt(inputTokens[0]);
+    if (param1 === NaN || !checkRange(param1)) {
+      return false;
+    }
+    paramList.push(param1);
+  }
+  return paramList;
+};
+
+// check if 0 <= param <= 256
+const checkRange = (param) => {
+  return (param >= 0) && (param <= 256);
+};
