@@ -2,10 +2,11 @@ export const Switch = {
   id: 'switch',
   setup: [
     'mov $9, 0x3c',
-    'mov $6, 0x40',
-    'mov $6, 0x44',
-    'mov $11, 0x48',
-    'mov $12, 0x4C',
+    'mov $11, 0x40',
+    'mov $12, 0x44',
+    'mov $6, 0x48',
+    'mov $6, 0x4C',
+    // default parameters
     'mov $5, %edi',
   ],
   asm: [
