@@ -28,6 +28,7 @@ const VMInstance = () => {
   const currentProgram = ProgramList[codeName];
   const asmList= currentProgram.asm;
   const asmLength = asmList.length;
+  const [paramInput, changeParams] = useState('');
 
   // initialize register/flag states and the stack
   const [varStack] = useState([]);
@@ -182,12 +183,15 @@ const VMInstance = () => {
   * @param {event} e event of the click
   */
   const clearMemory = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const codePayload = {
       type: 'clear',
     };
     changeMemory(codePayload);
     setupSample();
+    document.getElementById('paramInput').disabled = false;
   };
 
   return (
@@ -196,9 +200,10 @@ const VMInstance = () => {
       <h2> Current Program : {codeName}</h2>
       <Debug clearMemory={clearMemory} runCommand={runCommand}
         currInstr={registerDict['%eip']} instrList={asmList}
-        setCodeName={setCodeName}/>
+        setCodeName={setCodeName} codeName={codeName}
+        paramInput={paramInput} changeParams={changeParams}
+        changeMemory={changeMemory}/>
       <MemoryDisplay registerDict={registerDict}/>
-
     </div>
   );
 };
