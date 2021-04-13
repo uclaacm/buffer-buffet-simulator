@@ -78,8 +78,11 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
 
   const stepProgram = async (e) => {
     e.preventDefault();
+    if (currInstr < 0 || currInstr >= instrList.length) {
+      return;
+    }
     document.getElementById('userInput').disabled = true;
-    await runCommand(e, instrList[currInstr]);
+    await runCommand(e, instrList[currInstr].command);
   };
 
   const clearProgram = (e) => {
@@ -97,7 +100,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       setIsRun(false);
       return;
     } else {
-      await runCommand(e, instrList[currInstr]);
+      await runCommand(e, instrList[currInstr].command);
     }
   }, [currInstr]);
 

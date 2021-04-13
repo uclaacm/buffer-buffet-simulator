@@ -1,6 +1,4 @@
-// import { memo } from "react"
-
-// 14 Registers
+// 14 Registers - 56 bytes
 const registerList = [
   'flagRegister',
   '%ebp', '%esp', '%eip',
@@ -192,9 +190,8 @@ const paramToDeci = (param, memoryDV) => {
 const verifyAddress = (refAddress, memoryDV) => {
   if (1 <= refAddress && refAddress <= STACK_SIZE) {
     const tempAddress = memoryDV.getUint32(refAddress);
-
+    console.log('Dereference Address:', tempAddress);
     if ( 1 <= tempAddress && tempAddress <= STACK_SIZE) {
-      console.log(tempAddress);
       return tempAddress;
     }
   } else {
@@ -245,15 +242,15 @@ const interpretParam = (param) => {
   }
   resString = 'contents of (' + resString + ')';
   console.log(resString);
-
+  console.log(resSum);
   return resSum;
 };
 
 export const interpretCommand = (codeString, memoryDV, varStack) => {
+  console.log(codeString);
   const argList = parseCode(codeString);
   let payload = 0;
   let dstAddress = 0;
-
   // argList[0] = command e.g "mov"
   // argList[1] = 1st Parameter, with separate arguments in order from left to right
   // argList[2] = 2nd Parameter, same as above
@@ -267,7 +264,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       }
 
       // initialize place holder value
-
       payload = 0;
       dstAddress = 0;
       // check if the payload needs to be dereferenced
@@ -291,8 +287,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         }
       }
 
-      console.log(payload);
-      console.log(dstAddress);
       if (payload === -1 || dstAddress === -1) {
         console.error('Unable to execute mov command due to invalid src or dst');
       } else {
@@ -345,10 +339,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       setFlag('ZF', diff === 0, memoryDV);
       setFlag('SF', diff < 0, memoryDV);
       setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV);
-      // console.log('ZF',getFlag('ZF', memoryDV))
-      // console.log('SF', getFlag('SF', memoryDV))
-      // console.log(diff)
-
       console.log('compare ' + interpretParam(argList[1]) + ' with ' + interpretParam(argList[2]));
       break;
 
@@ -406,7 +396,18 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         console.log('Needs only one parameter');
         return;
       }
-      setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+      if (argList[1].length === 1) {
+        dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+      } else {
+        // has parehtnese and has to be memory dereferenced
+        const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        console.log('Reference Address:', refAddress);
+        dstAddress = verifyAddress(refAddress, memoryDV);
+      }
+
+      if (dstAddress !== -1) {
+        setRegister('%eip', dstAddress, memoryDV);
+      }
       break;
 
       // jump if equal/zero
@@ -415,7 +416,16 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         console.log('Needs only one parameter');
         return;
       } if (getFlag('ZF', memoryDV)) {
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
@@ -425,7 +435,16 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         console.log('Needs only one parameter');
         return;
       } if (!getFlag('ZF', memoryDV)) {
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
@@ -434,9 +453,18 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      } if (!(getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV))) && !getFlag('ZF', memoryDV)) {
+      } if ((!getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV))) && !getFlag('ZF', memoryDV)) {
         // ~(SF^OF) & ~ZF
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
@@ -445,9 +473,18 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (check2Param(argList)) {
         console.log('Needs only one parameter');
         return;
-      } if (!(getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV))) {
+      } if ((!getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV))) {
         // ~(SF^OF)
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
@@ -458,7 +495,17 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         return;
       } if ((getFlag('SF', memoryDV) ^ (getFlag('OF', memoryDV)))) {
         // (SF^OF)
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        // no-paranthese
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
@@ -469,7 +516,16 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         return;
       } if ((getFlag('SF', memoryDV) ^ getFlag('OF', memoryDV)) || getFlag('ZF', memoryDV)) {
         // (SF^OF) | ZF
-        setRegister('%eip', interpretParam(paramToDeci(argList[1], memoryDV)), memoryDV);
+        if (argList[1].length === 1) {
+          dstAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+        } else {
+          // has parehtnese and has to be memory dereferenced
+          const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
+          dstAddress = verifyAddress(refAddress, memoryDV);
+        }
+        if (dstAddress !== -1) {
+          setRegister('%eip', dstAddress, memoryDV);
+        }
       }
       break;
 
