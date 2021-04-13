@@ -5,7 +5,7 @@ import CCode from './CCode';
 import AsmCode from './AsmCode';
 import Toolbar from './Toolbar';
 const Debug = ({runCommand, clearMemory, currInstr, instrList,
-  setCodeName, codeName, paramInput, changeParams, changeMemory}) => {
+  setCodeName, codeName, userInput, changeInput, changeMemory}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
     clearMemory: PropTypes.func,
@@ -13,8 +13,8 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     codeName: PropTypes.string,
     currInstr: PropTypes.number,
     instrList: PropTypes.arrayOf(PropTypes.string),
-    paramInput: PropTypes.string,
-    changeParams: PropTypes.func,
+    userInput: PropTypes.string,
+    changeInput: PropTypes.func,
     changeMemory: PropTypes.func,
   };
 
@@ -35,8 +35,9 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     console.log(breakPts);
   };
 
-  const getInputParam = async () => {
-    const params = checkInput(paramInput, codeName);
+  // ask Henry where to move these functions
+  const getInput = async () => {
+    const params = checkInput(userInput, codeName);
     if (params === false) {
       alert('Invalid Params');
     } else if (params === 'reset') {
@@ -55,16 +56,29 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     return;
   };
 
+  const getStringBytes = () => {
+    for (let i = 0; i < userInput.length; i++) {
+      const codePayload = {
+        type: 'gets',
+        payload: {
+          address: 60 + (i*4),
+          ascii: userInput.charCodeAt(i),
+        },
+      };
+      changeMemory(codePayload);
+    }
+  };
+
   const runProgram = async (e) => {
     e.preventDefault();
-    document.getElementById('paramInput').disabled = true;
+    document.getElementById('userInput').disabled = true;
     setIsRun(true);
     await stepProgram(e);
   };
 
   const stepProgram = async (e) => {
     e.preventDefault();
-    document.getElementById('paramInput').disabled = true;
+    document.getElementById('userInput').disabled = true;
     await runCommand(e, instrList[currInstr]);
   };
 
@@ -92,9 +106,9 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       <CCode setCodeName={setCodeName} codeName={codeName}/>
       <AsmCode toggleBreakPt={toggleBreakPt} instrList={instrList}/>
       <Toolbar clearProgram={clearProgram} stepProgram={stepProgram}
-        runProgram={runProgram} paramInput={paramInput}
-        changeParams={changeParams} codeName={codeName}
-        getInputParam={getInputParam}
+        runProgram={runProgram} userInput={userInput}
+        changeInput={changeInput} codeName={codeName}
+        getInput={getInput} getStringBytes={getStringBytes}
       />
     </div>
 

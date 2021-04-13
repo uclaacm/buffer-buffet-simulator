@@ -28,7 +28,7 @@ const VMInstance = () => {
   // used for debugger
   const instrList = sampleCode1.asm;
   const [instrLength] = useState(instrList.length);
-  const [paramInput, changeParams] = useState('');
+  const [userInput, changeInput] = useState('');
 
   // initialize register/flag states and the stack
   const [varStack] = useState([]);
@@ -81,6 +81,11 @@ const VMInstance = () => {
         memoryDV = new DataView(setupMemory);
         interpretCommand(action.payload, memoryDV, varStack);
         return setupMemory;
+      case 'gets':
+        const getsMemory = memory.slice();
+        memoryDV = new DataView(getsMemory);
+        memoryDV.setInt32(action.payload.address, action.payload.ascii);
+        return getsMemory;
       default:
         throw new Error();
     }
@@ -169,7 +174,7 @@ const VMInstance = () => {
       <Debug clearMemory={clearMemory} runCommand={runCommand}
         currInstr={registerDict['%eip']} instrList={instrList}
         setCodeName={setCodeName} codeName={codeName}
-        paramInput={paramInput} changeParams={changeParams}
+        userInput={userInput} changeInput={changeInput}
         changeMemory={changeMemory}/>
       <MemoryDisplay registerDict={registerDict}/>
     </div>
