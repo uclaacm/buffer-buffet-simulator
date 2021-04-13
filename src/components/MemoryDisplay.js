@@ -6,7 +6,6 @@ const MemoryDisplay = ({registerDict}) => {
     registerDict: PropTypes.objectOf(PropTypes.number),
   };
 
-  console.log(registerDict);
   return (
     <div className='memory-display-container'>
 
@@ -67,6 +66,25 @@ const MemoryDisplay = ({registerDict}) => {
           <li>SF: {registerDict['SF']}</li>
           <li>OF: {registerDict['OF']}</li>
           <li>AF: {registerDict['AF']}</li>
+        </ul>
+      </div>
+
+      <div className='memory-display-panel'>
+        <div className='memory-display-panel-header'>
+          Heap Memory
+        </div>
+        <ul>
+          <li>0x3C: {registerDict['0x3C']}</li>
+          <li>0x40: {registerDict['0x40']}</li>
+          <li>0x44: {registerDict['0x44']}</li>
+          <li>0x48: {registerDict['0x48']}</li>
+          <li>0x4C: {registerDict['0x4C']}</li>
+
+          <li>0x50: {registerDict['0x50']}</li>
+          <li>0x54: {registerDict['0x54']}</li>
+          <li>0x58: {registerDict['0x58']}</li>
+          <li>0x5C: {registerDict['0x5C']}</li>
+          <li>0x60: {registerDict['0x60']}</li>
         </ul>
       </div>
 

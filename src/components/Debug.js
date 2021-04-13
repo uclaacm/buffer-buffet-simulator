@@ -9,7 +9,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => 
     clearMemory: PropTypes.func,
     setCodeName: PropTypes.func,
     currInstr: PropTypes.number,
-    instrList: PropTypes.arrayOf(PropTypes.string),
+    instrList: PropTypes.arrayOf(PropTypes.object),
   };
 
   // status of each instruction
@@ -37,7 +37,10 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => 
 
   const stepProgram = async (e) => {
     e.preventDefault();
-    await runCommand(e, instrList[currInstr]);
+    if (currInstr < 0 || currInstr >= instrList.length) {
+      return;
+    }
+    await runCommand(e, instrList[currInstr].command);
   };
 
   const clearProgram = async (e) => {
@@ -55,7 +58,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => 
       setIsRun(false);
       return;
     } else {
-      await runCommand(e, instrList[currInstr]);
+      await runCommand(e, instrList[currInstr].command);
     }
   }, [currInstr]);
 
