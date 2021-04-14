@@ -17,17 +17,17 @@ const InstrRow = ({instrID, command, toggleBreakPt}) => {
 
   return (
     <div className='debug-asm-row'>
-      <label>
-        {/* <input type='checkbox' instrID={instrID} onChange={toggleBreakPt}></input> */}
-        <span className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
-          instrID={instrID} onClick={emit}></span>
-      </label>
+      {/* <label> */}
+      {/* <input type='checkbox' instrID={instrID} onChange={toggleBreakPt}></input> */}
+      {/* </label> */}
 
-      <div className='debug-asm-addr'>
+      {/* <div className='debug-asm-addr'>
         {instrID}
-      </div>
+      </div> */}
 
       <div className='debug-asm-instr'>
+        <span className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
+          instrID={instrID} onClick={emit}></span>
         {command}
       </div>
     </div>
@@ -47,7 +47,9 @@ const AsmCode = ({instrList, toggleBreakPt}) => {
 
   return (
     <div className="debug-asm-panel">
-      <h2>ASM-Program</h2>
+      <div className="debug-asm-header">
+        Assembly
+      </div>
       <div className='debug-asm-body'>
         {instrDisplay}
       </div>

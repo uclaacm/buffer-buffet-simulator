@@ -12,6 +12,7 @@ const Modal = ({setModal}) => {
 
   return (
     <div className='modal-container'>
+      <div className='modal-blackBG'></div>
       <div className='modal-header'>Instruction</div>
       <div className='modal-body'>
         <div className='modal-text'>

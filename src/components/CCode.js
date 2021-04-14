@@ -2,6 +2,7 @@
 import React from 'react';
 import Select from 'react-select'
 import PropTypes from 'prop-types';
+import './CCode.css';
 
 const CCode = ({setCodeName}) =>{
 
@@ -23,10 +24,10 @@ const CCode = ({setCodeName}) =>{
     return(
         <div className="debug-c-panel">
             <div className="debug-c-panel-header">
-                <h2>C-Program</h2>
+                C
                 <Select options={options} 
                         onChange={handleChange}
-                        defaultValue={{ value: 'sum', label: 'Sum' }}
+                        defaultValue={{ value: 'select', label: 'Select a Program' }}
                 />
             </div>
             

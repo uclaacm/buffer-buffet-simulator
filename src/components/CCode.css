@@ -1,0 +1,18 @@
+.debug-c-panel-header {
+  background-color: #007054;
+  color: #f3f2f1;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  display: grid;
+  grid-template-columns: 20% auto;
+  padding: 10px;
+}
+
+.debug-c-srcCode {
+  color: #f3f2f1;
+  background-color: #292a2f;
+  padding: 20px;
+  line-height: 27px;
+  height: 52.5vh;
+}

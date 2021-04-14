@@ -1,0 +1,29 @@
+/* STACK */
+.memory-display-container {
+  background-color: #292a2f;
+  height: 95%;
+  overflow: scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 23%;
+  padding: 3%;
+  line-height: 22px;
+  color: #f3f2f1;
+}
+
+.memory-display-panel-header {
+  font-weight: 500;
+}
+
+.memory-display-header {
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+.memory-display-list {
+  list-style: none;
+  text-indent: -40px;
+}

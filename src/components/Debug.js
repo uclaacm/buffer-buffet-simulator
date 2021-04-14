@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import CCode from './CCode';
 import AsmCode from './AsmCode';
 import Toolbar from './Toolbar';
+import './Debug.css';
+
 const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
@@ -61,8 +63,10 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList, setCodeName}) => 
 
   return (
     <div className='debug-container'>
-      <CCode setCodeName={setCodeName}/>
-      <AsmCode toggleBreakPt={toggleBreakPt} instrList={instrList}/>
+      <div className='debug-code'>
+        <CCode setCodeName={setCodeName}/>
+        <AsmCode toggleBreakPt={toggleBreakPt} instrList={instrList}/>
+      </div>
       <Toolbar clearProgram={clearProgram} stepProgram={stepProgram} runProgram={runProgram}/>
     </div>
 

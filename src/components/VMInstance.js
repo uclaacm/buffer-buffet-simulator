@@ -1,9 +1,10 @@
+/*eslint-disable*/
 import React, {useState, useEffect, useReducer} from 'react';
 import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 
+import TopBar from './TopBar';
 import Debug from './Debug';
 import MemoryDisplay from './MemoryDisplay';
-import Modal from './Modal';
 import {sampleCode1} from '../examplePrograms/samplePrograms';
 
 // import Debug from './Debug';
@@ -22,7 +23,6 @@ const VMInstance = () => {
   let memoryDV = new DataView(currMemory);
 
   // toggle the model
-  const [showModal, setModal] = useState(false);
   const [codeName, setCodeName] = useState('sum');
 
   // used for debugger
@@ -295,14 +295,16 @@ const VMInstance = () => {
   //       </p>,
   //   );
   // }
-
+  console.log(codeName);
   return (
     <div className="page-view">
-      {showModal && <Modal setModal={setModal}/>}
-      <h2> Current Program : {codeName}</h2>
-      <Debug clearMemory={clearMemory} runCommand={runCommand}
-        currInstr={registerDict['%eip']} instrList={instrList}
-        setCodeName={setCodeName}/>
+      <div className="page-programs">
+        <TopBar></TopBar>
+        {/* {showModal && <Modal setModal={setModal}/>} */}
+        <Debug clearMemory={clearMemory} runCommand={runCommand}
+          currInstr={registerDict['%eip']} instrList={instrList}
+          setCodeName={setCodeName}/>
+      </div>
       <MemoryDisplay registerDict={registerDict}/>
 
     </div>
