@@ -13,10 +13,6 @@
   padding: 0% 3%;
   grid-template-columns: 25% auto auto auto auto auto;
   margin-bottom: -3px;
-
-  /* margin: 0 2.7%; */
-
-  /* float: left; */
 }
 
 .debug-toolbar-input {
@@ -35,7 +31,6 @@
   background-color: #f3f2f1;
   border: none;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
-  font-size: 14px;
   font-weight: 200;
   padding: 12px 16px;
   outline: none;

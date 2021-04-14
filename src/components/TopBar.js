@@ -11,7 +11,7 @@ const TopBar = () => {
     <div>
       {showModal && <Modal setModal={setModal}></Modal>}
       <div className='topbar-container'>
-        <div></div>
+        <button className='topbar-back-btn'>&larr;</button>
         <div className='topbar-heading'>Buffer Buffet</div>
         <div></div>
         <img className='topbar-info-btn' alt = "info" src={Info} onClick ={() => {

@@ -17,17 +17,11 @@
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   margin-top: 8%;
   margin-left: 28%;
-
-  /* height: 50vh;
-  top: 0;
-  left: 40vw; */
 }
 
 .modal-popupContainer {
   display: flex;
   justify-content: center;
-
-  /* align-items: center; */
 }
 
 .modal-instructions {
@@ -50,7 +44,4 @@
 
 .modal-close:hover {
   cursor: pointer;
-
-  /* background: rgba(221, 123, 121, 0.modal-4);
-  border-radius: 10px; */
 }
