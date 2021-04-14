@@ -17,14 +17,6 @@ const InstrRow = ({instrID, command, toggleBreakPt}) => {
 
   return (
     <div className='debug-asm-row'>
-      {/* <label> */}
-      {/* <input type='checkbox' instrID={instrID} onChange={toggleBreakPt}></input> */}
-      {/* </label> */}
-
-      {/* <div className='debug-asm-addr'>
-        {instrID}
-      </div> */}
-
       <div className='debug-asm-instr'>
         <span className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
           instrID={instrID} onClick={emit}></span>
@@ -36,13 +28,13 @@ const InstrRow = ({instrID, command, toggleBreakPt}) => {
 
 const AsmCode = ({instrList, toggleBreakPt}) => {
   AsmCode.propTypes = {
-    instrList: PropTypes.arrayOf(PropTypes.string),
+    instrList: PropTypes.arrayOf(PropTypes.object),
     toggleBreakPt: PropTypes.func,
   };
 
   const instrDisplay =
-        instrList.map((command, id) => {
-          return <InstrRow key={id} instrID={id} toggleBreakPt={toggleBreakPt} command={command}/>;
+        instrList.map((instr, i) => {
+          return <InstrRow key={i} instrID={i} toggleBreakPt={toggleBreakPt} command={instr.command}/>;
         });
 
   return (
