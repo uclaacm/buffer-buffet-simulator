@@ -16,6 +16,8 @@ const VMInstance = () => {
   const [showModal, setModal] = useState(false);
   const [codeName, setCodeName] = useState('sum');
   const [isRunable, setRunable] = useState(true);
+  const [userInput, changeInput] = useState('');
+  const [canInput, allowInput] = useState(false);
 
   useEffect( () => {
     const codePayload = {
@@ -28,7 +30,6 @@ const VMInstance = () => {
   const currentProgram = ProgramList[codeName];
   const asmList= currentProgram.asm;
   const asmLength = asmList.length;
-  const [userInput, changeInput] = useState('');
 
   // initialize register/flag states and the stack
   const [varStack] = useState([]);
@@ -87,8 +88,26 @@ const VMInstance = () => {
 
         // check if function is returning
         if (action.payload === 'ret') {
-          setRunable(false);
+          if (varStack.length > 0) {
+            const returnAddress = memoryDV.getUint32(96);
+            console.log('ad ' + returnAddress);
+            if (returnAddress !== 5 && returnAddress !== 10) {
+              alert('segfault');
+              setRunable(false);
+            }
+            setRegister('%eip', returnAddress, memoryDV);
+            if (returnAddress === 5) {
+              varStack.pop();
+            }
+          } else {
+            setRunable(false);
+          }
           return newMemory;
+        }
+
+        // check for gets call
+        if (action.payload === 'call <gets>') {
+          allowInput(true);
         }
 
         // Increment the instruction pointer
@@ -108,7 +127,7 @@ const VMInstance = () => {
       case 'gets':
         const getsMemory = memory.slice();
         memoryDV = new DataView(getsMemory);
-        memoryDV.setInt32(action.payload.address, action.payload.ascii);
+        memoryDV.setInt32(action.payload.address, action.payload.char);
         return getsMemory;
       default:
         throw new Error();
@@ -152,6 +171,7 @@ const VMInstance = () => {
       '0x5C': tempMemoryDV.getUint32(92),
       '0x60': tempMemoryDV.getUint32(96),
     });
+    console.log(varStack);
   }, [memory]);
 
   /**
@@ -194,9 +214,14 @@ const VMInstance = () => {
     const codePayload = {
       type: 'clear',
     };
+    changeInput('');
     changeMemory(codePayload);
     setupSample();
-    document.getElementById('userInput').disabled = false;
+    if (codeName === 'buffer1' || codeName === 'buffer2') {
+      allowInput(false);
+    } else {
+      allowInput(true);
+    }
   };
 
   return (
@@ -207,7 +232,9 @@ const VMInstance = () => {
         currInstr={registerDict['%eip']} instrList={asmList}
         setCodeName={setCodeName} codeName={codeName}
         userInput={userInput} changeInput={changeInput}
-        changeMemory={changeMemory}/>
+        changeMemory={changeMemory} canInput={canInput}
+        allowInput={allowInput}
+      />
       <MemoryDisplay registerDict={registerDict}/>
     </div>
   );

@@ -17,6 +17,8 @@ const CCode = ({setCodeName, codeName}) => {
     {value: 'if-else', label: 'If-Else'},
     {value: 'for-loop', label: 'For Loop'},
     {value: 'switch', label: 'Switch'},
+    {value: 'buffer1', label: 'Buffer 1'},
+    {value: 'buffer2', label: 'Buffer 2'},
   ];
 
   let CProgram;
@@ -79,6 +81,45 @@ const CCode = ({setCodeName, codeName}) => {
           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 0;
           <br/>&emsp;&emsp;&#x0007D;
           <br/>&emsp;&emsp;return sum;
+          <br/>&#x0007D;
+        </p>
+      );
+      break;
+    case 'buffer1':
+      CProgram = (
+        <p>
+          int getString()
+          <br/>&#x0007B;
+          <br/>&emsp;&emsp;struct Buffer &#x0007B;
+          <br/>&emsp;&emsp;&emsp;char buff1[5];
+          <br/>&emsp;&emsp;&emsp;char buff2[5];
+          <br/>&emsp;&emsp;&#x0007D;
+          <br/>&emsp;&emsp;gets(buff2);
+          <br/>&emsp;&emsp;printf(&quot;%s&quot;, buff1);
+          <br/>&emsp;&emsp;return 1;
+          <br/>&#x0007D;
+        </p>
+      );
+      break;
+    case 'buffer2':
+      CProgram = (
+        <p>
+          int func1()
+          <br/>&#x0007B;
+          <br/>&emsp;&emsp;char buff[5];
+          <br/>&emsp;&emsp;gets(buff);
+          <br/>&emsp;&emsp;return 0;
+          <br/>&#x0007D;
+          <br/>
+          int func2()
+          <br/>&#x0007B;
+          <br/>&emsp;&emsp;return 100;
+          <br/>&#x0007D;
+          <br/>
+          int main()
+          <br/>&#x0007B;
+          <br/>&emsp;&emsp;func1();
+          <br/>&emsp;&emsp;return 1;
           <br/>&#x0007D;
         </p>
       );
