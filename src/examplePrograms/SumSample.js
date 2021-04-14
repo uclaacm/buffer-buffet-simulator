@@ -11,12 +11,12 @@ export const Sum= {
       command: 'add %edi, %esi',
     },
     {
-      address: 0,
+      address: 1,
       hex: '00 00 00 00 00',
       command: 'mov %esi, %eax',
     },
     {
-      address: 0,
+      address: 2,
       hex: '00 00 00 00 00',
       command: 'ret',
     },
