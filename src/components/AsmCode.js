@@ -42,7 +42,7 @@ const AsmCode = ({instrList, toggleBreakPt}) => {
 
   const instrDisplay =
         instrList.map((instr, i) => {
-          return <InstrRow key={i} instrID={i} toggleBreakPt={toggleBreakPt} command={instr.command}/>;
+          return <InstrRow key={i} instrID={i} toggleBreakPt={(e) => toggleBreakPt(e)} command={instr.command}/>;
         });
 
   return (

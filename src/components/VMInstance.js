@@ -87,8 +87,29 @@ const VMInstance = () => {
 
         // check if function is returning
         if (action.payload === 'ret') {
-          setRunable(false);
+          if (varStack.length > 0) {
+            const returnAddress = memoryDV.getUint32(96);
+            console.log('ad ' + returnAddress);
+            if (returnAddress !== 5 && returnAddress !== 10) {
+              alert('segfault');
+              setRunable(false);
+            }
+            setRegister('%eip', returnAddress, memoryDV);
+            if (returnAddress === 5) {
+              varStack.pop();
+            }
+          } else {
+            setRunable(false);
+          }
           return newMemory;
+        }
+
+        // check for gets call
+        if (action.payload === 'call <gets>') {
+          document.getElementById('userInput').disabled = false;
+          document.getElementById('inputBtn').disabled = false;
+          document.getElementById('runBtn').disabled = true;
+          document.getElementById('stepBtn').disabled = true;
         }
 
         // Increment the instruction pointer
@@ -108,7 +129,7 @@ const VMInstance = () => {
       case 'gets':
         const getsMemory = memory.slice();
         memoryDV = new DataView(getsMemory);
-        memoryDV.setInt32(action.payload.address, action.payload.ascii);
+        memoryDV.setInt32(action.payload.address, action.payload.char);
         return getsMemory;
       default:
         throw new Error();
@@ -152,6 +173,7 @@ const VMInstance = () => {
       '0x5C': tempMemoryDV.getUint32(92),
       '0x60': tempMemoryDV.getUint32(96),
     });
+    console.log(varStack);
   }, [memory]);
 
   /**
@@ -194,9 +216,11 @@ const VMInstance = () => {
     const codePayload = {
       type: 'clear',
     };
+    changeInput('');
     changeMemory(codePayload);
     setupSample();
-    document.getElementById('userInput').disabled = false;
+    document.getElementById('runBtn').disabled = false;
+    document.getElementById('stepBtn').disabled = false;
   };
 
   return (
