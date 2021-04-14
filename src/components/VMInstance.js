@@ -1,25 +1,10 @@
-/*eslint-disable*/
 import React, {useState, useEffect, useReducer} from 'react';
 import {getRegister, interpretCommand, getFlag, setRegister} from '../helperFunctions/VMHelper';
 
-import TopBar from './TopBar';
 import Debug from './Debug';
+import TopBar from './TopBar';
 import MemoryDisplay from './MemoryDisplay';
-<<<<<<< HEAD
-import {sampleCode1} from '../examplePrograms/samplePrograms';
-
-// import Debug from './Debug';
-// import info from '../assets/info.svg';
-// import add from '../examplePrograms/add.json';
-// import forLoop from '../examplePrograms/forLoop.json';
-// import ifElse from '../examplePrograms/ifElse.json';
-// import switchStatement from '../examplePrograms/switchStatement.json';
-// import recursion from '../examplePrograms/recursion.json';
-// import bufferOverflow from '../examplePrograms/bufferOverflow.json';
-=======
-import Modal from './Modal';
 import {ProgramList} from '../examplePrograms/ProgramList';
->>>>>>> stackDev
 
 const VMInstance = () => {
   // specify the initial memory array buffer (size in bytes)
@@ -28,6 +13,7 @@ const VMInstance = () => {
   let memoryDV = new DataView(currMemory);
 
   // toggle the model
+  // const [showModal, setModal] = useState(false);
   const [codeName, setCodeName] = useState('sum');
   const [isRunable, setRunable] = useState(true);
 
@@ -212,166 +198,18 @@ const VMInstance = () => {
     setupSample();
     document.getElementById('userInput').disabled = false;
   };
-
-<<<<<<< HEAD
-  // const [sourceCode, setSourceCode] = useState(
-  //     <p>
-  //       int addNum(int a, int b)
-  //       <br/>&#x0007B;
-  //       <br/>&emsp;&emsp;int sum = a + b;
-  //       <br/>&emsp;&emsp;return sum;
-  //       <br/>&#x0007D;
-  //     </p>,
-  // );
-
-  // default state is
-  // const [assemblyCode, setAssemblyCode] = useState(
-  //     <p>
-  //       0000000000400502 &lt;incrementAdd&gt;:
-  //       {
-  //         add.program.map((line) => {
-  //           const command = line.assembly.split(/(?<=^.*) /)[0];
-  //           const param = line.assembly.split(/(?<=^[^,]*) /)[1];
-  //           return (
-  //             <Row
-  //               address={line.address}
-  //               content={line.hex}
-  //               command={command}
-  //               parameters={param}
-  //               key={line.address}>
-  //             </Row>
-  //           );
-  //         })
-  //       }
-  //     </p>,
-  // );
-
-  // /**
-  // * handles change of programs
-  // * @param {event} event onClick
-  // */
-  // function handleSubmit(event) {
-  //   const val = event.target.value;
-  //   let example;
-  //   // event.preventDefault();
-  //   if (val === 'Sum') {
-  //     setSourceCode(
-  //         <p>
-  //           int addNum(int a, int b)
-  //           <br/>&#x0007B;
-  //           <br/>&emsp;&emsp;int sum = a + b;
-  //           <br/>&emsp;&emsp;return sum;
-  //           <br/>&#x0007D;
-  //         </p>,
-  //     );
-  //     example = add;
-  //   } else if (val === 'For Loop') {
-  //     setSourceCode(
-  //         <p>
-  //           int incrementAdd(int a)
-  //           <br/>&#x0007B;
-  //           <br/>&emsp;&emsp;int sum = 0;
-  //           <br/>&emsp;&emsp;for (int i = 0; i &#60; a&#44; i++) &#x0007B;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;sum += i;
-  //           <br/>&emsp;&emsp;&#x0007D;
-  //           <br/>&emsp;&emsp;return sum;
-  //           <br/>&#x0007D;
-  //         </p>,
-  //     );
-  //     example = forLoop;
-  //   } else if (val === 'If-Else') {
-  //     setSourceCode(
-  //         <p>
-  //           int getMax(int a, int b)
-  //           <br/>&#x0007B;
-  //           <br/>&emsp;&emsp;if (b &#62; a)
-  //           <br/>&emsp;&emsp;&emsp;&emsp;return b;
-  //           <br/>&emsp;&emsp;else
-  //           <br/>&emsp;&emsp;&emsp;&emsp;return a;
-  //           <br/>&#x0007D;
-  //         </p>,
-  //     );
-  //     example = ifElse;
-  //   } else if (val === 'Switch Statement') {
-  //     setSourceCode(
-  //         <p>
-  //           int switchTable(int n)
-  //           <br/>&#x0007B;
-  //           <br/>&emsp;&emsp;int sum = 3;
-  //           <br/>&emsp;&emsp;switch (n) &#x0007B;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;case 1:
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum += n;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;case 2:
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum -= 2;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;case 3:
-  //           <br/>&emsp;&emsp;&emsp;&emsp;case 4:
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 34 + n;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;break;
-  //           <br/>&emsp;&emsp;&emsp;&emsp;default:
-  //           <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;sum = 0;
-  //           <br/>&emsp;&emsp;&#x0007D;
-  //           <br/>&emsp;&emsp;return sum;
-  //           <br/>&#x0007D;
-  //         </p>,
-  //     );
-  //     example = switchStatement;
-  //   } else if (val === 'Recursion') {
-  //     setSourceCode(
-  //         <p>
-  //           int incrementAdd(int a)
-  //           <br/>&#x0007B;
-  //           <br/>&emsp;&emsp;if (n == 1)
-  //           <br/>&emsp;&emsp;&emsp;&emsp;return 1;
-  //           <br/>
-  //           <br/>&emsp;&emsp;return n * factorial(n-1);
-  //           <br/>&#x0007D;
-  //         </p>,
-  //     );
-  //     example = recursion;
-  //   }
-  //   setAssemblyCode(
-  //       <p>
-  //         0000000000400502 &lt;incrementAdd&gt;:
-  //         {
-  //           example.program.map((line) => {
-  //             const command = line.assembly.split(/(?<=^.*) /)[0];
-  //             const param = line.assembly.split(/(?<=^[^,]*) /)[1];
-  //             return (
-  //               <Row
-  //                 address={line.address}
-  //                 content={line.hex}
-  //                 command={command}
-  //                 parameters={param}
-  //                 key={line.address}>
-  //               </Row>
-  //             );
-  //           })
-  //         }
-  //       </p>,
-  //   );
-  // }
   console.log(codeName);
   return (
     <div className="page-view">
       <div className="page-programs">
         <TopBar></TopBar>
-        {/* {showModal && <Modal setModal={setModal}/>} */}
         <Debug clearMemory={clearMemory} runCommand={runCommand}
-          currInstr={registerDict['%eip']} instrList={instrList}
-          setCodeName={setCodeName}/>
+          currInstr={registerDict['%eip']} instrList={asmList}
+          setCodeName={setCodeName} codeName={codeName}
+          userInput={userInput} changeInput={changeInput}
+          changeMemory={changeMemory}/>
       </div>
-=======
-  return (
-    <div className="page-view">
-      {showModal && <Modal setModal={setModal}/>}
-      <h2> Current Program : {codeName}</h2>
-      <Debug clearMemory={clearMemory} runCommand={runCommand}
-        currInstr={registerDict['%eip']} instrList={asmList}
-        setCodeName={setCodeName} codeName={codeName}
-        userInput={userInput} changeInput={changeInput}
-        changeMemory={changeMemory}/>
->>>>>>> stackDev
+
       <MemoryDisplay registerDict={registerDict}/>
     </div>
   );

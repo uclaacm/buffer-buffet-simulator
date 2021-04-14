@@ -1,16 +1,13 @@
-modal .modal-blackBG {
+.modal-black {
   width: 100vw;
   height: 100vh;
   background-color: black;
   opacity: 0.5;
   position: fixed;
   z-index: 1;
-
-  /* top: 0;
-  left: 0; */
 }
 
-.popup {
+.modal-popup {
   color: #007054;
   background-color: #f3f2f1;
   width: 20vw;
@@ -19,39 +16,41 @@ modal .modal-blackBG {
   padding: 5%;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   margin-top: 8%;
+  margin-left: 28%;
 
   /* height: 50vh;
   top: 0;
   left: 40vw; */
 }
 
-.popupContainer {
+.modal-popupContainer {
   display: flex;
   justify-content: center;
 
   /* align-items: center; */
 }
 
-.instructions {
+.modal-instructions {
   font-size: 24px;
   font-weight: 600;
   text-align: center;
 }
 
-.closeContainer {
+.modal-closeContainer {
+  display: grid;
   grid-template-columns: 90% auto;
   margin-top: -10%;
   margin-right: -15%;
 }
 
-.close {
+.modal-close {
   grid-column-start: 2;
   padding: 4px;
 }
 
-.close:hover {
+.modal-close:hover {
   cursor: pointer;
 
-  /* background: rgba(221, 123, 121, 0.4);
+  /* background: rgba(221, 123, 121, 0.modal-4);
   border-radius: 10px; */
 }

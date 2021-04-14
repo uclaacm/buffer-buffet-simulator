@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import './AsmCode.css';
-const InstrRow = ({instrID, command, toggleBreakPt}) => {
+const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment}) => {
   InstrRow.propTypes = {
+    currInstr: PropTypes.number,
     instrID: PropTypes.number,
     command: PropTypes.string,
     toggleBreakPt: PropTypes.func,
+    comment: PropTypes.string,
   };
 
   const [isToggeled, togglePt] = useState(false);
@@ -16,13 +18,16 @@ const InstrRow = ({instrID, command, toggleBreakPt}) => {
   };
 
   return (
-    <div className='debug-asm-row'>
-      <div className='debug-asm-instr'>
-        <span className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
-          instrID={instrID} onClick={emit}></span>
-        {command}
-      </div>
+    // <div className='debug-asm-row'>
+    <div className={currInstr == {instrID} ? 'debug-asm-instr-inverse' : 'debug-asm-instr'}>
+      <div className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
+        instrID={instrID} onClick={emit}></div>
+      <div>{instrID}</div>
+      <div>{comment}</div>
+      <div></div>
+      <div>{command}</div>
     </div>
+    // </div>
   );
 };
 
@@ -34,7 +39,8 @@ const AsmCode = ({instrList, toggleBreakPt}) => {
 
   const instrDisplay =
         instrList.map((instr, i) => {
-          return <InstrRow key={i} instrID={i} toggleBreakPt={toggleBreakPt} command={instr.command}/>;
+          return <InstrRow key={i} instrID={i} toggleBreakPt={toggleBreakPt} command={instr.command}
+            comment={instr.comment}/>;
         });
 
   return (

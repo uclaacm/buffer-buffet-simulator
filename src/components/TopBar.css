@@ -4,12 +4,14 @@
   grid-template-columns: 8% 20% auto 5%;
   padding: 12px 10px;
 }
+
 .topbar-heading {
   color: #f3f2f1;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 24px;
   font-weight: 500;
 }
+
 .topbar-info-btn {
   margin-top: 3px;
   width: fit-content;
@@ -17,6 +19,6 @@
   border: none;
 }
 
-.topbar-info-btn:hover{
-    cursor: pointer;
+.topbar-info-btn:hover {
+  cursor: pointer;
 }

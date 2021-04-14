@@ -3,12 +3,13 @@
 
 /* OVERALL  */
 
-body{
-  background-color:  #f3f2f1;
+body {
+  background-color: #f3f2f1;
 }
 
 .page-view {
   /* background: #f3f2f1; */
+
   /* color: #f3f2f1; */
   color: #292a2f;
   font-family: "DM Mono", -apple-system, "Helvetica Neue", sans-serif;
@@ -42,6 +43,10 @@ body{
 ::-webkit-scrollbar-thumb {
   background: #007054;
   border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 
 

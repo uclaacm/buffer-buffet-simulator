@@ -107,8 +107,10 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
 
   return (
     <div className='debug-container'>
-      <CCode setCodeName={setCodeName} codeName={codeName}/>
-      <AsmCode toggleBreakPt={toggleBreakPt} instrList={instrList}/>
+      <div className='debug-code'>
+        <CCode setCodeName={setCodeName} codeName={codeName}/>
+        <AsmCode currInstr={currInstr} toggleBreakPt={toggleBreakPt} instrList={instrList}/>
+      </div>
       <Toolbar clearProgram={clearProgram} stepProgram={stepProgram}
         runProgram={runProgram} userInput={userInput}
         changeInput={changeInput} codeName={codeName}

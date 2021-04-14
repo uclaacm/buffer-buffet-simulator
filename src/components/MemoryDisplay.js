@@ -9,7 +9,7 @@ const MemoryDisplay = ({registerDict}) => {
 
   return (
     <div className='memory-display-container'>
-      <div className='memory-display-header'>Stack</div>
+      <div className='memory-display-header'>Memory Display</div>
       <div className='memory-display-panel'>
         <div className='memory-display-panel-header'>
           Pointer Registers
@@ -74,7 +74,7 @@ const MemoryDisplay = ({registerDict}) => {
         <div className='memory-display-panel-header'>
           Heap Memory
         </div>
-        <ul>
+        <ul className='memory-display-list'>
           <li>0x3C: {registerDict['0x3C']}</li>
           <li>0x40: {registerDict['0x40']}</li>
           <li>0x44: {registerDict['0x44']}</li>

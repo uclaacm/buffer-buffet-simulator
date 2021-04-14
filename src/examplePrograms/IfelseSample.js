@@ -7,32 +7,32 @@ export const IfElse = {
   asm: [
     {
       address: 0,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'cmp %edi, %esi',
     },
     {
       address: 1,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'jg $4',
     },
     {
       address: 2,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'mov %edi, %eax',
     },
     {
       address: 3,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'ret',
     },
     {
       address: 4,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'mov %esi, %eax',
     },
     {
       address: 5,
-      hex: '00 00 00 00 00',
+      comment: '00 00 00 00 00',
       command: 'ret',
     },
   ],
