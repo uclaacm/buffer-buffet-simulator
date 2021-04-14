@@ -17,9 +17,11 @@ const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment}) => {
     toggleBreakPt(e);
   };
 
+  console.log('logging currInstr: ' + currInstr);
+  console.log('logging instrID: ' + instrID);
+
   return (
-    // <div className='debug-asm-row'>
-    <div className={currInstr == {instrID} ? 'debug-asm-instr-inverse' : 'debug-asm-instr'}>
+    <div className={currInstr == instrID ? 'debug-asm-instr-inverse' : 'debug-asm-instr'}>
       <div className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
         instrID={instrID} onClick={emit}></div>
       <div>{instrID}</div>
@@ -27,19 +29,20 @@ const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment}) => {
       <div></div>
       <div>{command}</div>
     </div>
-    // </div>
   );
 };
 
-const AsmCode = ({instrList, toggleBreakPt}) => {
+const AsmCode = ({currInstr, instrList, toggleBreakPt}) => {
   AsmCode.propTypes = {
+    currInstr: PropTypes.number,
     instrList: PropTypes.arrayOf(PropTypes.object),
     toggleBreakPt: PropTypes.func,
   };
 
   const instrDisplay =
         instrList.map((instr, i) => {
-          return <InstrRow key={i} instrID={i} toggleBreakPt={toggleBreakPt} command={instr.command}
+          return <InstrRow currInstr = {currInstr} key={i} instrID={i}
+            toggleBreakPt={toggleBreakPt} command={instr.command}
             comment={instr.comment}/>;
         });
 
