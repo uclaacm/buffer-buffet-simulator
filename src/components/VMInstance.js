@@ -16,6 +16,8 @@ const VMInstance = () => {
   const [showModal, setModal] = useState(false);
   const [codeName, setCodeName] = useState('sum');
   const [isRunable, setRunable] = useState(true);
+  const [userInput, changeInput] = useState('');
+  const [canInput, allowInput] = useState(false);
 
   useEffect( () => {
     const codePayload = {
@@ -28,7 +30,6 @@ const VMInstance = () => {
   const currentProgram = ProgramList[codeName];
   const asmList= currentProgram.asm;
   const asmLength = asmList.length;
-  const [userInput, changeInput] = useState('');
 
   // initialize register/flag states and the stack
   const [varStack] = useState([]);
@@ -106,10 +107,7 @@ const VMInstance = () => {
 
         // check for gets call
         if (action.payload === 'call <gets>') {
-          document.getElementById('userInput').disabled = false;
-          document.getElementById('inputBtn').disabled = false;
-          document.getElementById('runBtn').disabled = true;
-          document.getElementById('stepBtn').disabled = true;
+          allowInput(true);
         }
 
         // Increment the instruction pointer
@@ -219,8 +217,11 @@ const VMInstance = () => {
     changeInput('');
     changeMemory(codePayload);
     setupSample();
-    document.getElementById('runBtn').disabled = false;
-    document.getElementById('stepBtn').disabled = false;
+    if (codeName === 'buffer1' || codeName === 'buffer2') {
+      allowInput(false);
+    } else {
+      allowInput(true);
+    }
   };
 
   return (
@@ -231,7 +232,9 @@ const VMInstance = () => {
         currInstr={registerDict['%eip']} instrList={asmList}
         setCodeName={setCodeName} codeName={codeName}
         userInput={userInput} changeInput={changeInput}
-        changeMemory={changeMemory}/>
+        changeMemory={changeMemory} canInput={canInput}
+        allowInput={allowInput}
+      />
       <MemoryDisplay registerDict={registerDict}/>
     </div>
   );

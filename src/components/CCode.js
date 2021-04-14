@@ -84,6 +84,7 @@ const CCode = ({setCodeName, codeName}) => {
           <br/>&#x0007D;
         </p>
       );
+      break;
     case 'buffer1':
       CProgram = (
         <p>
@@ -93,8 +94,8 @@ const CCode = ({setCodeName, codeName}) => {
           <br/>&emsp;&emsp;&emsp;char buff1[5];
           <br/>&emsp;&emsp;&emsp;char buff2[5];
           <br/>&emsp;&emsp;&#x0007D;
-          <br/>&emsp;&emsp;gets(buff1);
-          <br/>&emsp;&emsp;printf(&quot;%s&quot;, buff2);
+          <br/>&emsp;&emsp;gets(buff2);
+          <br/>&emsp;&emsp;printf(&quot;%s&quot;, buff1);
           <br/>&emsp;&emsp;return 1;
           <br/>&#x0007D;
         </p>

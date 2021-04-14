@@ -578,7 +578,7 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       if (argList[1][0] === '<printf>') {
         let string = '';
         for (let i = 0; i < 5; i++) {
-          string += String.fromCharCode(memoryDV.getUint32(76-(i*4)));
+          string += String.fromCharCode(memoryDV.getUint32(80+(i*4)));
         }
         alert(string);
       }

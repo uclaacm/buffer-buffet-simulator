@@ -5,7 +5,7 @@ import CCode from './CCode';
 import AsmCode from './AsmCode';
 import Toolbar from './Toolbar';
 const Debug = ({runCommand, clearMemory, currInstr, instrList,
-  setCodeName, codeName, userInput, changeInput, changeMemory}) => {
+  setCodeName, codeName, userInput, changeInput, changeMemory, canInput, allowInput}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
     clearMemory: PropTypes.func,
@@ -16,6 +16,8 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     userInput: PropTypes.string,
     changeInput: PropTypes.func,
     changeMemory: PropTypes.func,
+    canInput: PropTypes.bool,
+    allowInput: PropTypes.func,
   };
 
   // status of each instruction
@@ -81,6 +83,10 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       startAddress = 76;
     }
     const parsedInput = parseBufferInput(userInput);
+    if (parsedInput === false) {
+      alert('Invalid Params');
+      return;
+    }
     for (let i = 0; i < parsedInput.length; i++) {
       const codePayload = {
         type: 'gets',
@@ -91,10 +97,6 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       };
       changeMemory(codePayload);
     }
-    document.getElementById('userInput').disabled = true;
-    document.getElementById('inputBtn').disabled = true;
-    document.getElementById('runBtn').disabled = false;
-    document.getElementById('stepBtn').disabled = false;
     runProgram(e);
   };
 
@@ -102,7 +104,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     if (e) {
       e.preventDefault();
     }
-    document.getElementById('userInput').disabled = true;
+    allowInput(false);
     setIsRun(true);
     await stepProgram(e);
   };
@@ -112,7 +114,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     if (currInstr < 0 || currInstr >= instrList.length) {
       return;
     }
-    document.getElementById('userInput').disabled = true;
+    allowInput(false);
     await runCommand(e, instrList[currInstr].command);
   };
 
@@ -143,6 +145,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
         runProgram={runProgram} userInput={userInput}
         changeInput={changeInput} codeName={codeName}
         getInput={getInput} getStringBytes={getStringBytes}
+        canInput={canInput} allowInput={allowInput}
       />
     </div>
   );
