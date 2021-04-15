@@ -2,16 +2,6 @@ export const Buffer1 = {
   id: 'buffer1',
   setup: ['mov 0x60, %esp'],
   asm: [
-    // {
-    //   address: 0,
-    //   hex: '',
-    //   command: 'push %ebp',
-    // },
-    // {
-    //   address: 2,
-    //   hex: '',
-    //   command: 'mov %esp, %ebp',
-    // },
     {
       address: 0,
       hex: '',
@@ -19,7 +9,7 @@ export const Buffer1 = {
     },
     {
       address: 1,
-      hex: '/* set breakpoint here */',
+      hex: '/* breakpoint */',
       command: 'call <gets>',
     },
     {

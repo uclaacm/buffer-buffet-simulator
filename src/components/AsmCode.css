@@ -1,7 +1,7 @@
 .debug-asm-breakpts-active {
   height: 15px;
   width: 15px;
-  background-color:none;
+  background-color: none;
   border-radius: 50%;
   margin-right: 15px;
   margin-top: 6px;
@@ -19,7 +19,7 @@
 }
 
 .debug-asm-breakpts-active:hover {
-  background-color:rgba(221, 123, 121, 0.5);
+  background-color: rgba(221, 123, 121, 0.5);
 }
 
 .debug-asm-header {
@@ -56,5 +56,5 @@
 }
 
 .debug-asm-comment {
-  justify-self:right;
+  justify-self: right;
 }
