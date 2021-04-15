@@ -43,14 +43,18 @@
 
 .debug-asm-instr {
   display: grid;
-  grid-template-columns: 10% 10% 32.5% 5% auto;
+  grid-template-columns: 10% 10% 30% auto 30%;
   justify-content: left;
 }
 
 .debug-asm-instr-inverse {
   display: grid;
-  grid-template-columns: 10% 10% 32.5% 5% auto;
+  grid-template-columns: 10% 10% 30% auto 30%;
   justify-content: left;
   background-color: #f3f2f1;
   color: #292a2f;
+}
+
+.debug-asm-comment {
+  justify-self:right;
 }

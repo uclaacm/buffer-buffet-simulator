@@ -546,13 +546,10 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
           dstAddress = -1;
         }
       }
-      console.log(dstAddress);
       if (dstAddress !== -1) {
         payload = varStack.pop();
-
         memoryDV.setUint32(dstAddress, payload);
       }
-
       break;
       // push source onto top of stack
       // push Source
@@ -573,12 +570,22 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
           console.error('Memory Address out of bounds');
         }
       }
-
       break;
 
       // call LABEL, or call Address
       // push return address and jump to specified lcoation
     case 'call':
+      if (argList[1][0] === '<printf>') {
+        let string = '';
+        for (let i = 0; i < 5; i++) {
+          string += String.fromCharCode(memoryDV.getUint32(80+(i*4)));
+        }
+        alert(string);
+      }
+      if (argList[1][0] === '<func1>') {
+        setRegister('%eip', 0, memoryDV);
+        memoryDV.setUint32(96, 10);
+      }
       break;
 
       // Pop return address and jump there
@@ -679,6 +686,22 @@ export const checkInput = (input, codeName) => {
     paramList.push(param1);
   }
   return paramList;
+};
+
+export const parseBufferInput = (input) => {
+  if (input[0] !== '\\') {
+    return false;
+  }
+  let inputList = input.split('\\');
+  inputList = inputList.filter((input) => {
+    return input !== '';
+  });
+  inputList.forEach((input) => {
+    if (!(/^0x[0-9A-F]{2}$/.test(input))) {
+      return false;
+    }
+  });
+  return inputList;
 };
 
 // check if 0 <= param <= 256

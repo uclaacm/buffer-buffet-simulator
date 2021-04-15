@@ -7,17 +7,17 @@ export const Sum= {
   asm: [
     {
       address: 0,
-      comment: '00 00 00 00 00',
+      comment: '',
       command: 'add %edi, %esi',
     },
     {
       address: 0,
-      comment: '00 00 00 00 00',
+      comment: '',
       command: 'mov %esi, %eax',
     },
     {
       address: 0,
-      comment: '00 00 00 00 00',
+      comment: '',
       command: 'ret',
     },
   ],

@@ -1,22 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {checkInput} from '../helperFunctions/VMHelper';
+import {checkInput, parseBufferInput} from '../helperFunctions/VMHelper';
 import PropTypes from 'prop-types';
 import CCode from './CCode';
 import AsmCode from './AsmCode';
 import Toolbar from './Toolbar';
 import './Debug.css';
 const Debug = ({runCommand, clearMemory, currInstr, instrList,
-  setCodeName, codeName, userInput, changeInput, changeMemory}) => {
+  setCodeName, codeName, userInput, changeInput, changeMemory, canInput, allowInput}) => {
   Debug.propTypes = {
     runCommand: PropTypes.func,
     clearMemory: PropTypes.func,
     setCodeName: PropTypes.func,
     codeName: PropTypes.string,
     currInstr: PropTypes.number,
-    instrList: PropTypes.arrayOf(PropTypes.string),
+    instrList: PropTypes.arrayOf(PropTypes.object),
     userInput: PropTypes.string,
     changeInput: PropTypes.func,
     changeMemory: PropTypes.func,
+    canInput: PropTypes.bool,
+    allowInput: PropTypes.func,
   };
 
   // status of each instruction
@@ -24,19 +26,30 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
   const [breakPts, setBreakPts] = useState(new Array(instrList.length).fill(false));
   const [isClear, setIsClear] = useState(false);
   const [isRun, setIsRun] = useState(false);
+
+  useEffect(() => {
+    const tempArray = new Array(instrList.length).fill(false);
+    tempArray.fill(false);
+    setBreakPts(tempArray);
+  }, [codeName]);
+
   /**
   * Handles toggling of the breakpoints
   * @param {event} e of the click
   */
   const toggleBreakPt = (e) => {
-    e.preventDefault();
-    const instrID = e.target.getAttribute('instrID');
-    breakPts[instrID] = !breakPts[instrID];
-    setBreakPts(breakPts);
-    console.log(breakPts);
+    let instrID;
+    if (typeof e === 'object') {
+      e.preventDefault();
+      instrID = parseInt(e.target.getAttribute('instrid'));
+    }
+
+    const tempBreakPts = [...breakPts];
+    tempBreakPts[instrID] = !breakPts[instrID];
+    setBreakPts(tempBreakPts);
+    console.log(tempBreakPts);
   };
 
-  // ask Henry where to move these functions
   const getInput = async () => {
     const params = checkInput(userInput, codeName);
     if (params === false) {
@@ -57,22 +70,37 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     return;
   };
 
-  const getStringBytes = () => {
-    for (let i = 0; i < userInput.length; i++) {
+  // loads each character's ascii number into memory
+  const getStringBytes = (e) => {
+    let startAddress;
+    if (codeName === 'buffer1') {
+      startAddress = 60;
+    } else {
+      startAddress = 76;
+    }
+    const parsedInput = parseBufferInput(userInput);
+    if (parsedInput === false) {
+      alert('Invalid Params');
+      return;
+    }
+    for (let i = 0; i < parsedInput.length; i++) {
       const codePayload = {
         type: 'gets',
         payload: {
-          address: 60 + (i*4),
-          ascii: userInput.charCodeAt(i),
+          address: startAddress + (i*4),
+          char: parseInt(parsedInput[i], 16),
         },
       };
       changeMemory(codePayload);
     }
+    runProgram(e);
   };
 
   const runProgram = async (e) => {
-    e.preventDefault();
-    document.getElementById('userInput').disabled = true;
+    if (e) {
+      e.preventDefault();
+    }
+    allowInput(false);
     setIsRun(true);
     await stepProgram(e);
   };
@@ -82,7 +110,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     if (currInstr < 0 || currInstr >= instrList.length) {
       return;
     }
-    document.getElementById('userInput').disabled = true;
+    allowInput(false);
     await runCommand(e, instrList[currInstr].command);
   };
 
@@ -109,16 +137,15 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     <div className='debug-container'>
       <div className='debug-code'>
         <CCode setCodeName={setCodeName} codeName={codeName}/>
-        <AsmCode currInstr={currInstr} toggleBreakPt={toggleBreakPt} instrList={instrList}/>
+        <AsmCode currInstr={currInstr} breakPts={breakPts} toggleBreakPt={toggleBreakPt} instrList={instrList}/>
       </div>
       <Toolbar clearProgram={clearProgram} stepProgram={stepProgram}
         runProgram={runProgram} userInput={userInput}
         changeInput={changeInput} codeName={codeName}
         getInput={getInput} getStringBytes={getStringBytes}
+        canInput={canInput} allowInput={allowInput}
       />
     </div>
-
-
   );
 };
 

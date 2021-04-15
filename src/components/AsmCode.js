@@ -1,49 +1,46 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './AsmCode.css';
-const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment}) => {
+const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment, isToggled}) => {
   InstrRow.propTypes = {
     currInstr: PropTypes.number,
     instrID: PropTypes.number,
     command: PropTypes.string,
     toggleBreakPt: PropTypes.func,
     comment: PropTypes.string,
+    isToggled: PropTypes.bool,
   };
 
-  const [isToggeled, togglePt] = useState(false);
-
   const emit= (e) => {
-    togglePt(!isToggeled);
+    e.preventDefault();
     toggleBreakPt(e);
   };
 
-  console.log('logging currInstr: ' + currInstr);
-  console.log('logging instrID: ' + instrID);
-
   return (
     <div className={currInstr == instrID ? 'debug-asm-instr-inverse' : 'debug-asm-instr'}>
-      <div className={isToggeled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
-        instrID={instrID} onClick={emit}></div>
+      <div className={isToggled ? 'debug-asm-breakpts-inactive' : 'debug-asm-breakpts-active'}
+        instrid={instrID} onClick={emit}></div>
       <div>{instrID}</div>
-      <div>{comment}</div>
-      <div></div>
       <div>{command}</div>
+      <div></div>
+      <div className="debug-asm-comment">{comment}</div>
     </div>
   );
 };
 
-const AsmCode = ({currInstr, instrList, toggleBreakPt}) => {
+const AsmCode = ({currInstr, instrList, toggleBreakPt, breakPts}) => {
   AsmCode.propTypes = {
     currInstr: PropTypes.number,
     instrList: PropTypes.arrayOf(PropTypes.object),
     toggleBreakPt: PropTypes.func,
+    breakPts: PropTypes.arrayOf(PropTypes.bool),
   };
 
   const instrDisplay =
         instrList.map((instr, i) => {
           return <InstrRow currInstr = {currInstr} key={i} instrID={i}
             toggleBreakPt={toggleBreakPt} command={instr.command}
-            comment={instr.comment}/>;
+            comment={instr.comment} isToggled={breakPts[i]} />;
         });
 
   return (
