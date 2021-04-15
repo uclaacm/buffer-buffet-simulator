@@ -1,22 +1,21 @@
 import React from 'react';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
+
+import VMInstance from './components/VMInstance.js';
+import NoMatchPage from './components/NoMatch';
 
 
-import VM_Instance from './components/VM_Instance.js'
-import NoMatchPage from './components/NoMatch'
-
+/**
+ * React Spp.
+ * @return {html} the application
+ */
 function App() {
   return (
     <div className="App">
-
-      {/* Add Nav Bar here */}
-
       <div className="app-view">
-
         <Switch>
-          {/* contains various path to the app */}
-          <Route exact path='/' component={VM_Instance}/>
+          <Route exact path='/' component={VMInstance}/>
           <Route component={NoMatchPage}/>
         </Switch>
 

@@ -1,0 +1,12 @@
+.debug-container {
+  margin: 25px;
+}
+
+.debug-code {
+  display: grid;
+  grid-template-columns: 40% auto;
+
+  /* grid-template-rows: 72vh auto; */
+  height: 72vh;
+  grid-column-gap: 15px;
+}

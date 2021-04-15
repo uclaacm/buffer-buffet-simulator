@@ -1,0 +1,39 @@
+.topbar-container {
+  background-color: #007054;
+  display: grid;
+  grid-template-columns: 7% 20% auto 5%;
+  padding: 12px 10px;
+}
+
+.topbar-heading {
+  color: #f3f2f1;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.topbar-back-btn {
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 28px;
+  font-weight: 200;
+  margin: -5px 5px;
+  background-color: #007054;
+  color: #f3f2f1;
+  border: none;
+  margin-top: -8px;
+}
+
+.topbar-back-btn:hover {
+  background-color: #005843;
+}
+
+.topbar-info-btn {
+  margin-top: 3px;
+  width: fit-content;
+  background-color: none;
+  border: none;
+}
+
+.topbar-info-btn:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,30 @@
+.debug-c-panel-header {
+  background-color: #007054;
+  color: #f3f2f1;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  display: grid;
+  grid-template-columns: 20% auto;
+  padding: 10px 30px;
+}
+
+.debug-c-panel-title {
+  margin-top: 6px;
+}
+
+.debug-c-select {
+  font-size: 20px;
+  background-color: #f3f2f1;
+  color: #292a2f;
+}
+
+.debug-c-srcCode {
+  color: #f3f2f1;
+  background-color: #292a2f;
+  padding: 20px;
+  padding-left: 30px;
+  line-height: 27px;
+  height: 51.9vh;
+  overflow: scroll;
+}

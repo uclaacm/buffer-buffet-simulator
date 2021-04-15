@@ -1,0 +1,60 @@
+.debug-asm-breakpts-active {
+  height: 15px;
+  width: 15px;
+  background-color: none;
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-top: 6px;
+  margin-left: 10px;
+}
+
+.debug-asm-breakpts-inactive {
+  height: 15px;
+  width: 15px;
+  background-color: #dd7b79;
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-top: 6px;
+  margin-left: 10px;
+}
+
+.debug-asm-breakpts-active:hover {
+  background-color: rgba(221, 123, 121, 0.5);
+}
+
+.debug-asm-header {
+  background-color: #007054;
+  color: #f3f2f1;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  padding: 16px 30px;
+}
+
+.debug-asm-body {
+  color: #f3f2f1;
+  background-color: #292a2f;
+  padding: 20px;
+  padding-left: 30px;
+  line-height: 27px;
+  height: 51.9vh;
+  overflow: scroll;
+}
+
+.debug-asm-instr {
+  display: grid;
+  grid-template-columns: 10% 10% 30% auto 30%;
+  justify-content: left;
+}
+
+.debug-asm-instr-inverse {
+  display: grid;
+  grid-template-columns: 10% 10% 30% auto 30%;
+  justify-content: left;
+  background-color: #f3f2f1;
+  color: #292a2f;
+}
+
+.debug-asm-comment {
+  justify-self: right;
+}

@@ -3,4 +3,18 @@ For addressing mode
 
 Refer to CS 33 slides on 
 
+
+<h3>Basic format for commands: cmd arg1, arg2</h3>
+      <h3>For example: mov %eax, %esp </h3>
+      <h3> Available commands</h3>
+      <ul>
+        <li>mov SRC, DEST</li>
+        <li>lea SRC, DEST</li>
+        <li>cmp S1, S2</li>
+        <li>add SRC, DEST</li>
+        <li>sub SRC, DEST</li>
+      </ul>
+      <h3>Note: The registers are 32 bits and BIG endian.
+      </h3>
+
 http://vast.cs.ucla.edu/~atefehSZ/teaching/cs33_docs/week2/Week2-discussion.pdf

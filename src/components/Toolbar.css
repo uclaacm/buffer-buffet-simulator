@@ -1,0 +1,70 @@
+/* TOOLBAR  */
+.debug-toolbar-title {
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.debug-toolbar-panel {
+  transition-duration: 0.5s;
+  color: #f3f2f1;
+  display: grid;
+  background-color: #007054;
+  padding: 0% 3%;
+  grid-template-columns: 25% auto auto auto auto auto;
+  margin-bottom: -3px;
+}
+
+.debug-toolbar-input {
+  height: 60%;
+  align-self: center;
+  border: none;
+  padding: 0 10px;
+  background-color: #f3f2f1;
+}
+
+.debug-toolbar-input-btn {
+  width: 60%;
+  height: 60%;
+  align-self: center;
+  color: #005843;
+  background-color: #f3f2f1;
+  border: none;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-weight: 200;
+  padding: 12px 16px;
+  outline: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.debug-toolbar-input-btn:hover:enabled {
+  background-color: #005843;
+  color: #f3f2f1;
+}
+
+.debug-toolbar-btn {
+  background-color: #007054;
+  color: #f3f2f1;
+  border: none;
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 12px 16px;
+  outline: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.debug-toolbar-btn:disabled {
+  opacity: 0.3;
+}
+
+.debug-toolbar-btn:hover:enabled {
+  background-color: #005843;
+}
