@@ -89,11 +89,11 @@ const CCode = ({setCodeName, codeName}) => {
 
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected ? '#007054' : '#f3f2f1',
+      'backgroundColor': state.isSelected ? '#007054' : '#f3f2f1',
       // padding: 20,
       '&:hover': {
         backgroundColor: state.isSelected ? '#007054' : '#AEDACF',
-      }
+      },
     }),
 
     menu: (provided, state) => ({
@@ -105,19 +105,19 @@ const CCode = ({setCodeName, codeName}) => {
 
     control: (provided, state) =>({
       ...provided,
-      backgroundColor: '#f3f2f1',
-      fontSize: 16,
-      border: state.isFocused ? 0 : 0,
+      'backgroundColor': '#f3f2f1',
+      'fontSize': 16,
+      'border': state.isFocused ? 0 : 0,
       // This line disable the blue border
-      boxShadow: state.isFocused ? 0 : 0,
+      'boxShadow': state.isFocused ? 0 : 0,
       '&:hover': {
-         border: state.isFocused ? 0 : 0
-      }
+        border: state.isFocused ? 0 : 0,
+      },
     }),
 
     // control: () => ({
     //   // width: width,
-      
+
     // }),
 
     singleValue: (provided, state) => {
@@ -135,11 +135,11 @@ const CCode = ({setCodeName, codeName}) => {
         <div className="debug-c-panel-title">C</div>
         <div className="debug-c-select">
           <Select options={options}
-          onChange={handleChange}
-          defaultValue={{value: 'select', label: 'Select Program'}}
-          styles={customStyles}
-          menuColor='#292a2f'
-        />
+            onChange={handleChange}
+            defaultValue={{value: 'select', label: 'Select Program'}}
+            styles={customStyles}
+            menuColor='#292a2f'
+          />
         </div>
       </div>
 
