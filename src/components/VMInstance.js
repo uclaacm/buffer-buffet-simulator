@@ -95,6 +95,7 @@ const VMInstance = () => {
             if (returnAddress !== 5 && returnAddress !== 10) {
               alert('segfault');
               setRunable(false);
+              return newMemory;
             }
             setRegister('%eip', returnAddress, memoryDV);
             if (returnAddress === 5) {
@@ -105,12 +106,6 @@ const VMInstance = () => {
           }
           return newMemory;
         }
-
-        // check for gets call
-        if (action.payload === 'call <gets>') {
-          allowInput(true);
-        }
-
         // Increment the instruction pointer
         const currentEip = parseInt(getRegister('%eip', memoryDV));
 
@@ -172,7 +167,7 @@ const VMInstance = () => {
       '0x5C': tempMemoryDV.getUint32(92),
       '0x60': tempMemoryDV.getUint32(96),
     });
-    console.log(varStack);
+    console.log(getRegister('%eip', tempMemoryDV));
   }, [memory]);
 
   /**
