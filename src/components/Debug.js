@@ -31,6 +31,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     const tempArray = new Array(instrList.length).fill(false);
     tempArray.fill(false);
     setBreakPts(tempArray);
+    setIsRun(false);
   }, [codeName]);
 
   /**
@@ -47,7 +48,6 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     const tempBreakPts = [...breakPts];
     tempBreakPts[instrID] = !breakPts[instrID];
     setBreakPts(tempBreakPts);
-    console.log(tempBreakPts);
   };
 
   const getInput = async () => {
@@ -100,7 +100,6 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     if (e) {
       e.preventDefault();
     }
-    console.log(currInstr);
     allowInput(false);
     setIsRun(true);
     await stepProgram(e);
@@ -144,7 +143,6 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       allowInput(true);
       return;
     } else {
-      console.log(currInstr);
       await runCommand(e, instrList[currInstr].command);
     }
   }, [currInstr]);
