@@ -31,6 +31,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     const tempArray = new Array(instrList.length).fill(false);
     tempArray.fill(false);
     setBreakPts(tempArray);
+    setIsRun(false);
   }, [codeName]);
 
   /**
@@ -47,7 +48,6 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
     const tempBreakPts = [...breakPts];
     tempBreakPts[instrID] = !breakPts[instrID];
     setBreakPts(tempBreakPts);
-    console.log(tempBreakPts);
   };
 
   const getInput = async () => {
@@ -71,7 +71,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
   };
 
   // loads each character's ascii number into memory
-  const getStringBytes = (e) => {
+  const getStringBytes = async (e) => {
     let startAddress;
     if (codeName === 'buffer1') {
       startAddress = 60;
@@ -107,7 +107,17 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
 
   const stepProgram = async (e) => {
     e.preventDefault();
-    if (currInstr < 0 || currInstr >= instrList.length) {
+    if (currInstr < 0 || currInstr === instrList.length-1) {
+      setIsRun(false);
+      return;
+    } else if (instrList[currInstr+1].command === 'call <gets>') {
+      setIsRun(false);
+      allowInput(true);
+      const codePayload = {
+        type: 'setup',
+        payload: `mov ${currInstr+1}, %eip`,
+      };
+      await changeMemory(codePayload);
       return;
     }
     allowInput(false);
@@ -127,6 +137,10 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       return;
     } else if (!isRun || breakPts[currInstr]) {
       setIsRun(false);
+      return;
+    } else if (instrList[currInstr].command === 'call <gets>') {
+      setIsRun(false);
+      allowInput(true);
       return;
     } else {
       await runCommand(e, instrList[currInstr].command);

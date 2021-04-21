@@ -23,6 +23,11 @@
   background-color: #f3f2f1;
 }
 
+.debug-toolbar-input:disabled {
+  background-color: #c1c1c1;
+  cursor: not-allowed;
+}
+
 .debug-toolbar-input-btn {
   width: 60%;
   height: 60%;
@@ -41,9 +46,15 @@
   font-size: 20px;
 }
 
+.debug-toolbar-input-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .debug-toolbar-input-btn:hover:enabled {
   background-color: #005843;
   color: #f3f2f1;
+  cursor: pointer;
 }
 
 .debug-toolbar-btn {
@@ -63,8 +74,10 @@
 
 .debug-toolbar-btn:disabled {
   opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .debug-toolbar-btn:hover:enabled {
   background-color: #005843;
+  cursor: pointer;
 }

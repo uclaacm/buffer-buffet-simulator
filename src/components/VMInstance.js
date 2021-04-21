@@ -81,7 +81,6 @@ const VMInstance = () => {
       case 'run':
         const newMemory = memory.slice();
         memoryDV = new DataView(newMemory);
-        console.log(action.payload);
         // check if the function can be run at the moment
         if (!isRunable) {
           return newMemory;
@@ -91,10 +90,10 @@ const VMInstance = () => {
         if (action.payload === 'ret') {
           if (varStack.length > 0) {
             const returnAddress = memoryDV.getUint32(96);
-            console.log('ad ' + returnAddress);
             if (returnAddress !== 5 && returnAddress !== 10) {
               alert('segfault');
               setRunable(false);
+              return newMemory;
             }
             setRegister('%eip', returnAddress, memoryDV);
             if (returnAddress === 5) {
@@ -105,12 +104,6 @@ const VMInstance = () => {
           }
           return newMemory;
         }
-
-        // check for gets call
-        if (action.payload === 'call <gets>') {
-          allowInput(true);
-        }
-
         // Increment the instruction pointer
         const currentEip = parseInt(getRegister('%eip', memoryDV));
 
@@ -172,7 +165,6 @@ const VMInstance = () => {
       '0x5C': tempMemoryDV.getUint32(92),
       '0x60': tempMemoryDV.getUint32(96),
     });
-    console.log(varStack);
   }, [memory]);
 
   /**

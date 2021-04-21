@@ -27,12 +27,8 @@ export const Buffer2 = {
       address: 4,
       comment: '',
       command: 'ret',
-      // check stack
-      // get return address into eip
-      // check return address SEGFAULT
     },
     // func2 ADDRESS = 5
-    // pop if it hits func2
     {
       address: 5,
       comment: '/* <func2> */',
