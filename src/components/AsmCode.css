@@ -35,7 +35,7 @@
   color: #f3f2f1;
   background-color: #292a2f;
   padding: 20px;
-  padding-left: 30px;
+  padding-left: 20px;
   line-height: 27px;
   height: 51.9vh;
   overflow: scroll;
@@ -43,13 +43,13 @@
 
 .debug-asm-instr {
   display: grid;
-  grid-template-columns: 10% 10% 30% auto 30%;
+  grid-template-columns: 8% 8% 40% auto 45%;
   justify-content: left;
 }
 
 .debug-asm-instr-inverse {
   display: grid;
-  grid-template-columns: 10% 10% 30% auto 30%;
+  grid-template-columns: 8% 8% 40% auto 45%;
   justify-content: left;
   background-color: #f3f2f1;
   color: #292a2f;

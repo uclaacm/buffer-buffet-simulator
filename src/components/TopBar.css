@@ -1,7 +1,7 @@
 .topbar-container {
   background-color: #007054;
   display: grid;
-  grid-template-columns: 7% 20% auto 5%;
+  grid-template-columns: 7% auto auto 5%;
   padding: 12px 10px;
 }
 
@@ -10,6 +10,7 @@
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 24px;
   font-weight: 500;
+  /* margin-left: 4%; */
 }
 
 .topbar-back-btn {

@@ -1,12 +1,13 @@
 .debug-container {
+  /* background-color: red; */
   margin: 25px;
 }
 
 .debug-code {
   display: grid;
   grid-template-columns: 40% auto;
-
   /* grid-template-rows: 72vh auto; */
-  height: 72vh;
+  /* height: 72vh; */
+  margin-bottom: 15px;
   grid-column-gap: 15px;
 }
