@@ -4,14 +4,27 @@
 /* OVERALL  */
 body {
   background-color: #f3f2f1;
+  height: 100vh;
 }
 
+#root {
+  height: 100%;
+}
+
+.App{
+  height:100%;
+}
+
+.app-view{
+  height:100%;
+}
 .page-view {
   color: #292a2f;
   font-family: "DM Mono", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 200;
   transition-duration: 0.2s;
+  height:100%;
 }
 
 .page-programs {

@@ -1,37 +1,78 @@
+.topbar-view{
+  height:90px;
+  color: #f3f2f1;
+}
+
 .topbar-container {
+  height:100%;
   background-color: #007054;
-  display: grid;
-  grid-template-columns: 7% 20% auto 5%;
-  padding: 12px 10px;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 25px;
+  justify-content:flex-start;
 }
 
 .topbar-heading {
-  color: #f3f2f1;
-  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.topbar-back-btn {
+ 
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 28px;
-  font-weight: 200;
-  margin: -5px 5px;
-  background-color: #007054;
-  color: #f3f2f1;
-  border: none;
-  margin-top: -8px;
+  font-weight: 400;
+
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+
+  padding: 10px 20px;
+  height:100%;
+  align-items:center;
 }
 
-.topbar-back-btn:hover {
+.topbar-btn {
+  font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 24px;
+  font-weight: 200;
+  background-color: #007054;
+
+  border: none;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+
+  padding: 10px 20px;
+  height:100%;
+  align-items:center;
+}
+
+.topbar-btn > a, .topbar-heading > a{
+  text-decoration: none;
+  color: #f3f2f1;
+}
+
+.topbar-img-box{
+  height:100%;
+  width:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing: border-box;
+  margin-left: auto;
+}
+.topbar-btn:hover, .topbar-heading:hover{
   background-color: #005843;
 }
 
+
 .topbar-info-btn {
   margin-top: 3px;
+  height:50px;
+  width:50px;
   width: fit-content;
   background-color: none;
   border: none;
+  justify-self: right;
 }
 
 .topbar-info-btn:hover {
