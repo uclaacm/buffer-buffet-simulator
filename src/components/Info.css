@@ -1,0 +1,32 @@
+.page-info {
+  background-color: #292a2f;
+  color: #f3f2f1;
+  padding: 30px 40px;
+  overflow: scroll;
+}
+
+.page-info-view {
+  color: #292a2f;
+  font-family: "DM Mono", -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  transition-duration: 0.2s;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 90px auto;
+}
+
+.info-header {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.info-subheading {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 5px;
+}
+
+.info-desc {
+  padding: 5px;
+}

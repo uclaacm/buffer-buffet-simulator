@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import VMInstance from './components/VMInstance.js';
 import NoMatchPage from './components/NoMatch';
-
+import Info from './components/Info';
 
 /**
  * React Spp.
@@ -16,6 +16,7 @@ function App() {
       <div className="app-view">
         <Switch>
           <Route exact path='/' component={VMInstance}/>
+          <Route exact path='/info' component={Info}/>
           <Route component={NoMatchPage}/>
         </Switch>
 
