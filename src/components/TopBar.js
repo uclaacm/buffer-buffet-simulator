@@ -12,7 +12,7 @@ const TopBar = () => {
       {showModal && <Modal setModal={setModal}></Modal>}
       <div className='topbar-container'>
         <div className='topbar-heading'>
-          <Link to="/">Buffer Buffet Simulator</Link>
+          Buffer Buffet Simulator
         </div>
 
         <div className='topbar-btn'>

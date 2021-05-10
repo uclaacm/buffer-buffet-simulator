@@ -6,13 +6,17 @@
 }
 
 .debug-toolbar-panel {
+  /* height: 7vh; */
   transition-duration: 0.5s;
   color: #f3f2f1;
   display: grid;
   background-color: #007054;
   padding: 0% 3%;
   grid-template-columns: 25% auto auto auto auto auto;
-  margin-bottom: -3px;
+
+  /* margin-bottom: -3px; */
+
+  /* border-top:  15px solid #f3f2f1; */
 }
 
 .debug-toolbar-input {

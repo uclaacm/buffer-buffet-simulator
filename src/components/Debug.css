@@ -1,12 +1,23 @@
 .debug-container {
-  margin: 25px;
+  margin: 0 25px;
+
+  /* display: flex; */
+  height: 80%;
+
+  /* display: grid; */
+  display: flex;
+  justify-content: space-between;
+  align-content: stretch;
+  flex-direction: column;
+
+  /* background-color: red; */
 }
 
 .debug-code {
   display: grid;
   grid-template-columns: 40% auto;
 
-  /* grid-template-rows: 72vh auto; */
-  height: 72vh;
+  /* grid-template-rows: 72vh auto;
+  height: 72vh; */
   grid-column-gap: 15px;
 }
