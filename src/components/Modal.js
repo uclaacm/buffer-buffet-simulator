@@ -13,19 +13,6 @@ const Modal = ({setModal}) => {
   };
 
   return (
-    // <div>
-    //   <div className='modal-blackBG'></div>
-    //   <div className='modal-header'>Instruction</div>
-    //   <div className='modal-body'>
-    //     <div className='modal-text'>
-    //                 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    //                 sed do eiusmod tempor incididunt ut labore et dolore magna
-    //                 aliqua. Sit amet tellus cras adipiscing enim eu. Lacinia quis
-    //                 vel eros donec ac odio tempor orci dapibus.
-    //     </div>
-    //     <button onClick={closeModal}> Close me!</button>
-    //   </div>
-    // </div>
     <div className='modal-container'>
       <div className = "modal-black"></div>
       <div className = "modal-popupContainer">
@@ -34,10 +21,24 @@ const Modal = ({setModal}) => {
             <img className = "modal-close" alt = "close" src = {Close} onClick={closeModal}></img>
           </div>
           <h2 className = "modal-instructions">Instructions</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Sit amet tellus cras adipiscing enim eu. Lacinia quis
-             vel eros donec ac odio tempor orci dapibus. </p>
+          <p>
+            These C programs have been broken down into assembly.
+            Step through these programs to help you understand assembly and buffer overflow!
+          </p>
+          <label>Toolbar:</label>
+          <ul>
+            <li>
+              Input:
+              <ul>
+                <li>For non-buffer programs, enter parameters to given function.</li>
+                <li>For buffer programs, enter <nobr>&#39;\[hex]...&#39;</nobr> to load buffer.</li>
+              </ul>
+            </li>
+            <li>Run: Run program until the end.</li>
+            <li>Clear: Reset and bring program back to beginning.</li>
+            <li>Step: Go through program, 1 assembly instruction at a time.</li>
+          </ul>
+
         </div>
       </div>
     </div>

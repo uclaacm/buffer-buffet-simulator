@@ -29,12 +29,16 @@ const Toolbar = ({clearProgram, stepProgram, runProgram, userInput, changeInput,
   let inputFunction;
   if (codeName === 'buffer1' || codeName === 'buffer2') {
     inputFunction = getStringBytes;
-    exampleInput = 'gets input';
+    exampleInput = '\\0x00...';
   } else if (codeName === 'sum' || codeName === 'if-else') {
     inputFunction = getInput;
+    exampleInput = '1, 5';
+  } else if (codeName === 'sum' || codeName === 'if-else') {
+    inputFunction = getInput;
+    exampleInput = '20, 20';
   } else {
     inputFunction = getInput;
-    exampleInput = 'parameter';
+    exampleInput = '5';
   }
 
   // decides if input is allowed on program selection
