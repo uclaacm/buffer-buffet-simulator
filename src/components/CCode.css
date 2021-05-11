@@ -1,3 +1,8 @@
+.debug-c-panel {
+  background-color: #292a2f;
+  margin-bottom: 15px;
+}
+
 .debug-c-panel-header {
   background-color: #007054;
   color: #f3f2f1;
@@ -25,6 +30,9 @@
   padding: 20px;
   padding-left: 30px;
   line-height: 27px;
-  height: 51.9vh;
+
+  /* height: 51.9vh; */
+
+  /* height: max-content; */
   overflow: scroll;
 }
