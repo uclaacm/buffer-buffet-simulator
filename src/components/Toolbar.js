@@ -29,16 +29,16 @@ const Toolbar = ({clearProgram, stepProgram, runProgram, userInput, changeInput,
   let inputFunction;
   if (codeName === 'buffer1' || codeName === 'buffer2') {
     inputFunction = getStringBytes;
-    exampleInput = '\\0x00...';
+    exampleInput = 'ex:\\0x00\\0x00...';
+  } else if (codeName === 'sum') {
+    inputFunction = getInput;
+    exampleInput = 'ex: 1, 5';
   } else if (codeName === 'sum' || codeName === 'if-else') {
     inputFunction = getInput;
-    exampleInput = '1, 5';
-  } else if (codeName === 'sum' || codeName === 'if-else') {
-    inputFunction = getInput;
-    exampleInput = '20, 20';
+    exampleInput = 'ex: 20, 20';
   } else {
     inputFunction = getInput;
-    exampleInput = '5';
+    exampleInput = 'ex: 5';
   }
 
   // decides if input is allowed on program selection
@@ -52,14 +52,6 @@ const Toolbar = ({clearProgram, stepProgram, runProgram, userInput, changeInput,
     }
   }, [codeName]);
 
-  // disables run/step buttons
-  let canRun;
-  if (codeName.includes('buffer') && canInput === true) {
-    canRun = false;
-  } else {
-    canRun = true;
-  }
-
   return (
     <div className='debug-toolbar-panel'>
       <h2 className='debug-toolbar-title'>Toolbar</h2>
@@ -70,7 +62,7 @@ const Toolbar = ({clearProgram, stepProgram, runProgram, userInput, changeInput,
       <button className='debug-toolbar-input-btn' onClick={(e) => inputFunction(e)} disabled={!canInput}>
         &gt;
       </button>
-      <button className='debug-toolbar-btn' onClick={(e) => runProgram(e)} disabled={!canRun}>
+      <button className='debug-toolbar-btn' onClick={(e) => runProgram(e)}>
         <img alt = "run" src={Run}></img>
         Run
       </button>
@@ -78,7 +70,7 @@ const Toolbar = ({clearProgram, stepProgram, runProgram, userInput, changeInput,
         <img alt = "clear" src={Stop}></img>
         Clear
       </button>
-      <button className='debug-toolbar-btn' onClick={(e) => stepProgram(e)} disabled={!canRun}>
+      <button className='debug-toolbar-btn' onClick={(e) => stepProgram(e)}>
         <img alt = "step" src={Next}></img>
         Step
       </button>

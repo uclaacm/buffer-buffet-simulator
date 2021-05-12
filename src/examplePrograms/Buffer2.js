@@ -15,7 +15,7 @@ export const Buffer2 = {
     },
     {
       address: 2,
-      comment: '',
+      comment: '/* enter input */',
       command: 'call <gets>',
     },
     {
