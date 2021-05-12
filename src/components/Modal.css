@@ -10,18 +10,18 @@
 .modal-popup {
   color: #007054;
   background-color: #f3f2f1;
-  width: 20vw;
+  width: 30vw;
   position: fixed;
   z-index: 2;
   padding: 5%;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
-  margin-top: 8%;
+  margin-top: 10vh;
   margin-left: 28%;
 }
 
 .modal-popupContainer {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .modal-instructions {

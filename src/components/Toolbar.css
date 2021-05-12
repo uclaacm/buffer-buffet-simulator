@@ -3,20 +3,39 @@
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-size: 20px;
   font-weight: 500;
+  margin-right: 2vw;
 }
 
 .debug-toolbar-panel {
+  /* height: 7vh; */
+
+  /* height: 70px; */
+  height: fit-content;
   transition-duration: 0.5s;
   color: #f3f2f1;
-  display: grid;
   background-color: #007054;
   padding: 0% 3%;
-  grid-template-columns: 25% auto auto auto auto auto;
-  margin-bottom: -3px;
+
+  /* display: grid;
+  grid-template-columns: 25% auto auto auto auto auto; */
+
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+
+  /* gap: 2% */
+
+  /* box-sizing: content;
+  margin: 15px 0; */
+
+  /* margin-bottom: -3px; */
+
+  /* border-top:  15px solid #f3f2f1; */
 }
 
 .debug-toolbar-input {
-  height: 60%;
+  height: 30px;
+  width: 20vw;
   align-self: center;
   border: none;
   padding: 0 10px;
@@ -29,18 +48,21 @@
 }
 
 .debug-toolbar-input-btn {
-  width: 60%;
-  height: 60%;
+  width: 5vw;
+  height: 30px;
   align-self: center;
   color: #005843;
   background-color: #f3f2f1;
   border: none;
   font-family: "DM Sans", -apple-system, "Helvetica Neue", sans-serif;
   font-weight: 200;
-  padding: 12px 16px;
+
+  /* padding: 12px 16px; */
+  margin-right: 3vw;
   outline: none;
   display: flex;
-  gap: 10px;
+
+  /* gap: 10px; */
   align-items: center;
   justify-content: center;
   font-size: 20px;

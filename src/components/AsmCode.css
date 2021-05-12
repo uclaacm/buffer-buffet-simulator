@@ -22,6 +22,11 @@
   background-color: rgba(221, 123, 121, 0.5);
 }
 
+.debug-asm-panel {
+  background-color: #292a2f;
+  margin-bottom: 15px;
+}
+
 .debug-asm-header {
   background-color: #007054;
   color: #f3f2f1;
@@ -37,7 +42,8 @@
   padding: 20px;
   padding-left: 30px;
   line-height: 27px;
-  height: 51.9vh;
+
+  /* height: 51.9vh; */
   overflow: scroll;
 }
 
