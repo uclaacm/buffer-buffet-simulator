@@ -12,11 +12,11 @@ const TopBar = () => {
       {showModal && <Modal setModal={setModal}></Modal>}
       <div className='topbar-container'>
         <div className='topbar-heading'>
-          Buffer Buffet Simulator
+          <Link to="/">Buffer Buffet Simulator</Link>
         </div>
 
         <div className='topbar-btn'>
-          <a href="https://buf-buffet.netlify.app/">Kitchen</a>
+          <a href="http://bufferbuffet.uclaacm.com/">Course 1</a>
         </div>
 
         <div className='topbar-btn'>

@@ -1,6 +1,7 @@
 .topbar-view {
-  height: 90px;
+  height: 66px;
   color: #f3f2f1;
+  box-sizing: border-box;
 }
 
 .topbar-container {
