@@ -20,6 +20,7 @@
 
 .debug-asm-breakpts-active:hover {
   background-color: rgba(221, 123, 121, 0.5);
+
   /* justify-self: center; */
 }
 
@@ -43,6 +44,7 @@
   color: #f3f2f1;
   background-color: #292a2f;
   padding: 20px;
+
   /* padding-left: 0px; */
   line-height: 27px;
   max-height: calc(100vh - 265px);
