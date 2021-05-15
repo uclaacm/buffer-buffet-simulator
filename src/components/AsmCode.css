@@ -25,6 +25,9 @@
 .debug-asm-panel {
   background-color: #292a2f;
   margin-bottom: 15px;
+
+  /* overflow: scroll; */
+  max-height: calc(100vh - 265px);
 }
 
 .debug-asm-header {
@@ -42,8 +45,7 @@
   padding: 20px;
   padding-left: 30px;
   line-height: 27px;
-
-  /* height: 51.9vh; */
+  max-height: calc(100vh - 265px);
   overflow: scroll;
 }
 

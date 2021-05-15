@@ -1,6 +1,7 @@
 .debug-c-panel {
   background-color: #292a2f;
   margin-bottom: 15px;
+  max-height: calc(100vh - 265px);
 }
 
 .debug-c-panel-header {
@@ -30,9 +31,6 @@
   padding: 20px;
   padding-left: 30px;
   line-height: 27px;
-
-  /* height: 51.9vh; */
-
-  /* height: max-content; */
+  max-height: calc(100vh - 265px);
   overflow: scroll;
 }
