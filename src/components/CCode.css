@@ -1,6 +1,7 @@
 .debug-c-panel {
   background-color: #292a2f;
   margin-bottom: 15px;
+  min-height: calc(100vh - 170px);
   max-height: calc(100vh - 265px);
 }
 
