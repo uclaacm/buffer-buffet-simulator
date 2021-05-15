@@ -2,31 +2,26 @@
   margin: 15px 15px;
   box-sizing: content;
   display: grid;
+
+  /* height: 40vh; */
+
+  /* height: 10%; */
+
   grid-template-rows: auto 60px;
-
-  /* display: flex; */
-
-  /* height: 80%; */
-
-  /* height: 100%; */
-
-  /* display: grid; */
-
-  /* display: flex;
-  justify-content: space-between;
-  align-content: stretch;
-  flex-direction: column; */
-
-  /* background-color: red; */
 }
 
 .debug-code {
   display: grid;
   grid-template-columns: 40% auto;
-
-  /* height: 100%; */
-
-  /* grid-template-rows: 72vh auto;
-  height: 72vh; */
   grid-column-gap: 15px;
+
+  /* display: flex;
+  flex-flow: row wrap;
+  column-gap: 15px;
+  align-content: stretch; */
+
+  /* flex: 1; */
+
+  /* height: 77vh;
+  overflow: scroll; */
 }
