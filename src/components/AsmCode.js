@@ -22,7 +22,6 @@ const InstrRow = ({currInstr, instrID, command, toggleBreakPt, comment, isToggle
         instrid={instrID} onClick={emit}></div>
       <div>{instrID}</div>
       <div>{command}</div>
-      <div></div>
       <div className="debug-asm-comment">{comment}</div>
     </div>
   );

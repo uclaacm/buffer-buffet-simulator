@@ -3,7 +3,7 @@
   width: 15px;
   background-color: none;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 10px;
   margin-top: 6px;
   margin-left: 10px;
 }
@@ -20,11 +20,15 @@
 
 .debug-asm-breakpts-active:hover {
   background-color: rgba(221, 123, 121, 0.5);
+
+  /* justify-self: center; */
 }
 
 .debug-asm-panel {
   background-color: #292a2f;
   margin-bottom: 15px;
+  min-height: calc(100vh - 170px);
+  max-height: calc(100vh - 265px);
 }
 
 .debug-asm-header {
@@ -40,22 +44,24 @@
   color: #f3f2f1;
   background-color: #292a2f;
   padding: 20px;
-  padding-left: 30px;
-  line-height: 27px;
 
-  /* height: 51.9vh; */
+  /* padding-left: 0px; */
+  line-height: 27px;
+  max-height: calc(100vh - 265px);
   overflow: scroll;
 }
 
 .debug-asm-instr {
   display: grid;
-  grid-template-columns: 10% 10% 30% auto 30%;
+  grid-template-columns: 6% 6% 37% auto;
+  column-gap: 10px;
   justify-content: left;
 }
 
 .debug-asm-instr-inverse {
   display: grid;
-  grid-template-columns: 10% 10% 30% auto 30%;
+  grid-template-columns: 6% 6% 37% auto;
+  column-gap: 10px;
   justify-content: left;
   background-color: #f3f2f1;
   color: #292a2f;

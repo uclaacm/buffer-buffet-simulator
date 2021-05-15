@@ -1,11 +1,6 @@
-.topbar-view {
-  height: 66px;
-  color: #f3f2f1;
-  box-sizing: border-box;
-}
-
 .topbar-container {
   /* height: 100%; */
+  color: #f3f2f1;
   background-color: #007054;
   display: flex;
   flex-direction: row;
@@ -21,19 +16,6 @@
   font-size: 24px;
   font-weight: 500;
   padding-right: 20px;
-
-  /* box-sizing: border-box; */
-
-  /* text-align: center; */
-
-  /* display: flex;
-  flex-direction: row; */
-
-  /* margin: -50px 0px; */
-
-  /* height: 80%; */
-
-  /* align-items: center; */
 }
 
 .topbar-btn {
@@ -60,7 +42,8 @@
 
 .topbar-img-box {
   /* height: 80%; */
-  width: 90px;
+
+  /* width: 90px; */
   display: flex;
   align-items: center;
   justify-content: center;

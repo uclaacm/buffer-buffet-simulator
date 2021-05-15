@@ -4,29 +4,15 @@
   display: grid;
   grid-template-rows: auto 60px;
 
-  /* display: flex; */
-
-  /* height: 80%; */
-
-  /* height: 100%; */
-
-  /* display: grid; */
-
-  /* display: flex;
-  justify-content: space-between;
-  align-content: stretch;
-  flex-direction: column; */
-
-  /* background-color: red; */
+  /* max-height: 100%; */
 }
 
 .debug-code {
   display: grid;
   grid-template-columns: 40% auto;
-
-  /* height: 100%; */
-
-  /* grid-template-rows: 72vh auto;
-  height: 72vh; */
   grid-column-gap: 15px;
+
+  /* max-height: calc(100vh - 110px); */
+
+  /* height: fit-content; */
 }
