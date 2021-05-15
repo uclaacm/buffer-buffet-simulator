@@ -190,7 +190,6 @@ const paramToDeci = (param, memoryDV) => {
 const verifyAddress = (refAddress, memoryDV) => {
   if (1 <= refAddress && refAddress <= STACK_SIZE) {
     const tempAddress = memoryDV.getUint32(refAddress);
-    console.log('Dereference Address:', tempAddress);
     if ( 1 <= tempAddress && tempAddress <= STACK_SIZE) {
       return tempAddress;
     }
@@ -202,7 +201,6 @@ const verifyAddress = (refAddress, memoryDV) => {
 // takes in parsed param array
 // does math from given param array
 const interpretParam = (param) => {
-  let resString = '';
   let resSum;
   switch (param.length) {
     // no parentheses
@@ -211,43 +209,21 @@ const interpretParam = (param) => {
 
       // parentheses case
     case 4:
-      resString += '*' + param[3];
-      resString = ' + ' + param[2] + resString;
-      resString = param[1] + resString;
-      if (param[0] !== '0') {
-        resString = param[0] + ' + ' + resString;
-      }
-
       resSum = param[0] + param[1] + (param[2]*param[3]);
       break;
     case 3:
-      resString = ' + ' + param[2] + resString;
-      resString = param[1] + resString;
-      if (param[0] !== '0') {
-        resString = param[0] + ' + ' + resString;
-      }
-
       resSum = param[0] + param[1] + param[2];
       break;
     case 2:
-      resString = param[1] + resString;
-      if (param[0] !== '0') {
-        resString = param[0] + ' + ' + resString;
-      }
-
       resSum = param[0] + param[1];
       break;
     default:
       return 'error';
   }
-  resString = 'contents of (' + resString + ')';
-  console.log(resString);
-  console.log(resSum);
   return resSum;
 };
 
 export const interpretCommand = (codeString, memoryDV, varStack) => {
-  console.log(codeString);
   const argList = parseCode(codeString);
   let payload = 0;
   let dstAddress = 0;
@@ -257,7 +233,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
   switch (argList[0]) {
     // mov Source, Dest
     case 'mov':
-
       if (!check2Param(argList)) {
         console.log('Needs two parameters');
         return;
@@ -321,7 +296,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       } else {
         memoryDV.setUint32(dstAddress, payload);
       }
-      // console.log("load " + interpretParam(argList[1]) + " into " + interpretParam(argList[2]))
       break;
 
       // compares S1 - S2
@@ -339,7 +313,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       setFlag('ZF', diff === 0, memoryDV);
       setFlag('SF', diff < 0, memoryDV);
       setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV);
-      console.log('compare ' + interpretParam(argList[1]) + ' with ' + interpretParam(argList[2]));
       break;
 
       // add source to dest
@@ -360,8 +333,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         setFlag('ZF', sum === 0, memoryDV);
         setFlag('SF', sum < 0, memoryDV);
         setFlag('OF', (s1 > 0 && s2 > 0 && sum < 0) || (s1 < 0 && s2 < 0 && sum > 0), memoryDV);
-        // console.log('ZF',getFlag('ZF', memoryDV))
-        // console.log('SF', getFlag('SF', memoryDV))
       }
       break;
 
@@ -383,9 +354,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
         setFlag('ZF', diff === 0, memoryDV);
         setFlag('SF', diff < 0, memoryDV);
         setFlag('OF', (s1 > 0 && s2 < 0 && diff < 0) || (s1 < 0 && s2 > 0 && diff > 0), memoryDV);
-
-        // console.log('ZF',getFlag('ZF', memoryDV))
-        // console.log('SF', getFlag('SF', memoryDV))
       }
       break;
 
@@ -401,7 +369,6 @@ export const interpretCommand = (codeString, memoryDV, varStack) => {
       } else {
         // has parehtnese and has to be memory dereferenced
         const refAddress = interpretParam(paramToDeci(argList[1], memoryDV));
-        console.log('Reference Address:', refAddress);
         dstAddress = verifyAddress(refAddress, memoryDV);
       }
 
@@ -642,7 +609,6 @@ export const parseCode = (codeString) => {
     } else if (codeString.match(/(?<=,)(.*)/)) {
       arg2String = codeString.match(/(?<=,)(.*)/)[0];
     } else {
-      console.log('Something went wrong');
       return;
     }
     // 2nd Param has parentheses

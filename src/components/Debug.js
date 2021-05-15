@@ -93,7 +93,7 @@ const Debug = ({runCommand, clearMemory, currInstr, instrList,
       };
       changeMemory(codePayload);
     }
-    runProgram(e);
+    // runProgram(e);
   };
 
   const runProgram = async (e) => {

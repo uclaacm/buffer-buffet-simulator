@@ -46,7 +46,7 @@ export const Switch = {
     {
       // case 2 and case 4
       address: 6,
-      comment: ' /* case 2 and case 4 */',
+      comment: ' /* case 3 and case 4 */',
       command: 'mov $34, %eax',
     },
     {

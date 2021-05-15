@@ -9,6 +9,7 @@ export const Buffer1 = {
     },
     {
       address: 1,
+      comment: '/* enter input */',
       hex: '/* breakpoint */',
       command: 'call <gets>',
     },
